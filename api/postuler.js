@@ -6,7 +6,6 @@ export default async function handler(req, res) {
   const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
   const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
 
-  // Vérification que les variables existent
   if (!AIRTABLE_BASE_ID || !AIRTABLE_TOKEN) {
     console.error("Variables d'environnement manquantes");
     return res.status(500).json({ error: 'Configuration serveur incomplète (BASE_ID ou TOKEN)' });
@@ -25,7 +24,7 @@ export default async function handler(req, res) {
     cv_url: req.body.cv_url,
     description: req.body.description,
     statut: "Nouveau",
-    date_creation: new Date().toISOString()
+    date_creation: new Date().toLocaleDateString('fr-CA') // YYYY-MM-DD
   };
 
   if (req.body.offreId) fields.offreId = req.body.offreId;
