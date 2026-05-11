@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RH-Prospects | Cabinet de recrutement éthique & transparent</title>
+  <meta name="description" content="Cabinet de recrutement éthique et transparent pour les talents Tech et les entreprises innovantes. Offres exclusives, dépôt CV, espace recruteur." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #111111;
+      line-height: 1.5;
+    }
+
+    :root {
+      --primary: #0057b3;
+      --primary-dark: #003d7a;
+      --secondary: #00a86b;
+      --accent: #ff6b35;
+      --gray-light: #f7f9fc;
+      --gray-mid: #e2e8f0;
+      --gray-text: #4a5568;
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--gray-mid);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--secondary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #2d3748;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: white !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: 50px;
+      transition: background 0.2s !important;
+    }
+
+    .btn-nav:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Hero */
+    .hero {
+      margin-top: 72px;
+      background: linear-gradient(135deg, #f7f9fc 0%, #ffffff 100%);
+      padding: 5rem 5%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      font-family: 'Space Grotesk', monospace;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--gray-text);
+      margin-bottom: 2rem;
+      max-width: 500px;
+    }
+
+    .double-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      padding: 0.875rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+      padding: 0.875rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      background: #008f5a;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 0.875rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .hero-image {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 24px;
+      padding: 3rem;
+      text-align: center;
+      color: white;
+    }
+
+    /* Sections */
+    section {
+      padding: 5rem 5%;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', monospace;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      color: var(--gray-text);
+      font-size: 1.125rem;
+      max-width: 700px;
+      margin-bottom: 3rem;
+    }
+
+    /* Filtres */
+    .filters {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .filter-select {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--gray-mid);
+      border-radius: 50px;
+      background: white;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+    }
+
+    /* Offres grid */
+    .offres-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .offre-card {
+      background: white;
+      border: 1px solid var(--gray-mid);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .offre-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+    }
+
+    .offre-titre {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .offre-entreprise {
+      font-size: 0.875rem;
+      color: var(--gray-text);
+      margin-bottom: 0.75rem;
+    }
+
+    .offre-meta {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .offre-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      background: var(--gray-light);
+      color: #2d3748;
+    }
+
+    .offre-badge.contrat {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .offre-description {
+      font-size: 0.875rem;
+      color: var(--gray-text);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .offre-competences {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .skill-tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      background: var(--gray-light);
+      color: #4a5568;
+    }
+
+    /* Formulaires */
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--gray-light);
+      padding: 2rem;
+      border-radius: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--gray-mid);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    button[type="submit"] {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.875rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button[type="submit"]:hover {
+      background: var(--primary-dark);
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    /* Footer */
+    footer {
+      background: #111111;
+      color: #a0aec0;
+      padding: 3rem 5%;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+      .offres-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">RH-<span>Prospects</span></a>
+  <div class="nav-links">
+    <a href="#offres">Offres</a>
+    <a href="/candidature-spontanee.html">Candidats</a>
+    <a href="/espace-recruteur.html">Recruteurs</a>
+    <a href="#contact">Contact</a>
+    <a href="/deposez-offre.html" class="btn-nav">Déposer une offre</a>
+  </div>
+</nav>
+
+<!-- Hero double parcours -->
+<section class="hero">
+  <div>
+    <h1>Recrutement <span>éthique</span> & <span>transparent</span></h1>
+    <p>Cabinet de recrutement nouvelle génération. Nous accompagnons talents et entreprises avec humanité, efficacité et transparence.</p>
+    <div class="double-cta">
+      <a href="#offres" class="btn-primary">👨‍💻 Je cherche un poste</a>
+      <a href="/espace-recruteur.html" class="btn-secondary">🏢 Je recrute</a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <h3 style="margin-bottom:1rem">💼 150+ offres exclusives</h3>
+    <p>Tech · Product · Data · Marketing · Sales</p>
+  </div>
+</section>
+
+<!-- Offres dynamiques -->
+<section id="offres">
+  <h2 class="section-title">Nos offres d'emploi</h2>
+  <p class="section-subtitle">Découvrez les opportunités exclusives de nos partenaires recruteurs</p>
+  
+  <div class="filters">
+    <select id="filterContrat" class="filter-select">
+      <option value="">Tous les contrats</option>
+      <option value="CDI">CDI</option>
+      <option value="CDD">CDD</option>
+      <option value="Freelance">Freelance</option>
+    </select>
+    <select id="filterLocalisation" class="filter-select">
+      <option value="">Toutes localisations</option>
+    </select>
+  </div>
+  
+  <div id="offresContainer" class="offres-grid">
+    <div style="text-align:center; padding:2rem">Chargement des offres...</div>
+  </div>
+</section>
+
+<!-- Contact form -->
+<section id="contact" style="background: var(--gray-light);">
+  <h2 class="section-title" style="text-align:center">Une question ?</h2>
+  <p class="section-subtitle" style="text-align:center; margin:0 auto 2rem">Recruteur ou candidat, échangeons ensemble</p>
+  
+  <div class="form-container">
+    <div id="contactAlert"></div>
+    <form id="contactForm">
+      <div class="form-group">
+        <label>Nom & Prénom</label>
+        <input type="text" name="nom" required>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label>Type</label>
+        <select name="type" required>
+          <option value="candidat">Candidat</option>
+          <option value="recruteur">Recruteur</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea name="message" rows="4" required></textarea>
+      </div>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 RH-Prospects — Cabinet de recrutement éthique & transparent</p>
+  <p style="margin-top:1rem; font-size:0.8rem">rh-prospects.fr | contact@rh-prospects.fr</p>
+</footer>
+
+<script>
+  // Configuration
+  const API_BASE = '/api';
+  
+  // Chargement des offres
+  async function loadOffres() {
+    try {
+      const response = await fetch(`${API_BASE}/offres?statut=Ouverte`);
+      const offres = await response.json();
+      
+      // Extraction localisations uniques
+      const locations = [...new Set(offres.map(o => o.localisation).filter(l => l))];
+      const locationSelect = document.getElementById('filterLocalisation');
+      locationSelect.innerHTML = '<option value="">Toutes localisations</option>' + 
+        locations.map(loc => `<option value="${loc}">${loc}</option>`).join('');
+      
+      renderOffres(offres);
+      
+      // Filtres
+      document.getElementById('filterContrat').addEventListener('change', () => filterOffres(offres));
+      document.getElementById('filterLocalisation').addEventListener('change', () => filterOffres(offres));
+    } catch (error) {
+      document.getElementById('offresContainer').innerHTML = '<div style="text-align:center;padding:2rem;color:red">Erreur chargement offres</div>';
+    }
+  }
+  
+  function filterOffres(offres) {
+    const contrat = document.getElementById('filterContrat').value;
+    const localisation = document.getElementById('filterLocalisation').value;
+    
+    const filtered = offres.filter(o => {
+      if (contrat && o.type_contrat !== contrat) return false;
+      if (localisation && o.localisation !== localisation) return false;
+      return true;
+    });
+    renderOffres(filtered);
+  }
+  
+  function renderOffres(offres) {
+    const container = document.getElementById('offresContainer');
+    if (!offres.length) {
+      container.innerHTML = '<div style="text-align:center;padding:2rem">Aucune offre correspondante</div>';
+      return;
+    }
+    
+    container.innerHTML = offres.map(offre => `
+      <div class="offre-card" onclick="window.location.href='/offre.html?id=${offre.id}'">
+        <div class="offre-titre">${offre.titre || 'Titre non défini'}</div>
+        <div class="offre-entreprise">${offre.entreprise || 'Entreprise partenaire'}</div>
+        <div class="offre-meta">
+          <span class="offre-badge contrat">${offre.type_contrat || 'CDI'}</span>
+          <span class="offre-badge">📍 ${offre.localisation || 'France'}</span>
+          ${offre.salaire ? `<span class="offre-badge">💰 ${offre.salaire}</span>` : ''}
+        </div>
+        <div class="offre-description">${offre.description ? offre.description.substring(0, 120) + '…' : ''}</div>
+        <div class="offre-competences">
+          ${offre.competences_requises ? offre.competences_requises.split(',').slice(0,3).map(s => `<span class="skill-tag">${s.trim()}</span>`).join('') : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  // Formulaire contact
+  document.getElementById('contactForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = {
+      nom: form.nom.value,
+      email: form.email.value,
+      type: form.type.value,
+      message: form.message.value
+    };
+    
+    try {
+      const response = await fetch(`${API_BASE}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      if (response.ok) {
+        document.getElementById('contactAlert').innerHTML = '<div class="alert alert-success">Message envoyé !</div>';
+        form.reset();
+        setTimeout(() => document.getElementById('contactAlert').innerHTML = '', 3000);
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      document.getElementById('contactAlert').innerHTML = '<div class="alert alert-error">Erreur, réessayez</div>';
+    }
+  });
+  
+  loadOffres();
+</script>
+</body>
+</html>
