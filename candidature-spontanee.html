@@ -90,12 +90,15 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
+      const result = await res.json();
       if (res.ok) {
         document.getElementById('alert').innerHTML = '<div class="alert success">Candidature envoyée !</div>';
         form.reset();
-      } else throw new Error();
+      } else {
+        document.getElementById('alert').innerHTML = '<div class="alert error">Erreur : ' + JSON.stringify(result) + '</div>';
+      }
     } catch(err) {
-      document.getElementById('alert').innerHTML = '<div class="alert error">Erreur, réessayez</div>';
+      document.getElementById('alert').innerHTML = '<div class="alert error">Erreur réseau : ' + err.message + '</div>';
     }
   });
 </script>
