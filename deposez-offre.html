@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Déposer une offre - RH-Prospects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:#f7f9fc; }
+    nav { position:fixed; top:0; left:0; right:0; background:white; border-bottom:1px solid #e2e8f0; padding:1rem 5%; display:flex; justify-content:space-between; align-items:center; }
+    .logo { font-family:'Space Grotesk',monospace; font-size:1.5rem; font-weight:700; color:#0057b3; text-decoration:none; }
+    .logo span { color:#00a86b; }
+    .container { max-width:700px; margin:0 auto; padding:6rem 1rem 3rem; }
+    .form-card { background:white; border-radius:24px; padding:2rem; box-shadow:0 8px 24px rgba(0,0,0,0.05); }
+    h1 { font-family:'Space Grotesk',monospace; margin-bottom:0.5rem; }
+    .form-group { margin-bottom:1rem; }
+    label { font-weight:600; display:block; margin-bottom:0.25rem; }
+    input, select, textarea { width:100%; padding:0.75rem; border:1px solid #cbd5e1; border-radius:12px; }
+    button { background:#0057b3; color:white; border:none; padding:0.75rem 1.5rem; border-radius:50px; font-weight:600; cursor:pointer; }
+    .alert { padding:0.75rem; border-radius:12px; margin-bottom:1rem; }
+    .success { background:#d4edda; color:#155724; }
+    .error { background:#f8d7da; color:#721c24; }
+    footer { text-align:center; padding:2rem; color:#a0aec0; background:#111; margin-top:2rem; }
+  </style>
+</head>
+<body>
+<nav><a href="/" class="logo">RH-<span>Prospects</span></a></nav>
+<div class="container">
+  <div class="form-card">
+    <h1>Déposer une offre d'emploi</h1>
+    <p>Vous êtes recruteur ? Publiez votre offre gratuitement. Notre équipe la valide sous 24h.</p>
+    <div id="alert"></div>
+    <form id="offreForm">
+      <div class="form-group"><label>Entreprise *</label><input name="entreprise" required></div>
+      <div class="form-group"><label>Email de contact *</label><input type="email" name="email" required></div>
+      <div class="form-group"><label>Nom du contact</label><input name="nom_contact"></div>
+      <div class="form-group"><label>Titre du poste *</label><input name="titre" required></div>
+      <div class="form-group"><label>Localisation</label><input name="localisation"></div>
+      <div class="form-group"><label>Type de contrat</label><select name="type_contrat"><option>CDI</option><option>CDD</option><option>Freelance</option></select></div>
+      <div class="form-group"><label>Salaire (indicatif)</label><input name="salaire"></div>
+      <div class="form-group"><label>Description *</label><textarea name="description" rows="5" required></textarea></div>
+      <div class="form-group"><label>Compétences requises (séparées par des virgules)</label><input name="competences_requises" placeholder="React, Node.js, Python, ..."></div>
+      <button type="submit">Envoyer l'offre</button>
+    </form>
+  </div>
+</div>
+<footer>© 2025 RH-Prospects</footer>
+<script>
+  document.getElementById('offreForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = {
+      entreprise: form.entreprise.value,
+      email: form.email.value,
+      nom_contact: form.nom_contact.value,
+      titre: form.titre.value,
+      localisation: form.localisation.value,
+      type_contrat: form.type_contrat.value,
+      salaire: form.salaire.value,
+      description: form.description.value,
+      competences_requises: form.competences_requises.value,
+      statut: "En attente" // sera revu par l'admin
+    };
+    try {
+      const res = await fetch('/api/deposer-offre', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        document.getElementById('alert').innerHTML = '<div class="alert success">Offre soumise avec succès !</div>';
+        form.reset();
+      } else throw new Error();
+    } catch(err) {
+      document.getElementById('alert').innerHTML = '<div class="alert error">Erreur, réessayez</div>';
+    }
+  });
+</script>
+</body>
+</html>
