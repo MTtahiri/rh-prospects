@@ -11,23 +11,31 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Configuration serveur incomplète (BASE_ID ou TOKEN)' });
   }
 
+  // Ne garder que les champs qui existent dans la table Postuler (d'après votre structure)
   const fields = {
-    prenom: req.body.prenom,
-    nom: req.body.nom,
-    email: req.body.email,
-    telephone: req.body.telephone,
-    titre: req.body.titre || req.body.offreTitre,
-    localisation: req.body.localisation,
-    experience: req.body.experience,
-    type_contrat: req.body.type_contrat,
-    disponibilite: req.body.disponibilite,
-    cv_url: req.body.cv_url,
-    description: req.body.description,
+    prenom: req.body.prenom || "",
+    nom: req.body.nom || "",
+    email: req.body.email || "",
+    telephone: req.body.telephone || "",
+    titre: req.body.titre || req.body.offreTitre || "",
+    localisation: req.body.localisation || "",
+    experience: req.body.experience ? Number(req.body.experience) : undefined,
+    type_contrat: req.body.type_contrat || "",
+    disponibilite: req.body.disponibilite || "",
+    competences: req.body.competences || "",
+    description: req.body.description || "",
+    tjm: req.body.tjm ? Number(req.body.tjm) : undefined,
+    cv_url: req.body.cv_url || "",
     statut: "Nouveau",
-    date_creation: new Date().toLocaleDateString('fr-CA') // YYYY-MM-DD
+    date_creation: new Date().toISOString().split('T')[0] // YYYY-MM-DD
   };
 
-  if (req.body.offreId) fields.offreId = req.body.offreId;
+  // Supprimer les champs vides ou undefined pour éviter les erreurs Airtable
+  Object.keys(fields).forEach(key => {
+    if (fields[key] === undefined || fields[key] === "") {
+      delete fields[key];
+    }
+  });
 
   const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Postuler`;
 
