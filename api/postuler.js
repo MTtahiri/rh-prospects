@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Configuration serveur incomplète (BASE_ID ou TOKEN)' });
   }
 
-  // Ne garder que les champs qui existent dans la table Postuler (d'après votre structure)
+  // Définir explicitement les champs autorisés, avec date au bon format
   const fields = {
     prenom: req.body.prenom || "",
     nom: req.body.nom || "",
@@ -22,15 +22,13 @@ export default async function handler(req, res) {
     experience: req.body.experience ? Number(req.body.experience) : undefined,
     type_contrat: req.body.type_contrat || "",
     disponibilite: req.body.disponibilite || "",
-    competences: req.body.competences || "",
-    description: req.body.description || "",
-    tjm: req.body.tjm ? Number(req.body.tjm) : undefined,
     cv_url: req.body.cv_url || "",
+    description: req.body.description || "",
     statut: "Nouveau",
-    date_creation: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+    date_creation: new Date().toLocaleDateString('fr-CA') // format YYYY-MM-DD
   };
 
-  // Supprimer les champs vides ou undefined pour éviter les erreurs Airtable
+  // Supprimer les champs vides ou undefined
   Object.keys(fields).forEach(key => {
     if (fields[key] === undefined || fields[key] === "") {
       delete fields[key];
