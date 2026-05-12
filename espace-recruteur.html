@@ -1,274 +1,414 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Espace Recruteur - RH-Prospects</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Espace Recruteur — RH-Prospects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f7f9fc;
-      color: #111;
-      line-height: 1.5;
-    }
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(255,255,255,0.98);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #e2e8f0;
-      padding: 1rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-    .nav-links a {
-      text-decoration: none;
-      color: #2d3748;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: #0057b3; }
-    .btn-nav {
-      background: #0057b3;
-      color: white !important;
-      padding: 0.5rem 1.25rem;
-      border-radius: 50px;
-      transition: background 0.2s !important;
-    }
-    .btn-nav:hover { background: #003d7a; }
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-    }
-    .logo {
-      font-family: 'Space Grotesk', monospace;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #0057b3;
-      text-decoration: none;
-    }
-    .logo span { color: #00a86b; }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 6rem 2rem 3rem;
-    }
-    h1 {
-      font-family: 'Space Grotesk', monospace;
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    .subtitle {
-      color: #4a5568;
-      margin-bottom: 2rem;
-    }
-    .card {
-      background: white;
-      border-radius: 24px;
-      padding: 2rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-      margin-bottom: 2rem;
-    }
-    .card h2 {
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-    }
-    .form-group {
-      margin-bottom: 1rem;
-    }
-    label {
-      font-weight: 600;
-      display: block;
-      margin-bottom: 0.25rem;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #cbd5e1;
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-    }
-    button {
-      background: #0057b3;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    button:hover {
-      background: #003d7a;
-    }
-    .alert {
-      padding: 0.75rem;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-    }
-    .success {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-    .error {
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-    .info {
-      background: #d1ecf1;
-      color: #0c5460;
-      border: 1px solid #bee5eb;
-    }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: #a0aec0;
-      background: #111;
-      margin-top: 2rem;
+    :root{--bg:#07090f;--bg2:#0d1117;--surface:#161d2b;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--text:#f0f4ff;--muted:#8892a4;--accent:#4f7eff;--accent2:#7b9fff;--green:#22c55e;--nav-h:68px;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+    nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);background:rgba(7,9,15,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 5%;z-index:200;}
+    .logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-.03em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:.5rem;}
+    .logo-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse 2.5s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(.85);}}
+    .nav-links{display:flex;align-items:center;gap:1.75rem;list-style:none;}
+    .nav-links a{font-size:.875rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s;}
+    .nav-links a:hover{color:var(--text);}
+    .nav-cta{background:var(--accent);color:#fff!important;padding:.5rem 1.2rem;border-radius:8px;font-weight:600!important;font-size:.85rem!important;transition:opacity .2s!important;}
+    .nav-cta:hover{opacity:.85;}
+
+    .page-header{padding:calc(var(--nav-h) + 4rem) 5% 3rem;text-align:center;}
+    .section-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:1rem;}
+    h1.page-title{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:1rem;}
+    .page-sub{font-size:1.05rem;color:var(--muted);max-width:520px;margin:0 auto;}
+
+    main{padding:2rem 5% 6rem;max-width:900px;margin:0 auto;}
+
+    /* GUARANTEE CARDS */
+    .guarantees{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:3rem;}
+    .guarantee-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center;}
+    .guarantee-icon{font-size:1.8rem;margin-bottom:.6rem;}
+    .guarantee-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:.4rem;}
+    .guarantee-text{font-size:.8rem;color:var(--muted);line-height:1.55;}
+
+    /* TABS */
+    .tabs{display:flex;gap:.5rem;margin-bottom:2rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.4rem;}
+    .tab-btn{flex:1;padding:.7rem 1rem;border:none;background:none;color:var(--muted);font-family:inherit;font-size:.875rem;font-weight:500;cursor:pointer;border-radius:9px;transition:all .2s;}
+    .tab-btn.active{background:var(--accent);color:#fff;font-weight:600;}
+
+    /* FORM CARD */
+    .form-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .form-group{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem;}
+    label{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+    .req{color:var(--accent);margin-left:.2rem;}
+    input,select,textarea{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;font-size:.9rem;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;width:100%;}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,126,255,.12);}
+    input::placeholder,textarea::placeholder{color:#3a4354;}
+    select option{background:var(--bg2);}
+    textarea{resize:vertical;min-height:120px;}
+
+    .section-divider{margin:2rem 0 1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);}
+    .section-divider h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:700;color:var(--text);}
+    .section-divider p{font-size:.82rem;color:var(--muted);margin-top:.3rem;}
+
+    /* CONTRACT TYPES */
+    .contract-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;}
+    .contract-option{display:flex;flex-direction:column;align-items:center;gap:.3rem;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:.75rem .5rem;cursor:pointer;font-size:.78rem;font-weight:500;transition:all .2s;user-select:none;text-align:center;}
+    .contract-option input[type="radio"]{display:none;}
+    .contract-option.selected{border-color:var(--accent);background:rgba(79,126,255,.08);color:var(--accent);}
+
+    /* URGENCY */
+    .urgency-row{display:flex;gap:.5rem;}
+    .urgency-btn{flex:1;padding:.6rem;border:1px solid var(--border);background:var(--bg);border-radius:9px;color:var(--muted);font-family:inherit;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;}
+    .urgency-btn.active-low   {border-color:var(--green);background:rgba(34,197,94,.08);color:var(--green);}
+    .urgency-btn.active-mid   {border-color:#f59e0b;background:rgba(245,158,11,.08);color:#f59e0b;}
+    .urgency-btn.active-high  {border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444;}
+
+    /* SKILL TAGS */
+    .skill-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem;min-height:28px;}
+    .skill-tag{background:rgba(79,126,255,.12);border:1px solid rgba(79,126,255,.25);color:var(--accent2);font-size:.75rem;font-weight:600;padding:.25rem .65rem;border-radius:6px;display:flex;align-items:center;gap:.4rem;}
+    .skill-tag button{background:none;border:none;color:inherit;cursor:pointer;padding:0;line-height:1;font-size:.8rem;}
+
+    .btn-submit{width:100%;background:var(--accent);color:#fff;border:none;padding:1rem;border-radius:10px;font-size:.95rem;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .2s,transform .2s;margin-top:.5rem;}
+    .btn-submit:hover{opacity:.88;transform:translateY(-1px);}
+    .btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+    .alert{border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:none;}
+    .alert.success{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#4ade80;}
+    .alert.error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#f87171;}
+    .alert.show{display:flex;align-items:flex-start;gap:.75rem;}
+
+    /* FOOTER */
+    footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 5% 2rem;}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:rgba(136,146,164,.5);flex-wrap:wrap;gap:1rem;}
+    .footer-bottom a{color:rgba(136,146,164,.5);text-decoration:none;transition:color .2s;}
+    .footer-bottom a:hover{color:var(--muted);}
+    .footer-links{display:flex;gap:1.5rem;}
+
+    @media(max-width:768px){
+      nav{padding:0 4%;} .nav-links{display:none;}
+      .guarantees{grid-template-columns:1fr;} .form-row{grid-template-columns:1fr;}
+      .contract-grid{grid-template-columns:repeat(3,1fr);} main{padding:1.5rem 4% 4rem;}
+      .form-card{padding:1.5rem;}
     }
   </style>
 </head>
 <body>
-<nav>
-  <a href="/" class="logo">RH-<span>Prospects</span></a>
-  <div class="nav-links">
-    <a href="/#offres">Offres</a>
-    <a href="/candidature-spontanee.html">Candidats</a>
-    <a href="/espace-recruteur.html">Recruteurs</a>
-    <a href="/#contact">Contact</a>
-    <a href="/deposez-offre.html" class="btn-nav">Déposer une offre</a>
-  </div>
-</nav>
-<div class="container">
-  <h1>Espace Recruteur</h1>
-  <p class="subtitle">Gérez vos recrutements et déposez vos offres facilement</p>
 
-  <!-- Section 1 : Dépôt d'offre -->
-  <div class="card">
-    <h2>📢 Déposer une nouvelle offre</h2>
-    <p style="margin-bottom: 1rem; color: #4a5568;">Remplissez ce formulaire pour publier une offre. Notre équipe la validera sous 24h.</p>
-    <div id="offreAlert"></div>
-    <form id="offreForm">
-      <div class="form-group">
-        <label>Entreprise *</label>
-        <input type="text" name="entreprise" required>
+<nav>
+  <a href="index.html" class="logo"><span class="logo-dot"></span>RH-Prospects</a>
+  <ul class="nav-links">
+    <li><a href="index.html#offres">Offres</a></li>
+    <li><a href="candidature-spontanee.html">Candidats</a></li>
+    <li><a href="espace-recruteur.html" style="color:var(--text)">Recruteurs</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <span class="section-tag">Espace Recruteur</span>
+  <h1 class="page-title">Trouvez le bon profil.<br>On s'occupe du reste.</h1>
+  <p class="page-sub">Déposez votre offre ou accédez à notre vivier de talents qualifiés. Shortlist garantie sous 5 jours ouvrés.</p>
+</div>
+
+<main>
+
+  <!-- Guarantees -->
+  <div class="guarantees">
+    <div class="guarantee-card">
+      <div class="guarantee-icon">⚡</div>
+      <div class="guarantee-title">Shortlist en 5 jours</div>
+      <p class="guarantee-text">3 à 5 profils qualifiés, rencontrés et validés par notre équipe</p>
+    </div>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">🔄</div>
+      <div class="guarantee-title">Garantie remplacement</div>
+      <p class="guarantee-text">Si le candidat ne confirme pas sa période d'essai, on reprend sans frais</p>
+    </div>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">💬</div>
+      <div class="guarantee-title">Suivi transparent</div>
+      <p class="guarantee-text">Point hebdomadaire, feedback candidats, reporting de recherche</p>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-offre" onclick="showTab('offre')">📢 Déposer une offre</button>
+    <button class="tab-btn" id="tab-contact" onclick="showTab('contact')">💬 Discuter d'un besoin</button>
+  </div>
+
+  <!-- ALERTS -->
+  <div class="alert success" id="alert-success"><span>✅</span><div id="success-msg">Offre soumise ! Notre équipe la valide sous 24h et vous contacte pour confirmer.</div></div>
+  <div class="alert error"   id="alert-error">  <span>❌</span><div id="error-msg">Une erreur est survenue. Merci de réessayer ou d'écrire à contact@rh-prospects.fr</div></div>
+
+  <!-- ───── TAB : DÉPOSER OFFRE ───── -->
+  <div id="panel-offre">
+    <form id="form-offre">
+      <div class="form-card">
+
+        <div class="section-divider">
+          <h3>🏢 Votre entreprise</h3>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nom de l'entreprise<span class="req">*</span></label>
+            <input type="text" name="entreprise" placeholder="Acme Corp" required/>
+          </div>
+          <div class="form-group">
+            <label>Email de contact<span class="req">*</span></label>
+            <input type="email" name="email" placeholder="rh@entreprise.com" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Nom du contact RH</label>
+          <input type="text" name="nom_contact" placeholder="Marie Dupont"/>
+        </div>
+
+        <div class="section-divider" style="margin-top:1.5rem;">
+          <h3>📋 Le poste</h3>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Titre du poste<span class="req">*</span></label>
+            <input type="text" name="titre" placeholder="Ex: Data Engineer Senior" required/>
+          </div>
+          <div class="form-group">
+            <label>Localisation</label>
+            <input type="text" name="localisation" placeholder="Ex: Paris 8e, Télétravail…"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Type de contrat</label>
+          <div class="contract-grid" id="contract-grid">
+            <label class="contract-option" onclick="selectContract(this,'CDI')"><input type="radio" name="type_contrat" value="CDI"/>💼 CDI</label>
+            <label class="contract-option" onclick="selectContract(this,'CDD')"><input type="radio" name="type_contrat" value="CDD"/>📅 CDD</label>
+            <label class="contract-option" onclick="selectContract(this,'Freelance')"><input type="radio" name="type_contrat" value="Freelance"/>🚀 Freelance</label>
+            <label class="contract-option" onclick="selectContract(this,'Stage')"><input type="radio" name="type_contrat" value="Stage"/>🎓 Stage</label>
+            <label class="contract-option" onclick="selectContract(this,'Alternance')"><input type="radio" name="type_contrat" value="Alternance"/>🔄 Alternance</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Salaire / TJM (indicatif)</label>
+            <input type="text" name="salaire" placeholder="Ex: 60-75K€ ou 500-650€/jour"/>
+          </div>
+          <div class="form-group">
+            <label>Urgence du recrutement</label>
+            <div class="urgency-row">
+              <button type="button" class="urgency-btn" onclick="setUrgency(this,'Normale')">🟢 Normale</button>
+              <button type="button" class="urgency-btn" onclick="setUrgency(this,'Sous 1 mois')">🟡 &lt; 1 mois</button>
+              <button type="button" class="urgency-btn" onclick="setUrgency(this,'Urgent')">🔴 Urgent</button>
+            </div>
+            <input type="hidden" name="urgence" id="urgence-hidden"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Compétences requises (Entrée pour ajouter)</label>
+          <div class="skill-tags" id="skill-tags-offre"></div>
+          <input type="text" id="skill-input-offre" placeholder="Ex: Python, AWS, React…" autocomplete="off"/>
+          <input type="hidden" name="competences_requises" id="competences-offre-hidden"/>
+        </div>
+
+        <div class="form-group">
+          <label>Description du poste<span class="req">*</span></label>
+          <textarea name="description" rows="5" placeholder="Contexte de l'équipe, missions principales, stack technique, avantages…" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-offre">Soumettre l'offre →</button>
       </div>
-      <div class="form-group">
-        <label>Email de contact *</label>
-        <input type="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label>Nom du contact</label>
-        <input type="text" name="nom_contact">
-      </div>
-      <div class="form-group">
-        <label>Titre du poste *</label>
-        <input type="text" name="titre" required>
-      </div>
-      <div class="form-group">
-        <label>Localisation</label>
-        <input type="text" name="localisation" placeholder="Ex: Paris, Télétravail...">
-      </div>
-      <div class="form-group">
-        <label>Type de contrat</label>
-        <select name="type_contrat">
-          <option>CDI</option>
-          <option>CDD</option>
-          <option>Freelance</option>
-          <option>Stage</option>
-          <option>Alternance</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Salaire (indicatif)</label>
-        <input type="text" name="salaire" placeholder="Ex: 45k€ - 55k€">
-      </div>
-      <div class="form-group">
-        <label>Description du poste *</label>
-        <textarea name="description" rows="5" required placeholder="Missions, responsabilités, prérequis..."></textarea>
-      </div>
-      <div class="form-group">
-        <label>Compétences requises (séparées par des virgules)</label>
-        <input type="text" name="competences_requises" placeholder="Ex: React, Node.js, Python">
-      </div>
-      <button type="submit">Soumettre l'offre</button>
     </form>
   </div>
 
-  <!-- Section 2 : Statistiques (simulées pour la V1) -->
-  <div class="card">
-    <h2>📊 Tableau de bord</h2>
-    <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem;">
-      <div style="text-align: center;">
-        <div style="font-size: 2rem; font-weight: 700; color: #0057b3;">0</div>
-        <div style="color: #4a5568;">Offres actives</div>
+  <!-- ───── TAB : DISCUTER ───── -->
+  <div id="panel-contact" style="display:none;">
+    <form id="form-contact">
+      <div class="form-card">
+        <div class="section-divider">
+          <h3>💬 Parlons de votre besoin</h3>
+          <p>Pas encore sûr du profil ? Décrivez-nous votre contexte, on vous conseille.</p>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prénom & Nom<span class="req">*</span></label>
+            <input type="text" name="nom" placeholder="Marie Dupont" required/>
+          </div>
+          <div class="form-group">
+            <label>Email<span class="req">*</span></label>
+            <input type="email" name="email" placeholder="marie@entreprise.com" required/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Entreprise</label>
+            <input type="text" name="company" placeholder="Nom de votre société"/>
+          </div>
+          <div class="form-group">
+            <label>Téléphone</label>
+            <input type="tel" name="telephone" placeholder="+33 6 XX XX XX XX"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Décrivez votre besoin<span class="req">*</span></label>
+          <textarea name="message" rows="5" placeholder="Quel profil cherchez-vous ? Dans quel contexte ? Quelles contraintes (budget, délai, remote…) ?" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit" id="submit-contact">Envoyer ma demande →</button>
       </div>
-      <div style="text-align: center;">
-        <div style="font-size: 2rem; font-weight: 700; color: #00a86b;">0</div>
-        <div style="color: #4a5568;">Candidatures reçues</div>
-      </div>
-      <div style="text-align: center;">
-        <div style="font-size: 2rem; font-weight: 700; color: #ff6b35;">0</div>
-        <div style="color: #4a5568;">Profil(s) correspondant(s)</div>
-      </div>
-    </div>
-    <div class="alert info" style="margin-top: 1.5rem;">
-      💡 <strong>Fonctionnalité à venir :</strong> Le tableau de bord et le suivi des candidatures seront disponibles dans une prochaine version.
+    </form>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-bottom">
+    <span>© 2025 RH-Prospects — Cabinet de recrutement IT éthique & transparent</span>
+    <div class="footer-links">
+      <a href="index.html#valeurs">Nos valeurs</a>
+      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="politique-confidentialite.html">Politique de confidentialité</a>
     </div>
   </div>
-</div>
-<footer>
-  © 2025 RH-Prospects — Recrutement éthique & transparent
 </footer>
 
 <script>
-  document.getElementById('offreForm').addEventListener('submit', async (e) => {
+  // ── Tabs ──
+  function showTab(tab) {
+    document.getElementById('panel-offre').style.display    = tab==='offre'    ? 'block' : 'none';
+    document.getElementById('panel-contact').style.display  = tab==='contact'  ? 'block' : 'none';
+    document.getElementById('tab-offre').classList.toggle('active',    tab==='offre');
+    document.getElementById('tab-contact').classList.toggle('active',  tab==='contact');
+    document.getElementById('alert-success').classList.remove('show');
+    document.getElementById('alert-error').classList.remove('show');
+  }
+
+  // ── Contract select ──
+  function selectContract(el) {
+    document.querySelectorAll('.contract-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  // ── Urgency ──
+  let urgencyVal = '';
+  function setUrgency(btn, val) {
+    document.querySelectorAll('.urgency-btn').forEach(b => b.className='urgency-btn');
+    urgencyVal = val;
+    document.getElementById('urgence-hidden').value = val;
+    const cls = val==='Urgent' ? 'active-high' : val==='Sous 1 mois' ? 'active-mid' : 'active-low';
+    btn.classList.add(cls);
+  }
+
+  // ── Skill tags (offre) ──
+  const skillInputOffre   = document.getElementById('skill-input-offre');
+  const skillTagsOffre    = document.getElementById('skill-tags-offre');
+  const skillHiddenOffre  = document.getElementById('competences-offre-hidden');
+  let skillsOffre = [];
+  skillInputOffre.addEventListener('keydown', e => {
+    if ((e.key==='Enter'||e.key===',') && skillInputOffre.value.trim()) {
+      e.preventDefault();
+      const v = skillInputOffre.value.trim().replace(/,/g,'');
+      if (!skillsOffre.includes(v)) { skillsOffre.push(v); renderOffeTags(); }
+      skillInputOffre.value = '';
+    }
+  });
+  function removeOffreSkill(i) { skillsOffre.splice(i,1); renderOffeTags(); }
+  function renderOffeTags() {
+    skillTagsOffre.innerHTML = skillsOffre.map((s,i)=>
+      `<span class="skill-tag">${s}<button type="button" onclick="removeOffreSkill(${i})">×</button></span>`
+    ).join('');
+    skillHiddenOffre.value = skillsOffre.join(', ');
+  }
+
+  // ── Helper: alerts ──
+  function showAlert(type, msg) {
+    document.getElementById('alert-success').classList.remove('show');
+    document.getElementById('alert-error').classList.remove('show');
+    if (type==='success') { document.getElementById('success-msg').textContent = msg; document.getElementById('alert-success').classList.add('show'); }
+    else { document.getElementById('error-msg').textContent = msg; document.getElementById('alert-error').classList.add('show'); }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Submit OFFRE ──
+  document.getElementById('form-offre').addEventListener('submit', async e => {
     e.preventDefault();
     const form = e.target;
-    const data = {
-      entreprise: form.entreprise.value,
-      email: form.email.value,
-      nom_contact: form.nom_contact.value,
-      titre: form.titre.value,
-      localisation: form.localisation.value,
-      type_contrat: form.type_contrat.value,
-      salaire: form.salaire.value,
-      description: form.description.value,
-      competences_requises: form.competences_requises.value,
-      statut: "En attente"
+    const btn  = document.getElementById('submit-offre');
+    btn.disabled = true; btn.textContent = 'Envoi en cours…';
+
+    // Récupérer type_contrat depuis le radio sélectionné
+    const contractSelected = form.querySelector('input[name="type_contrat"]:checked');
+
+    const payload = {
+      entreprise:           form.entreprise.value.trim(),
+      email:                form.email.value.trim(),
+      nom_contact:          form.nom_contact.value.trim() || null,
+      titre:                form.titre.value.trim(),
+      localisation:         form.localisation.value.trim() || null,
+      type_contrat:         contractSelected ? contractSelected.value : null,
+      salaire:              form.salaire.value.trim() || null,
+      description:          form.description.value.trim(),
+      competences_requises: skillHiddenOffre.value || null,
     };
 
-    try {
-      const response = await fetch('/api/deposer-offre', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+    // Remove nulls to avoid Airtable type errors
+    Object.keys(payload).forEach(k => payload[k] === null && delete payload[k]);
 
-      if (response.ok) {
-        document.getElementById('offreAlert').innerHTML = '<div class="alert success">Offre soumise avec succès ! Elle sera validée par notre équipe.</div>';
-        form.reset();
-        setTimeout(() => {
-          document.getElementById('offreAlert').innerHTML = '';
-        }, 5000);
+    try {
+      const res = await fetch('/api/deposer-offre', {
+        method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (res.ok && !result.error) {
+        showAlert('success','✅ Offre soumise ! Validation sous 24h. Vous recevrez un email de confirmation.');
+        form.reset(); skillsOffre=[]; renderOffeTags();
+        document.querySelectorAll('.contract-option').forEach(o=>o.classList.remove('selected'));
+        document.querySelectorAll('.urgency-btn').forEach(b=>b.className='urgency-btn');
       } else {
-        throw new Error();
+        throw new Error(result.details?.error?.message || result.error || 'Erreur inconnue');
       }
-    } catch (error) {
-      document.getElementById('offreAlert').innerHTML = '<div class="alert error">Erreur lors de l\'envoi. Veuillez réessayer.</div>';
-    }
+    } catch(err) { showAlert('error', err.message); }
+    finally { btn.disabled=false; btn.textContent='Soumettre l\'offre →'; }
+  });
+
+  // ── Submit CONTACT ──
+  document.getElementById('form-contact').addEventListener('submit', async e => {
+    e.preventDefault();
+    const form = e.target;
+    const btn  = document.getElementById('submit-contact');
+    btn.disabled = true; btn.textContent = 'Envoi en cours…';
+
+    const payload = {
+      nom:     form.nom.value.trim(),
+      email:   form.email.value.trim(),
+      company: form.company.value.trim() || null,
+      telephone: form.telephone.value.trim() || null,
+      message: form.message.value.trim(),
+      sujet:   'Recruteur',     // singleSelect → valeur fixe
+      source:  'Site web',
+    };
+    Object.keys(payload).forEach(k => payload[k] === null && delete payload[k]);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
+      });
+      const result = await res.json();
+      if (res.ok && !result.error) {
+        showAlert('success','✅ Message envoyé ! Un consultant vous contacte sous 24h ouvrées.');
+        form.reset();
+      } else {
+        throw new Error(result.details?.error?.message || result.error || 'Erreur inconnue');
+      }
+    } catch(err) { showAlert('error', err.message); }
+    finally { btn.disabled=false; btn.textContent="Envoyer ma demande →"; }
   });
 </script>
 </body>
