@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   }
 
   const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
-  const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
+  const AIRTABLE_TOKEN   = process.env.AIRTABLE_TOKEN;
 
   if (!AIRTABLE_BASE_ID || !AIRTABLE_TOKEN) {
     console.error("Variables d'environnement manquantes");
@@ -12,18 +12,26 @@ export default async function handler(req, res) {
   }
 
   const fields = {
-    titre: req.body.titre,
-    entreprise: req.body.entreprise,
-    localisation: req.body.localisation,
-    type_contrat: req.body.type_contrat,
-    salaire: req.body.salaire,
-    description: req.body.description,
-    competences_requises: req.body.competences_requises,
-    statut: "En attente",
-    date_publication: new Date().toISOString(),
-    "E-mail": req.body.email,
-    nom_contact: req.body.nom_contact
+    titre:                req.body.titre                || undefined,
+    entreprise:           req.body.entreprise           || undefined,
+    localisation:         req.body.localisation         || undefined,
+    type_contrat:         req.body.type_contrat         || undefined,
+    salaire:              req.body.salaire              || undefined,
+    description:          req.body.description          || undefined,
+    competences_requises: req.body.competences_requises || undefined,
+    statut:               'En attente',
+
+    // ✅ FIX : Airtable date attend YYYY-MM-DD, pas toISOString() complet
+    date_publication: new Date().toISOString().slice(0, 10),
+
+    'E-mail':     req.body.email        || undefined,
+    nom_contact:  req.body.nom_contact  || undefined,
+    Partenaire:   req.body.entreprise   || undefined
   };
+
+  Object.keys(fields).forEach(key => {
+    if (fields[key] === undefined || fields[key] === '') delete fields[key];
+  });
 
   const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Offres`;
 
@@ -41,10 +49,7 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       console.error("Erreur Airtable :", data);
-      return res.status(response.status).json({ 
-        error: 'Erreur Airtable', 
-        details: data 
-      });
+      return res.status(response.status).json({ error: 'Erreur Airtable', details: data });
     }
 
     res.status(200).json({ success: true });
