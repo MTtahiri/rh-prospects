@@ -10,10 +10,11 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Configuration serveur incomplète' });
   }
 
-  // Filtre : offres actives uniquement (En attente OU Validé)
-  const filter = encodeURIComponent('OR({statut}="En attente",{statut}="Validé")');
+  // ✅ FIX : NOT(Refusé) au lieu de OR(En attente, Validé)
+  // → retourne TOUS les records sauf ceux explicitement refusés
+  // → les 21 Freelance sans statut renseigné seront inclus
+  const filter = encodeURIComponent('NOT({statut}="Refusé")');
 
-  // Champs à récupérer
   const fieldsParam = [
     'titre', 'entreprise', 'localisation',
     'type_contrat', 'salaire', 'description',
@@ -27,14 +28,23 @@ export default async function handler(req, res) {
     const response = await fetch(url, {
       headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` }
     });
-    const data = await response.json();
+
+    // Lire le body comme texte d'abord pour éviter l'erreur ReadableStream
+    const text = await response.text();
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      console.error('Airtable non-JSON response:', text.slice(0, 200));
+      return res.status(502).json({ error: 'Réponse Airtable invalide' });
+    }
 
     if (!response.ok) {
       console.error('Airtable /Offres error:', data);
       return res.status(response.status).json({ error: 'Erreur Airtable', details: data });
     }
 
-    // Cache 5 minutes côté Vercel CDN
     res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=60');
 
     const records = (data.records || []).map(r => ({
