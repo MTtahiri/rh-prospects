@@ -470,6 +470,8 @@
     .badge-cdi  { background: rgba(34,197,94,0.12);  color: #22c55e; }
     .badge-cdd  { background: rgba(251,191,36,0.12); color: #fbbf24; }
     .badge-free { background: rgba(168,85,247,0.12); color: #a855f7; }
+    .badge-alt  { background: rgba(14,165,233,0.12); color: #38bdf8; }
+    .badge-inte { background: rgba(249,115,22,0.12); color: #fb923c; }
     .badge-new  { background: rgba(79,126,255,0.15); color: var(--accent2); }
 
     .job-title {
@@ -986,16 +988,16 @@
     <div class="filters">
       <button class="filter-btn active" onclick="filterJobs('all', this)">Tous</button>
       <button class="filter-btn" onclick="filterJobs('cdi', this)">CDI</button>
+      <button class="filter-btn" onclick="filterJobs('cdd', this)">CDD</button>
       <button class="filter-btn" onclick="filterJobs('freelance', this)">Freelance</button>
-      <button class="filter-btn" onclick="filterJobs('data', this)">Data</button>
-      <button class="filter-btn" onclick="filterJobs('dev', this)">Dev</button>
-      <button class="filter-btn" onclick="filterJobs('devops', this)">DevOps</button>
+      <button class="filter-btn" onclick="filterJobs('alternance', this)">Alternance</button>
+      <button class="filter-btn" onclick="filterJobs('interimaire', this)">Intérimaire</button>
     </div>
   </div>
 
   <div class="offres-grid" id="offres-grid">
 
-    <a class="job-card" href="candidature-spontanee.html" data-type="cdi data">
+    <a class="job-card" href="candidature-spontanee.html" data-type="cdi">
       <div class="job-card-top">
         <div class="job-company-logo">DS</div>
         <div class="job-badges">
@@ -1019,7 +1021,7 @@
       </div>
     </a>
 
-    <a class="job-card" href="candidature-spontanee.html" data-type="cdi dev">
+    <a class="job-card" href="candidature-spontanee.html" data-type="cdi">
       <div class="job-card-top">
         <div class="job-company-logo" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">FS</div>
         <div class="job-badges">
@@ -1042,7 +1044,7 @@
       </div>
     </a>
 
-    <a class="job-card" href="candidature-spontanee.html" data-type="cdi devops">
+    <a class="job-card" href="candidature-spontanee.html" data-type="cdi">
       <div class="job-card-top">
         <div class="job-company-logo" style="background:linear-gradient(135deg,#0891b2,#67e8f9)">DO</div>
         <div class="job-badges">
@@ -1058,7 +1060,7 @@
       </div>
       <p class="job-desc">Scale-up fintech cherche un DevOps senior pour gérer une infra AWS multi-comptes. CI/CD, Kubernetes, IaC Terraform — autonomie et ownership total.</p>
       <div class="job-skills">
-        <span class="skill-tag">AWS</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">Terraform</span><span class="skill-tag">Docker</span><span class="skill-tag">CI/CD</span>
+        <span class="skill-tag">AWS</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">Terraform</span><span class="skill-tag">Docker</span>
       </div>
       <div class="job-footer">
         <span class="job-salary">65 – 85 K€ / an</span>
@@ -1066,7 +1068,7 @@
       </div>
     </a>
 
-    <a class="job-card" href="candidature-spontanee.html" data-type="freelance data">
+    <a class="job-card" href="candidature-spontanee.html" data-type="freelance">
       <div class="job-card-top">
         <div class="job-company-logo" style="background:linear-gradient(135deg,#d97706,#fcd34d)">ML</div>
         <div class="job-badges">
@@ -1089,49 +1091,49 @@
       </div>
     </a>
 
-    <a class="job-card" href="candidature-spontanee.html" data-type="cdi dev">
+    <a class="job-card" href="candidature-spontanee.html" data-type="alternance">
       <div class="job-card-top">
-        <div class="job-company-logo" style="background:linear-gradient(135deg,#059669,#6ee7b7)">PM</div>
+        <div class="job-company-logo" style="background:linear-gradient(135deg,#059669,#6ee7b7)">AL</div>
         <div class="job-badges">
-          <span class="badge badge-cdi">CDI</span>
+          <span class="badge badge-alt">Alternance</span>
         </div>
       </div>
-      <div class="job-title">Chef de Projet IT / Scrum Master</div>
+      <div class="job-title">Développeur Web Alternant — React / Python</div>
       <div class="job-meta-row">
-        <span>📍 Paris 8e</span>
+        <span>📍 Paris & IDF</span>
         <span>🏠 Hybride</span>
-        <span>⏱ Octobre 2025</span>
+        <span>⏱ Septembre 2026</span>
       </div>
-      <p class="job-desc">ESN en croissance cherche un Scrum Master / Chef de projet pour piloter 3 squads produit chez un client grands comptes dans la banque.</p>
+      <p class="job-desc">Start-up EdTech cherche un alternant développeur pour rejoindre une squad produit agile. Encadrement senior, stack moderne, vrai impact produit.</p>
       <div class="job-skills">
-        <span class="skill-tag">Scrum</span><span class="skill-tag">Jira</span><span class="skill-tag">Kanban</span><span class="skill-tag">Confluence</span>
+        <span class="skill-tag">React</span><span class="skill-tag">Python</span><span class="skill-tag">SQL</span><span class="skill-tag">Git</span>
       </div>
       <div class="job-footer">
-        <span class="job-salary">55 – 70 K€ / an</span>
+        <span class="job-salary">Selon convention</span>
         <span class="job-apply-btn">Postuler →</span>
       </div>
     </a>
 
-    <a class="job-card" href="candidature-spontanee.html" data-type="cdi devops">
+    <a class="job-card" href="candidature-spontanee.html" data-type="cdd">
       <div class="job-card-top">
-        <div class="job-company-logo" style="background:linear-gradient(135deg,#dc2626,#f87171)">CS</div>
+        <div class="job-company-logo" style="background:linear-gradient(135deg,#dc2626,#f87171)">CDD</div>
         <div class="job-badges">
           <span class="badge badge-new">Urgent</span>
-          <span class="badge badge-cdi">CDI</span>
+          <span class="badge badge-cdd">CDD</span>
         </div>
       </div>
-      <div class="job-title">Consultant Cybersécurité — Pentester Senior</div>
+      <div class="job-title">Consultant Cybersécurité — Pentester (CDD 12 mois)</div>
       <div class="job-meta-row">
         <span>📍 Paris & IDF</span>
         <span>🏠 Hybride</span>
         <span>⏱ ASAP</span>
       </div>
-      <p class="job-desc">Cabinet de conseil en sécurité cherche un pentester senior pour des missions d'audit chez des clients banque, assurance et énergie.</p>
+      <p class="job-desc">Cabinet de conseil en sécurité cherche un pentester pour des missions d'audit chez des clients banque, assurance et énergie. Possibilité de CDI.</p>
       <div class="job-skills">
-        <span class="skill-tag">Pentest</span><span class="skill-tag">OSCP</span><span class="skill-tag">Burp Suite</span><span class="skill-tag">SIEM</span><span class="skill-tag">ISO 27001</span>
+        <span class="skill-tag">Pentest</span><span class="skill-tag">OSCP</span><span class="skill-tag">Burp Suite</span><span class="skill-tag">ISO 27001</span>
       </div>
       <div class="job-footer">
-        <span class="job-salary">70 – 95 K€ / an</span>
+        <span class="job-salary">55 – 75 K€ / an</span>
         <span class="job-apply-btn">Postuler →</span>
       </div>
     </a>
