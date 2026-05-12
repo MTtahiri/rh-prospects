@@ -1240,16 +1240,16 @@
       <div class="form-row">
         <div class="form-group">
           <label>Prénom</label>
-          <input type="text" placeholder="Mohamed"/>
+          <input type="text" id="contact-prenom" placeholder="Mohamed"/>
         </div>
         <div class="form-group">
           <label>Nom</label>
-          <input type="text" placeholder="Dupont"/>
+          <input type="text" id="contact-nom" placeholder="Dupont"/>
         </div>
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" placeholder="vous@email.com"/>
+        <input type="email" id="contact-email" placeholder="vous@email.com"/>
       </div>
       <div class="form-group">
         <label>Vous êtes...</label>
@@ -1266,9 +1266,10 @@
       </div>
       <div class="form-group">
         <label>Message</label>
-        <textarea placeholder="Décrivez votre situation en quelques mots…"></textarea>
+        <textarea id="contact-message" placeholder="Décrivez votre situation en quelques mots…"></textarea>
       </div>
-      <button class="btn-submit">Envoyer le message →</button>
+      <div id="contact-alert" style="display:none;padding:.9rem 1.1rem;border-radius:10px;font-size:.85rem;margin-bottom:.5rem;"></div>
+      <button class="btn-submit" id="contact-submit-btn" onclick="submitContact(event)">Envoyer le message →</button>
     </div>
   </div>
 </section>
@@ -1312,8 +1313,8 @@
       <ul>
         <li><a href="#valeurs">Nos valeurs</a></li>
         <li><a href="mailto:contact@rh-prospects.fr">Contact</a></li>
-        <li><a href="#">Mentions légales</a></li>
-        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="mentions-legales.html">Mentions légales</a></li>
+        <li><a href="politique-confidentialite.html">Politique de confidentialité</a></li>
       </ul>
     </div>
   </div>
@@ -1349,6 +1350,69 @@
       const types = card.getAttribute('data-type') || '';
       card.style.display = (type === 'all' || types.includes(type)) ? 'block' : 'none';
     });
+  }
+
+  // Contact form submit — champs alignés avec api/contact.js et table Airtable Contacts
+  async function submitContact(e) {
+    e.preventDefault();
+    const btn    = document.getElementById('contact-submit-btn');
+    const alert  = document.getElementById('contact-alert');
+    const prenom = document.getElementById('contact-prenom').value.trim();
+    const nom    = document.getElementById('contact-nom').value.trim();
+    const email  = document.getElementById('contact-email').value.trim();
+    const msg    = document.getElementById('contact-message').value.trim();
+    const typeEl = document.querySelector('input[name="type"]:checked');
+    const sujet  = typeEl ? typeEl.value : 'autre'; // 'candidat' ou 'recruteur' → mappé côté API
+
+    if (!email || !msg) {
+      alert.style.display = 'block';
+      alert.style.background = 'rgba(239,68,68,.1)';
+      alert.style.border = '1px solid rgba(239,68,68,.25)';
+      alert.style.color = '#f87171';
+      alert.textContent = 'Merci de renseigner votre email et votre message.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours…';
+    alert.style.display = 'none';
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nom:     `${prenom} ${nom}`.trim(),
+          email:   email,
+          sujet:   sujet,        // mappé vers "candidature" ou "recrutement" dans l'API
+          message: msg,
+          source:  'page_accueil' // valeur valide pour singleSelect Airtable
+        })
+      });
+      const result = await res.json();
+      if (res.ok && !result.error) {
+        alert.style.display = 'block';
+        alert.style.background = 'rgba(34,197,94,.1)';
+        alert.style.border = '1px solid rgba(34,197,94,.25)';
+        alert.style.color = '#4ade80';
+        alert.textContent = '✅ Message envoyé ! Nous vous répondons sous 24h ouvrées.';
+        document.getElementById('contact-prenom').value = '';
+        document.getElementById('contact-nom').value = '';
+        document.getElementById('contact-email').value = '';
+        document.getElementById('contact-message').value = '';
+      } else {
+        throw new Error(result.details?.error?.message || result.error || 'Erreur inconnue');
+      }
+    } catch(err) {
+      alert.style.display = 'block';
+      alert.style.background = 'rgba(239,68,68,.1)';
+      alert.style.border = '1px solid rgba(239,68,68,.25)';
+      alert.style.color = '#f87171';
+      alert.textContent = `❌ ${err.message || 'Erreur. Écrivez à contact@rh-prospects.fr'}`;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Envoyer le message →';
+    }
   }
 </script>
 </body>
