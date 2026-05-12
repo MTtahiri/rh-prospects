@@ -1,571 +1,1355 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RH-Prospects | Cabinet de recrutement éthique & transparent</title>
-  <meta name="description" content="Cabinet de recrutement éthique et transparent pour les talents Tech et les entreprises innovantes. Offres exclusives, dépôt CV, espace recruteur." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Cabinet de recrutement éthique et transparent pour les talents Tech et les entreprises innovantes. Offres exclusives CDI/Freelance, dépôt CV, espace recruteur — Paris & IDF."/>
+  <title>RH-Prospects | Cabinet de recrutement IT éthique & transparent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* ── TOKENS ── */
+    :root {
+      --bg:       #07090f;
+      --bg2:      #0d1117;
+      --bg3:      #111827;
+      --surface:  #161d2b;
+      --border:   rgba(255,255,255,0.07);
+      --border2:  rgba(255,255,255,0.12);
+      --text:     #f0f4ff;
+      --muted:    #8892a4;
+      --accent:   #4f7eff;
+      --accent2:  #7b9fff;
+      --green:    #22c55e;
+      --nav-h:    68px;
     }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: #ffffff;
-      color: #111111;
-      line-height: 1.5;
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
     }
 
-    :root {
-      --primary: #0057b3;
-      --primary-dark: #003d7a;
-      --secondary: #00a86b;
-      --accent: #ff6b35;
-      --gray-light: #f7f9fc;
-      --gray-mid: #e2e8f0;
-      --gray-text: #4a5568;
-      --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
-      --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
-    }
-
-    /* Navigation */
+    /* ─────────────── NAV ─────────────── */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(255,255,255,0.98);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--gray-mid);
-      padding: 1rem 5%;
+      inset: 0 0 auto 0;
+      height: var(--nav-h);
+      background: rgba(7,9,15,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      z-index: 1000;
+      justify-content: space-between;
+      padding: 0 5%;
+      z-index: 200;
     }
 
     .logo {
-      font-family: 'Space Grotesk', monospace;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--primary);
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: -0.03em;
+      color: var(--text);
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .logo span {
-      color: var(--secondary);
+    .logo-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+      animation: pulse 2.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.6; transform: scale(0.85); }
     }
 
     .nav-links {
       display: flex;
-      gap: 2rem;
       align-items: center;
+      gap: 1.75rem;
+      list-style: none;
     }
 
     .nav-links a {
-      text-decoration: none;
-      color: #2d3748;
+      font-size: 0.875rem;
       font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
       transition: color 0.2s;
     }
+    .nav-links a:hover { color: var(--text); }
 
-    .nav-links a:hover {
-      color: var(--primary);
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      font-size: 0.85rem !important;
+      transition: opacity 0.2s !important;
     }
+    .nav-cta:hover { opacity: 0.85; }
 
-    .btn-nav {
-      background: var(--primary);
-      color: white !important;
-      padding: 0.5rem 1.25rem;
-      border-radius: 50px;
-      transition: background 0.2s !important;
-    }
-
-    .btn-nav:hover {
-      background: var(--primary-dark);
-    }
-
-    /* Hero */
+    /* ─────────────── HERO ─────────────── */
     .hero {
-      margin-top: 72px;
-      background: linear-gradient(135deg, #f7f9fc 0%, #ffffff 100%);
-      padding: 5rem 5%;
+      min-height: 100vh;
+      padding: calc(var(--nav-h) + 5rem) 5% 5rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
+      gap: 4rem;
       align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* animated grid background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(79,126,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,126,255,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 20%; left: 55%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(79,126,255,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-left { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      padding: 0.35rem 1rem 0.35rem 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .eyebrow-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .hero h1 {
-      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
       font-weight: 800;
-      line-height: 1.2;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
       margin-bottom: 1.5rem;
-      font-family: 'Space Grotesk', monospace;
     }
 
-    .hero h1 span {
-      color: var(--primary);
+    .h1-line2 {
+      display: block;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .hero p {
-      font-size: 1.125rem;
-      color: var(--gray-text);
-      margin-bottom: 2rem;
-      max-width: 500px;
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 460px;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
     }
 
-    .double-cta {
+    .hero-ctas {
       display: flex;
-      gap: 1rem;
+      gap: 0.85rem;
       flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      padding: 0.875rem 2rem;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.2s, transform 0.2s;
-      display: inline-block;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: var(--secondary);
-      color: white;
-      padding: 0.875rem 2rem;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.2s, transform 0.2s;
-      display: inline-block;
-    }
-
-    .btn-secondary:hover {
-      background: #008f5a;
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-      padding: 0.875rem 2rem;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-
-    .btn-outline:hover {
-      background: var(--primary);
-      color: white;
-    }
-
-    .hero-image {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      border-radius: 24px;
-      padding: 3rem;
-      text-align: center;
-      color: white;
-    }
-
-    /* Sections */
-    section {
-      padding: 5rem 5%;
-    }
-
-    .section-title {
-      font-family: 'Space Grotesk', monospace;
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .section-subtitle {
-      color: var(--gray-text);
-      font-size: 1.125rem;
-      max-width: 700px;
       margin-bottom: 3rem;
     }
 
-    /* Filtres */
-    .filters {
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.9rem 1.75rem;
+      border-radius: 10px;
+      font-size: 0.925rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, opacity 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border2);
+      padding: 0.9rem 1.75rem;
+      border-radius: 10px;
+      font-size: 0.925rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--accent); background: rgba(79,126,255,0.07); }
+
+    .hero-trust {
       display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-
-    .filter-select {
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--gray-mid);
-      border-radius: 50px;
-      background: white;
-      font-family: 'Inter', sans-serif;
-      cursor: pointer;
-    }
-
-    /* Offres grid */
-    .offres-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      align-items: center;
       gap: 1.5rem;
+      flex-wrap: wrap;
     }
 
-    .offre-card {
-      background: white;
-      border: 1px solid var(--gray-mid);
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .trust-icon { color: var(--green); font-size: 1rem; }
+
+    /* right column: floating stats cards */
+    .hero-right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 1.5rem;
-      transition: all 0.2s;
-      cursor: pointer;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      transition: border-color 0.3s;
+    }
+    .stat-card:hover { border-color: var(--border2); }
+
+    .stat-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: rgba(79,126,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
     }
 
-    .offre-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--primary);
+    .stat-num {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
     }
 
-    .offre-titre {
-      font-size: 1.1rem;
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    /* ─────────────── SECTIONS BASE ─────────────── */
+    section { padding: 6rem 5%; }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 0.72rem;
       font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      margin-bottom: 1rem;
     }
 
-    .offre-entreprise {
-      font-size: 0.875rem;
-      color: var(--gray-text);
+    h2.s-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ─────────────── VALUES ─────────────── */
+    .values { background: var(--bg2); }
+
+    .values-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: end;
+      margin-bottom: 3.5rem;
+    }
+
+    .values-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .value-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .value-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+
+    .value-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .value-card:hover::before { opacity: 1; }
+
+    .value-num {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: rgba(79,126,255,0.15);
+      line-height: 1;
       margin-bottom: 0.75rem;
     }
 
-    .offre-meta {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
+    .value-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
     }
 
-    .offre-badge {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.75rem;
-      border-radius: 50px;
-      background: var(--gray-light);
-      color: #2d3748;
-    }
-
-    .offre-badge.contrat {
-      background: var(--secondary);
-      color: white;
-    }
-
-    .offre-description {
+    .value-text {
       font-size: 0.875rem;
-      color: var(--gray-text);
-      line-height: 1.5;
-      margin-bottom: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
     }
 
-    .offre-competences {
+    /* ─────────────── OFFRES ─────────────── */
+    .offres { background: var(--bg); }
+
+    .offres-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .filters {
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
     }
 
-    .skill-tag {
-      font-size: 0.7rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 50px;
-      background: var(--gray-light);
-      color: #4a5568;
-    }
-
-    /* Formulaires */
-    .form-container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: var(--gray-light);
-      padding: 2rem;
-      border-radius: 24px;
-    }
-
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      font-size: 0.875rem;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid var(--gray-mid);
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    button[type="submit"] {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 0.875rem 2rem;
-      border-radius: 50px;
-      font-weight: 600;
+    .filter-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
       cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .offres-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .job-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      transition: border-color 0.25s, transform 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+    }
+    .job-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-2px);
+    }
+
+    .job-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .job-company-logo {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #6d9dff);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .job-badges {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-cdi  { background: rgba(34,197,94,0.12);  color: #22c55e; }
+    .badge-cdd  { background: rgba(251,191,36,0.12); color: #fbbf24; }
+    .badge-free { background: rgba(168,85,247,0.12); color: #a855f7; }
+    .badge-new  { background: rgba(79,126,255,0.15); color: var(--accent2); }
+
+    .job-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+
+    .job-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .job-meta-row span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .job-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .job-skills {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .skill-tag {
+      font-size: 0.72rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.2rem 0.55rem;
+    }
+
+    .job-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .job-salary {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .job-apply-btn {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(79,126,255,0.1);
+      padding: 0.4rem 0.9rem;
+      border-radius: 7px;
       transition: background 0.2s;
     }
+    .job-card:hover .job-apply-btn { background: rgba(79,126,255,0.2); }
 
-    button[type="submit"]:hover {
-      background: var(--primary-dark);
-    }
-
-    .alert {
-      padding: 1rem;
-      border-radius: 12px;
-      margin-bottom: 1.5rem;
-    }
-
-    .alert-success {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-
-    .alert-error {
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-
-    /* Footer */
-    footer {
-      background: #111111;
-      color: #a0aec0;
-      padding: 3rem 5%;
+    .view-all-row {
       text-align: center;
     }
 
+    .btn-outline-blue {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border2);
+      color: var(--text);
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-outline-blue:hover { border-color: var(--accent); background: rgba(79,126,255,0.06); }
+
+    /* ─────────────── HOW IT WORKS ─────────────── */
+    .how { background: var(--bg2); }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .how-col h3 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .step {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: rgba(79,126,255,0.12);
+      color: var(--accent);
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-content h4 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .step-content p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ─────────────── CONTACT ─────────────── */
+    .contact { background: var(--bg); }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-left h2 { margin-bottom: 1rem; }
+
+    .contact-left p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .contact-info a {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-info a:hover { color: var(--text); }
+
+    .contact-icon {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    /* form */
+    .contact-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    input, select, textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+    input::placeholder, textarea::placeholder { color: #404959; }
+
+    select option { background: var(--bg); }
+
+    textarea { resize: vertical; min-height: 110px; }
+
+    .radio-group {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .radio-option {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .radio-option input[type="radio"] { display: none; }
+
+    .radio-option.selected {
+      border-color: var(--accent);
+      background: rgba(79,126,255,0.08);
+      color: var(--accent);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.95rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ─────────────── FOOTER ─────────────── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 4rem 5% 2rem;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-brand {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      text-decoration: none;
+    }
+
+    .footer-tagline {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    .social-link {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .social-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    .footer-col h4 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul li a {
+      font-size: 0.875rem;
+      color: rgba(136,146,164,0.8);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col ul li a:hover { color: var(--text); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      font-size: 0.8rem;
+      color: rgba(136,146,164,0.5);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-bottom a {
+      color: rgba(136,146,164,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-bottom a:hover { color: var(--muted); }
+
+    /* ─────────────── ANIMATIONS ─────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ─────────────── RESPONSIVE ─────────────── */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; padding-top: calc(var(--nav-h) + 3rem); }
+      .hero-right { display: none; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .how-grid { grid-template-columns: 1fr; }
+      .contact-wrap { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+
     @media (max-width: 768px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-      .nav-links {
-        display: none;
-      }
-      .offres-grid {
-        grid-template-columns: 1fr;
-      }
+      nav { padding: 0 4%; }
+      .nav-links { display: none; }
+      .offres-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .values-intro { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .hero::before, .hero::after { display: none; }
     }
   </style>
 </head>
 <body>
 
+<!-- ── NAV ── -->
 <nav>
-  <a href="/" class="logo">RH-<span>Prospects</span></a>
-  <div class="nav-links">
-    <a href="#offres">Offres</a>
-    <a href="/candidature-spontanee.html">Candidats</a>
-    <a href="/espace-recruteur.html">Recruteurs</a>
-    <a href="#contact">Contact</a>
-    <a href="/deposez-offre.html" class="btn-nav">Déposer une offre</a>
-  </div>
+  <a href="#" class="logo">
+    <span class="logo-dot"></span>
+    RH-Prospects
+  </a>
+  <ul class="nav-links">
+    <li><a href="#offres">Offres</a></li>
+    <li><a href="candidature-spontanee.html">Candidats</a></li>
+    <li><a href="espace-recruteur.html">Recruteurs</a></li>
+    <li><a href="#contact" class="nav-cta">Nous contacter</a></li>
+  </ul>
 </nav>
 
-<!-- Hero double parcours -->
+<!-- ── HERO ── -->
 <section class="hero">
-  <div>
-    <h1>Recrutement <span>éthique</span> & <span>transparent</span></h1>
-    <p>Cabinet de recrutement nouvelle génération. Nous accompagnons talents et entreprises avec humanité, efficacité et transparence.</p>
-    <div class="double-cta">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-badge">Nouveau</span>
+      Cabinet de recrutement IT éthique & transparent — Paris & IDF
+    </div>
+    <h1>
+      Les bons profils.<br>
+      <span class="h1-line2">Sans compromis.</span>
+    </h1>
+    <p class="hero-sub">
+      Nous connectons les talents Tech, Data et Digital avec les entreprises qui leur correspondent vraiment — avec transparence sur les salaires, les projets et les équipes.
+    </p>
+    <div class="hero-ctas">
       <a href="#offres" class="btn-primary">👨‍💻 Je cherche un poste</a>
-      <a href="/espace-recruteur.html" class="btn-secondary">🏢 Je recrute</a>
+      <a href="espace-recruteur.html" class="btn-ghost">🏢 Je recrute</a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item"><span class="trust-icon">✓</span> Salaires toujours affichés</div>
+      <div class="trust-item"><span class="trust-icon">✓</span> Réponse garantie sous 48h</div>
+      <div class="trust-item"><span class="trust-icon">✓</span> Zéro frais candidat</div>
     </div>
   </div>
-  <div class="hero-image">
-    <h3 style="margin-bottom:1rem">💼 150+ offres exclusives</h3>
-    <p>Tech · Product · Data · Marketing · Sales</p>
+
+  <div class="hero-right">
+    <div class="stat-card reveal reveal-delay-1">
+      <div class="stat-icon">💼</div>
+      <div>
+        <div class="stat-num">150+</div>
+        <div class="stat-label">Offres actives en ce moment</div>
+      </div>
+    </div>
+    <div class="stat-card reveal reveal-delay-2">
+      <div class="stat-icon">🎯</div>
+      <div>
+        <div class="stat-num">94%</div>
+        <div class="stat-label">De nos candidats placés en moins de 30 jours</div>
+      </div>
+    </div>
+    <div class="stat-card reveal reveal-delay-3">
+      <div class="stat-icon">🤝</div>
+      <div>
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Entreprises partenaires actives</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- Offres dynamiques -->
-<section id="offres">
-  <h2 class="section-title">Nos offres d'emploi</h2>
-  <p class="section-subtitle">Découvrez les opportunités exclusives de nos partenaires recruteurs</p>
-  
-  <div class="filters">
-    <select id="filterContrat" class="filter-select">
-      <option value="">Tous les contrats</option>
-      <option value="CDI">CDI</option>
-      <option value="CDD">CDD</option>
-      <option value="Freelance">Freelance</option>
-    </select>
-    <select id="filterLocalisation" class="filter-select">
-      <option value="">Toutes localisations</option>
-    </select>
+<!-- ── VALEURS ── -->
+<section class="values reveal" id="valeurs">
+  <div class="values-intro">
+    <div>
+      <span class="section-tag">Notre ADN</span>
+      <h2 class="s-title">Éthique et transparent,<br>ce n'est pas un slogan.</h2>
+    </div>
+    <p class="values-desc">
+      Le recrutement IT souffre d'un déficit de confiance : salaires flous, ghosting, processus opaques. RH-Prospects existe pour changer ça — en mettant candidats et entreprises sur un pied d'égalité.
+    </p>
   </div>
-  
-  <div id="offresContainer" class="offres-grid">
-    <div style="text-align:center; padding:2rem">Chargement des offres...</div>
+
+  <div class="values-grid">
+    <div class="value-card reveal reveal-delay-1">
+      <div class="value-num">01</div>
+      <div class="value-title">Transparence totale</div>
+      <p class="value-text">Chaque offre affiche la fourchette salariale réelle, le contexte de l'équipe et les vrais critères de sélection. Pas de surprise en entretien.</p>
+    </div>
+    <div class="value-card reveal reveal-delay-2">
+      <div class="value-num">02</div>
+      <div class="value-title">Réponse garantie</div>
+      <p class="value-text">Chaque candidature reçoit une réponse sous 48h ouvrées — positive ou négative. Le ghosting n'a pas sa place dans notre processus.</p>
+    </div>
+    <div class="value-card reveal reveal-delay-3">
+      <div class="value-num">03</div>
+      <div class="value-title">Expertise sectorielle</div>
+      <p class="value-text">Nos consultants ont eux-mêmes évolué dans la Tech. Ils parlent votre langage et savent évaluer un profil Data Engineer ou DevOps Senior sans CV bidon.</p>
+    </div>
   </div>
 </section>
 
-<!-- Contact form -->
-<section id="contact" style="background: var(--gray-light);">
-  <h2 class="section-title" style="text-align:center">Une question ?</h2>
-  <p class="section-subtitle" style="text-align:center; margin:0 auto 2rem">Recruteur ou candidat, échangeons ensemble</p>
-  
-  <div class="form-container">
-    <div id="contactAlert"></div>
-    <form id="contactForm">
-      <div class="form-group">
-        <label>Nom & Prénom</label>
-        <input type="text" name="nom" required>
+<!-- ── OFFRES ── -->
+<section class="offres" id="offres">
+  <div class="offres-header">
+    <div>
+      <span class="section-tag">Exclusif</span>
+      <h2 class="s-title">Offres du moment</h2>
+    </div>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterJobs('all', this)">Tous</button>
+      <button class="filter-btn" onclick="filterJobs('cdi', this)">CDI</button>
+      <button class="filter-btn" onclick="filterJobs('freelance', this)">Freelance</button>
+      <button class="filter-btn" onclick="filterJobs('data', this)">Data</button>
+      <button class="filter-btn" onclick="filterJobs('dev', this)">Dev</button>
+      <button class="filter-btn" onclick="filterJobs('devops', this)">DevOps</button>
+    </div>
+  </div>
+
+  <div class="offres-grid" id="offres-grid">
+
+    <a class="job-card" href="candidature-spontanee.html" data-type="cdi data">
+      <div class="job-card-top">
+        <div class="job-company-logo">DS</div>
+        <div class="job-badges">
+          <span class="badge badge-new">Nouveau</span>
+          <span class="badge badge-cdi">CDI</span>
+        </div>
+      </div>
+      <div class="job-title">Data Engineer Senior — PySpark & Snowflake</div>
+      <div class="job-meta-row">
+        <span>📍 Paris (IDF)</span>
+        <span>🏠 Hybride 3j/sem</span>
+        <span>⏱ ASAP</span>
+      </div>
+      <p class="job-desc">Intégrez une équipe data de 8 personnes pour industrialiser des pipelines critiques. Stack moderne, architecture lakehouse, projets à fort impact.</p>
+      <div class="job-skills">
+        <span class="skill-tag">PySpark</span><span class="skill-tag">Snowflake</span><span class="skill-tag">Airflow</span><span class="skill-tag">Python</span><span class="skill-tag">dbt</span>
+      </div>
+      <div class="job-footer">
+        <span class="job-salary">70 – 90 K€ / an</span>
+        <span class="job-apply-btn">Postuler →</span>
+      </div>
+    </a>
+
+    <a class="job-card" href="candidature-spontanee.html" data-type="cdi dev">
+      <div class="job-card-top">
+        <div class="job-company-logo" style="background:linear-gradient(135deg,#7c3aed,#a78bfa)">FS</div>
+        <div class="job-badges">
+          <span class="badge badge-cdi">CDI</span>
+        </div>
+      </div>
+      <div class="job-title">Développeur Full Stack — React / Node.js</div>
+      <div class="job-meta-row">
+        <span>📍 Paris 75</span>
+        <span>🏠 Télétravail partiel</span>
+        <span>⏱ Dès maintenant</span>
+      </div>
+      <p class="job-desc">SaaS B2B en forte croissance cherche un profil full stack autonome pour développer de nouvelles features produit et solidifier le front React.</p>
+      <div class="job-skills">
+        <span class="skill-tag">React</span><span class="skill-tag">Node.js</span><span class="skill-tag">TypeScript</span><span class="skill-tag">PostgreSQL</span>
+      </div>
+      <div class="job-footer">
+        <span class="job-salary">55 – 75 K€ / an</span>
+        <span class="job-apply-btn">Postuler →</span>
+      </div>
+    </a>
+
+    <a class="job-card" href="candidature-spontanee.html" data-type="cdi devops">
+      <div class="job-card-top">
+        <div class="job-company-logo" style="background:linear-gradient(135deg,#0891b2,#67e8f9)">DO</div>
+        <div class="job-badges">
+          <span class="badge badge-new">Nouveau</span>
+          <span class="badge badge-cdi">CDI</span>
+        </div>
+      </div>
+      <div class="job-title">Ingénieur DevOps / Cloud AWS — Senior</div>
+      <div class="job-meta-row">
+        <span>📍 Île-de-France</span>
+        <span>🏠 Full remote possible</span>
+        <span>⏱ Flexible</span>
+      </div>
+      <p class="job-desc">Scale-up fintech cherche un DevOps senior pour gérer une infra AWS multi-comptes. CI/CD, Kubernetes, IaC Terraform — autonomie et ownership total.</p>
+      <div class="job-skills">
+        <span class="skill-tag">AWS</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">Terraform</span><span class="skill-tag">Docker</span><span class="skill-tag">CI/CD</span>
+      </div>
+      <div class="job-footer">
+        <span class="job-salary">65 – 85 K€ / an</span>
+        <span class="job-apply-btn">Postuler →</span>
+      </div>
+    </a>
+
+    <a class="job-card" href="candidature-spontanee.html" data-type="freelance data">
+      <div class="job-card-top">
+        <div class="job-company-logo" style="background:linear-gradient(135deg,#d97706,#fcd34d)">ML</div>
+        <div class="job-badges">
+          <span class="badge badge-free">Freelance</span>
+        </div>
+      </div>
+      <div class="job-title">Data Scientist / ML Engineer</div>
+      <div class="job-meta-row">
+        <span>📍 Paris / Remote</span>
+        <span>📅 Mission 6 mois</span>
+        <span>⏱ Immédiate</span>
+      </div>
+      <p class="job-desc">Grand compte retail cherche un profil ML pour déployer des modèles de recommandation en production. MLOps, monitoring, A/B testing.</p>
+      <div class="job-skills">
+        <span class="skill-tag">Python</span><span class="skill-tag">MLflow</span><span class="skill-tag">Scikit-learn</span><span class="skill-tag">AWS SageMaker</span>
+      </div>
+      <div class="job-footer">
+        <span class="job-salary">600 – 750 € / jour</span>
+        <span class="job-apply-btn">Postuler →</span>
+      </div>
+    </a>
+
+    <a class="job-card" href="candidature-spontanee.html" data-type="cdi dev">
+      <div class="job-card-top">
+        <div class="job-company-logo" style="background:linear-gradient(135deg,#059669,#6ee7b7)">PM</div>
+        <div class="job-badges">
+          <span class="badge badge-cdi">CDI</span>
+        </div>
+      </div>
+      <div class="job-title">Chef de Projet IT / Scrum Master</div>
+      <div class="job-meta-row">
+        <span>📍 Paris 8e</span>
+        <span>🏠 Hybride</span>
+        <span>⏱ Octobre 2025</span>
+      </div>
+      <p class="job-desc">ESN en croissance cherche un Scrum Master / Chef de projet pour piloter 3 squads produit chez un client grands comptes dans la banque.</p>
+      <div class="job-skills">
+        <span class="skill-tag">Scrum</span><span class="skill-tag">Jira</span><span class="skill-tag">Kanban</span><span class="skill-tag">Confluence</span>
+      </div>
+      <div class="job-footer">
+        <span class="job-salary">55 – 70 K€ / an</span>
+        <span class="job-apply-btn">Postuler →</span>
+      </div>
+    </a>
+
+    <a class="job-card" href="candidature-spontanee.html" data-type="cdi devops">
+      <div class="job-card-top">
+        <div class="job-company-logo" style="background:linear-gradient(135deg,#dc2626,#f87171)">CS</div>
+        <div class="job-badges">
+          <span class="badge badge-new">Urgent</span>
+          <span class="badge badge-cdi">CDI</span>
+        </div>
+      </div>
+      <div class="job-title">Consultant Cybersécurité — Pentester Senior</div>
+      <div class="job-meta-row">
+        <span>📍 Paris & IDF</span>
+        <span>🏠 Hybride</span>
+        <span>⏱ ASAP</span>
+      </div>
+      <p class="job-desc">Cabinet de conseil en sécurité cherche un pentester senior pour des missions d'audit chez des clients banque, assurance et énergie.</p>
+      <div class="job-skills">
+        <span class="skill-tag">Pentest</span><span class="skill-tag">OSCP</span><span class="skill-tag">Burp Suite</span><span class="skill-tag">SIEM</span><span class="skill-tag">ISO 27001</span>
+      </div>
+      <div class="job-footer">
+        <span class="job-salary">70 – 95 K€ / an</span>
+        <span class="job-apply-btn">Postuler →</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="view-all-row">
+    <a href="candidature-spontanee.html" class="btn-outline-blue">Voir toutes les offres → (150+)</a>
+  </div>
+</section>
+
+<!-- ── PROCESSUS ── -->
+<section class="how reveal" id="processus">
+  <span class="section-tag">Comment ça marche</span>
+  <h2 class="s-title" style="margin-bottom:3rem">Un processus clair pour tout le monde.</h2>
+  <div class="how-grid">
+    <div class="how-col">
+      <h3>👨‍💻 Pour les candidats</h3>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Déposez votre profil ou votre CV</h4>
+          <p>En 5 minutes via le formulaire de candidature spontanée. Pas de compte requis.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Entretien humain sous 48h</h4>
+          <p>Un consultant RH spécialisé dans votre domaine vous appelle pour comprendre votre projet.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Matching sur mesure</h4>
+          <p>On vous présente uniquement les offres qui correspondent — on ne spam pas, on qualifie.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Accompagnement jusqu'à la signature</h4>
+          <p>Préparation entretien, négociation salariale, onboarding — on reste présent.</p>
+        </div>
+      </div>
+    </div>
+    <div class="how-col">
+      <h3>🏢 Pour les recruteurs</h3>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Déposez votre besoin</h4>
+          <p>Via notre formulaire en ligne ou par appel direct. Brief complet requis pour bien sourcer.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Shortlist qualifiée sous 5 jours</h4>
+          <p>3 à 5 profils présélectionnés, rencontrés en entretien, avec fiche synthèse.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Entretiens et suivi</h4>
+          <p>Coordination des agendas, feedback bidirectionnel, gestion des refus avec respect.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Garantie de remplacement</h4>
+          <p>Si le candidat ne confirme pas sa période d'essai, on repart en recherche sans frais supplémentaires.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact" id="contact">
+  <div class="contact-wrap">
+    <div class="contact-left reveal">
+      <span class="section-tag">Contact</span>
+      <h2 class="s-title">Une question ?<br>Parlons-en.</h2>
+      <p>Recruteur ou candidat, échangeons ensemble. On répond à chaque message sous 24h ouvrées.</p>
+      <div class="contact-info">
+        <a href="mailto:contact@rh-prospects.fr">
+          <span class="contact-icon">✉️</span>
+          contact@rh-prospects.fr
+        </a>
+        <a href="https://rh-prospects.fr" target="_blank">
+          <span class="contact-icon">🌐</span>
+          rh-prospects.fr
+        </a>
+        <a href="https://www.linkedin.com/company/rh-prospects" target="_blank">
+          <span class="contact-icon">in</span>
+          LinkedIn — RH-Prospects
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-form reveal reveal-delay-1">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" placeholder="Mohamed"/>
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" placeholder="Dupont"/>
+        </div>
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" name="email" required>
+        <input type="email" placeholder="vous@email.com"/>
       </div>
       <div class="form-group">
-        <label>Type</label>
-        <select name="type" required>
-          <option value="candidat">Candidat</option>
-          <option value="recruteur">Recruteur</option>
-        </select>
+        <label>Vous êtes...</label>
+        <div class="radio-group">
+          <label class="radio-option selected" id="opt-candidat">
+            <input type="radio" name="type" value="candidat" checked/>
+            👨‍💻 Candidat
+          </label>
+          <label class="radio-option" id="opt-recruteur">
+            <input type="radio" name="type" value="recruteur"/>
+            🏢 Recruteur
+          </label>
+        </div>
       </div>
       <div class="form-group">
         <label>Message</label>
-        <textarea name="message" rows="4" required></textarea>
+        <textarea placeholder="Décrivez votre situation en quelques mots…"></textarea>
       </div>
-      <button type="submit">Envoyer</button>
-    </form>
+      <button class="btn-submit">Envoyer le message →</button>
+    </div>
   </div>
 </section>
 
+<!-- ── FOOTER ── -->
 <footer>
-  <p>© 2025 RH-Prospects — Cabinet de recrutement éthique & transparent</p>
-  <p style="margin-top:1rem; font-size:0.8rem">rh-prospects.fr | contact@rh-prospects.fr</p>
+  <div class="footer-top">
+    <div>
+      <a href="#" class="footer-brand">
+        <span class="logo-dot"></span>
+        RH-Prospects
+      </a>
+      <p class="footer-tagline">
+        Cabinet de recrutement IT éthique & transparent.<br>
+        Paris & Île-de-France — contact@rh-prospects.fr
+      </p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/company/rh-prospects" class="social-link" target="_blank">in</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Candidats</h4>
+      <ul>
+        <li><a href="#offres">Nos offres</a></li>
+        <li><a href="candidature-spontanee.html">Candidature spontanée</a></li>
+        <li><a href="#processus">Comment ça marche</a></li>
+        <li><a href="#contact">Nous contacter</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Recruteurs</h4>
+      <ul>
+        <li><a href="espace-recruteur.html">Espace recruteur</a></li>
+        <li><a href="espace-recruteur.html">Déposer une offre</a></li>
+        <li><a href="#processus">Notre processus</a></li>
+        <li><a href="#contact">Prendre contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>À propos</h4>
+      <ul>
+        <li><a href="#valeurs">Nos valeurs</a></li>
+        <li><a href="mailto:contact@rh-prospects.fr">Contact</a></li>
+        <li><a href="#">Mentions légales</a></li>
+        <li><a href="#">Politique de confidentialité</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 RH-Prospects — Tous droits réservés.</span>
+    <span>rh-prospects.fr | contact@rh-prospects.fr</span>
+  </div>
 </footer>
 
 <script>
-  // Configuration
-  const API_BASE = '/api';
-  
-  // Chargement des offres
-  async function loadOffres() {
-    try {
-      const response = await fetch(`${API_BASE}/offres?statut=Ouverte`);
-      const offres = await response.json();
-      
-      // Extraction localisations uniques
-      const locations = [...new Set(offres.map(o => o.localisation).filter(l => l))];
-      const locationSelect = document.getElementById('filterLocalisation');
-      locationSelect.innerHTML = '<option value="">Toutes localisations</option>' + 
-        locations.map(loc => `<option value="${loc}">${loc}</option>`).join('');
-      
-      renderOffres(offres);
-      
-      // Filtres
-      document.getElementById('filterContrat').addEventListener('change', () => filterOffres(offres));
-      document.getElementById('filterLocalisation').addEventListener('change', () => filterOffres(offres));
-    } catch (error) {
-      document.getElementById('offresContainer').innerHTML = '<div style="text-align:center;padding:2rem;color:red">Erreur chargement offres</div>';
-    }
-  }
-  
-  function filterOffres(offres) {
-    const contrat = document.getElementById('filterContrat').value;
-    const localisation = document.getElementById('filterLocalisation').value;
-    
-    const filtered = offres.filter(o => {
-      if (contrat && o.type_contrat !== contrat) return false;
-      if (localisation && o.localisation !== localisation) return false;
-      return true;
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Radio buttons
+  const optC = document.getElementById('opt-candidat');
+  const optR = document.getElementById('opt-recruteur');
+  [optC, optR].forEach(opt => {
+    opt.addEventListener('click', () => {
+      optC.classList.toggle('selected', opt === optC);
+      optR.classList.toggle('selected', opt === optR);
     });
-    renderOffres(filtered);
-  }
-  
-  function renderOffres(offres) {
-    const container = document.getElementById('offresContainer');
-    if (!offres.length) {
-      container.innerHTML = '<div style="text-align:center;padding:2rem">Aucune offre correspondante</div>';
-      return;
-    }
-    
-    container.innerHTML = offres.map(offre => `
-      <div class="offre-card" onclick="window.location.href='/offre.html?id=${offre.id}'">
-        <div class="offre-titre">${offre.titre || 'Titre non défini'}</div>
-        <div class="offre-entreprise">${offre.entreprise || 'Entreprise partenaire'}</div>
-        <div class="offre-meta">
-          <span class="offre-badge contrat">${offre.type_contrat || 'CDI'}</span>
-          <span class="offre-badge">📍 ${offre.localisation || 'France'}</span>
-          ${offre.salaire ? `<span class="offre-badge">💰 ${offre.salaire}</span>` : ''}
-        </div>
-        <div class="offre-description">${offre.description ? offre.description.substring(0, 120) + '…' : ''}</div>
-        <div class="offre-competences">
-          ${offre.competences_requises ? offre.competences_requises.split(',').slice(0,3).map(s => `<span class="skill-tag">${s.trim()}</span>`).join('') : ''}
-        </div>
-      </div>
-    `).join('');
-  }
-  
-  // Formulaire contact
-  document.getElementById('contactForm')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const data = {
-      nom: form.nom.value,
-      email: form.email.value,
-      type: form.type.value,
-      message: form.message.value
-    };
-    
-    try {
-      const response = await fetch(`${API_BASE}/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const result = await response.json();
-      if (response.ok) {
-        document.getElementById('contactAlert').innerHTML = '<div class="alert alert-success">Message envoyé !</div>';
-        form.reset();
-        setTimeout(() => document.getElementById('contactAlert').innerHTML = '', 3000);
-      } else {
-        throw new Error(result.error);
-      }
-    } catch (error) {
-      document.getElementById('contactAlert').innerHTML = '<div class="alert alert-error">Erreur, réessayez</div>';
-    }
   });
-  
-  loadOffres();
+
+  // Filters
+  function filterJobs(type, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.job-card').forEach(card => {
+      const types = card.getAttribute('data-type') || '';
+      card.style.display = (type === 'all' || types.includes(type)) ? 'block' : 'none';
+    });
+  }
 </script>
 </body>
 </html>
