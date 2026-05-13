@@ -4,31 +4,20 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Méthode non autorisée' });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Méthode non autorisée' });
 
   const BASE_ID = process.env.AIRTABLE_BASE_ID;
   const TOKEN = process.env.AIRTABLE_TOKEN;
 
   if (!BASE_ID || !TOKEN) {
-    console.error('Variables manquantes');
     return res.status(500).json({ error: 'Configuration Airtable manquante' });
   }
 
   try {
-    // Appel Airtable sans filtre pour tout récupérer
     const url = `https://api.airtable.com/v0/${BASE_ID}/Offres?maxRecords=50`;
-    
     const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${TOKEN}`,
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Authorization': `Bearer ${TOKEN}` }
     });
 
     if (!response.ok) {
@@ -38,12 +27,10 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    
-    // Transformer les données Airtable en tableau simple
     const offres = (data.records || []).map(record => ({
       id: record.id,
       titre: record.fields.titre || 'Sans titre',
-      entreprise: record.fields.entreprise || 'Entreprise non spécifiée',
+      entreprise: record.fields.entreprise || 'Confidentiel',
       localisation: record.fields.localisation || 'Paris',
       type_contrat: record.fields.type_contrat || 'CDI',
       salaire: record.fields.salaire || 'Salaire à définir',
@@ -52,11 +39,10 @@ export default async function handler(req, res) {
       date_publication: record.fields.date_publication || new Date().toISOString().split('T')[0],
     }));
 
-    // ✅ CRUCIAL : Retourne UNIQUEMENT le tableau, pas un objet
+    // ✅ Retourne directement le tableau
     return res.status(200).json(offres);
-    
   } catch (error) {
-    console.error('Exception:', error.message);
-    return res.status(500).json([]); // Retourne tableau vide en erreur
+    console.error(error.message);
+    return res.status(500).json([]);
   }
 }
