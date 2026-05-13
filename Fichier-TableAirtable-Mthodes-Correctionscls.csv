@@ -1,0 +1,6 @@
+"Fichier","Table Airtable","Méthodes","Corrections clés"
+"contact.js","Contacts","POST","typecast: true + CORS"
+"candidats.js","Candidats","POST","typecast: true + compétences → tableau"
+"recruteurs.js","Recruteurs","POST","typecast: true + champ competences supprimé"
+"postuler.js","Postuler","POST","typecast: true + compétences → tableau + tjm → Number"
+"offres.js","Offres","GET + POST","typecast: true + GET retourne les offres ouvertes triées par date"
