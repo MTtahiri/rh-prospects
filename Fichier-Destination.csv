@@ -1,0 +1,4 @@
+"Fichier","Destination"
+"offres.js","/api/offres.js ← remplace l'existant"
+"offres-filter.js","/offres-filter.js ← à la racine"
+"offres-filter.css","/offres-filter.css ← à la racine"
