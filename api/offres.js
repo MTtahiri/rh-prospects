@@ -1,56 +1,52 @@
+import Airtable from 'airtable';
+
+const base = new Airtable({ apiKey: process.env.AIRTABLE_TOKEN })
+  .base(process.env.AIRTABLE_BASE_ID);
+
 export default async function handler(req, res) {
+  // ✅ CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'GET') return res.status(405).json({ error: 'Méthode non autorisée' });
-
-  const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
-  const AIRTABLE_TOKEN   = process.env.AIRTABLE_TOKEN;
-
-  if (!AIRTABLE_BASE_ID || !AIRTABLE_TOKEN) {
-    return res.status(500).json({ error: 'Variables d\'environnement manquantes' });
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
 
-  const params = new URLSearchParams({
-    filterByFormula: "{statut}='Ouverte'",
-    'sort[0][field]':     'date_publication',
-    'sort[0][direction]': 'desc'
-  });
-
-  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Offres?${params}`;
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Méthode non autorisée' });
+  }
 
   try {
-    const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` }
-    });
+    const records = await base('offres')
+      .select({
+        sort: [{ field: 'date_publication', direction: 'desc' }],
+        maxRecords: 50
+      })
+      .all();
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error('Erreur Airtable GET Offres:', JSON.stringify(data));
-      return res.status(response.status).json({ error: 'Erreur Airtable', details: data });
-    }
-
-    const offres = (data.records || []).map(r => ({
-      id:                   r.id,
-      titre:                r.fields.titre                || '',
-      entreprise:           r.fields.entreprise           || 'Confidentiel',
-      localisation:         r.fields.localisation         || '',
-      type_contrat:         r.fields.type_contrat         || '',
-      salaire:              r.fields.salaire              || '',
-      description:          r.fields.description          || '',
-      competences_requises: r.fields.competences_requises || '',
-      statut:               r.fields.statut               || '',
-      date_publication:     r.fields.date_publication     || '',
+    const offres = records.map(record => ({
+      id: record.id,
+      titre: record.fields.titre || 'Sans titre',
+      type_contrat: record.fields.type_contrat || 'CDI',
+      localisation: record.fields.localisation || 'Paris',
+      entreprise: record.fields.entreprise || '',
+      salaire: record.fields.salaire || 'Salaire à définir',
+      description: record.fields.description || '',
+      competences_requises: record.fields.competences_requises || '',
+      date_publication: record.fields.date_publication || new Date().toISOString(),
+      actif: record.fields.actif !== false
     }));
 
-    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
-    return res.status(200).json({ success: true, offres });
+    // ✅ Ne garder que les offres actives
+    const offresActives = offres.filter(o => o.actif === true || o.actif === undefined);
 
+    return res.status(200).json(offresActives);
   } catch (error) {
-    console.error('Exception offres:', error.message);
-    return res.status(500).json({ error: error.message });
+    console.error('❌ Erreur Airtable:', error.message);
+    return res.status(500).json({ 
+      error: 'Erreur lors du chargement des offres',
+      details: error.message 
+    });
   }
 }
