@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // CORS (conservé de la version originale)
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -10,39 +9,37 @@ export default async function handler(req, res) {
   const TOKEN = process.env.AIRTABLE_TOKEN;
   if (!BASE || !TOKEN) return res.status(500).json({ error: 'Configuration Airtable manquante' });
 
-  // ✅ Cache CDN 5 min → évite le rate-limit Airtable 429
-  res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=60');
+  // ✅ Cache CDN 10 min + stale 30 min → max ~6 appels Airtable/heure
+  res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=1800');
 
-  // Exclure uniquement les offres explicitement refusées
   const filter = encodeURIComponent('NOT({statut}="Refusé")');
-  const fields = [
-    'titre','entreprise','localisation','type_contrat',
-    'salaire','description','competences_requises','statut','date_publication'
-  ].map(f => `fields[]=${encodeURIComponent(f)}`).join('&');
-
+  const fields = ['titre','entreprise','localisation','type_contrat','salaire',
+                  'description','competences_requises','statut','date_publication']
+                 .map(f => `fields[]=${encodeURIComponent(f)}`).join('&');
   const url = `https://api.airtable.com/v0/${BASE}/Offres?filterByFormula=${filter}&${fields}&sort[0][field]=date_publication&sort[0][direction]=desc&pageSize=100`;
 
   try {
-    const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${TOKEN}` }
-    });
-
-    // ✅ Lire le texte d'abord — évite "Unexpected token" si retour HTML
+    const response = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
     const text = await response.text();
+
     let data;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      console.error('Airtable réponse non-JSON :', text.slice(0, 200));
+    try { data = JSON.parse(text); }
+    catch {
+      console.error('Non-JSON from Airtable:', text.slice(0,200));
       return res.status(502).json({ error: 'Réponse Airtable invalide' });
     }
 
     if (!response.ok) {
-      console.error('Erreur Airtable:', response.status, data);
-      return res.status(response.status).json({ error: 'Erreur Airtable', details: data });
+      // Billing limit → retourner tableau vide avec message clair
+      const isLimit = JSON.stringify(data).includes('BILLING_LIMIT');
+      if (isLimit) {
+        console.warn('Airtable billing limit atteinte');
+        return res.status(200).json([]); // vide mais pas d'erreur JS côté client
+      }
+      return res.status(response.status).json({ error:'Erreur Airtable', details:data });
     }
 
-    const offres = (data.records || []).map(r => ({
+    return res.status(200).json((data.records || []).map(r => ({
       id:                   r.id,
       titre:                r.fields.titre                || 'Sans titre',
       entreprise:           r.fields.entreprise           || 'Confidentiel',
@@ -53,9 +50,7 @@ export default async function handler(req, res) {
       competences_requises: r.fields.competences_requises || '',
       statut:               r.fields.statut               || '',
       date_publication:     r.fields.date_publication     || '',
-    }));
-
-    return res.status(200).json(offres);
+    })));
   } catch (err) {
     console.error('Exception /api/offres:', err.message);
     return res.status(500).json([]);
