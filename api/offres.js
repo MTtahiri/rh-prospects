@@ -1,36 +1,56 @@
-const Airtable = require('airtable');
-
-const base = new Airtable({ 
-    apiKey: process.env.AIRTABLE_API_KEY 
-}).base('appG0HD7kW6ejvCkG'); // Ton ID de base extrait de ton lien
-
 export default async function handler(req, res) {
-  res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Méthode non autorisée' });
+
+  const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
+  const AIRTABLE_TOKEN   = process.env.AIRTABLE_TOKEN;
+
+  if (!AIRTABLE_BASE_ID || !AIRTABLE_TOKEN) {
+    return res.status(500).json({ error: 'Variables d\'environnement manquantes' });
+  }
+
+  const params = new URLSearchParams({
+    filterByFormula: "{statut}='Ouverte'",
+    'sort[0][field]':     'date_publication',
+    'sort[0][direction]': 'desc'
+  });
+
+  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Offres?${params}`;
 
   try {
-    const records = await base('Offres').select({
-      // IMPORTANT : Vérifie que tu as bien une colonne "Statut" avec "Ouverte"
-      // Si tu veux tout afficher sans filtre, supprime la ligne filterByFormula
-      filterByFormula: "{Statut} = 'Ouverte'",
-      view: "Grid view" 
-    }).all();
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` }
+    });
 
-    const cleanOffres = records.map(record => ({
-      id: record.id,
-      titre: record.get('Titre de la mission') || record.get('Poste'),
-      client: record.get('Client') || "Confidentiel",
-      type: record.get('Type de contrat') || "Freelance",
-      lieu: record.get('Localisation') || "France / Remote",
-      tjm: record.get('TJM') || record.get('Salaire'),
-      secteur: record.get('Secteur d\'activité'),
-      dateDebut: record.get('Date de démarrage'),
-      competences: record.get('Compétences clés'), // Si c'est un champ de type texte ou multi-select
-      description: record.get('Description'),
-      lien: record.get('Lien de l\'offre') || "#"
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('Erreur Airtable GET Offres:', JSON.stringify(data));
+      return res.status(response.status).json({ error: 'Erreur Airtable', details: data });
+    }
+
+    const offres = (data.records || []).map(r => ({
+      id:                   r.id,
+      titre:                r.fields.titre                || '',
+      entreprise:           r.fields.entreprise           || 'Confidentiel',
+      localisation:         r.fields.localisation         || '',
+      type_contrat:         r.fields.type_contrat         || '',
+      salaire:              r.fields.salaire              || '',
+      description:          r.fields.description          || '',
+      competences_requises: r.fields.competences_requises || '',
+      statut:               r.fields.statut               || '',
+      date_publication:     r.fields.date_publication     || '',
     }));
 
-    res.status(200).json(cleanOffres);
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
+    return res.status(200).json({ success: true, offres });
+
   } catch (error) {
-    res.status(500).json({ error: "Erreur Airtable", message: error.message });
+    console.error('Exception offres:', error.message);
+    return res.status(500).json({ error: error.message });
   }
 }
