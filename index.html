@@ -1065,9 +1065,8 @@
         var salaire = f.salaire || "";
         var desc = (f.description || "").substring(0, 180);
         var techs = f.competences_requises || "";
-        var mail = f["E-mail"] || "contact@rh-prospects.fr";
-        var subj = encodeURIComponent("Candidature " + titre);
-        html += '<article class="job-card" data-type="' + contratClass + '" style="border:1px solid #e0e0e0;border-radius:8px;padding:20px;background:#fff;">';
+        var formUrl = "candidature-spontanee.html?titre=" + encodeURIComponent(titre) + "&entreprise=" + encodeURIComponent(entreprise) + "&contrat=" + encodeURIComponent(contrat);
+        html += '<article class="job-card" data-type="' + contratClass + '" style="border:1px solid #e0e0e0;border-radius:8px;padding:20px;background:#fff;color:#222;">';
         html += '<div class="job-badges" style="margin-bottom:10px;"><span class="badge badge-new">Nouveau</span> <span class="badge badge-' + contratClass + '">' + contrat + '</span></div>';
         html += '<h3 style="color:#2557a7;margin:0 0 8px;">' + titre + '</h3>';
         html += '<p style="margin:0 0 6px;"><strong>' + entreprise + '</strong></p>';
@@ -1075,7 +1074,7 @@
         if (salaire) html += '<p style="color:#0a8043;font-weight:600;margin:0 0 10px;">💶 ' + salaire + '</p>';
         html += '<p style="font-size:14px;line-height:1.5;margin:0 0 10px;">' + desc + '…</p>';
         if (techs) html += '<p style="font-size:13px;color:#888;margin:0 0 12px;"><em>' + techs + '</em></p>';
-        html += '<a href="mailto:' + mail + '?subject=' + subj + '" style="display:inline-block;background:#2557a7;color:#fff;padding:10px 20px;border-radius:4px;text-decoration:none;font-size:14px;">Postuler</a>';
+        html += '<a href="' + formUrl + '" style="display:inline-block;background:#2557a7;color:#fff;padding:10px 20px;border-radius:4px;text-decoration:none;font-size:14px;">Postuler</a>';
         html += '</article>';
       }
       grid.innerHTML = html;
@@ -1492,6 +1491,20 @@ function filterJobs(type, btn) {
     }
   }
 </script>
+
+<script>
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  ["titre", "entreprise", "contrat"].forEach(function(name) {
+    var val = params.get(name);
+    if (val) {
+      var input = document.querySelector('[name="' + name + '"]');
+      if (input) input.value = val;
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
 
