@@ -1,1349 +1,187 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Cabinet de recrutement éthique et transparent pour les talents Tech et les entreprises innovantes. Offres exclusives CDI/Freelance, dépôt CV, espace recruteur — Paris & IDF."/>
-  <title>RH-Prospects | Cabinet de recrutement IT éthique & transparent</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    /* ── TOKENS ── */
-    :root {
-      --bg:       #07090f;
-      --bg2:      #0d1117;
-      --bg3:      #111827;
-      --surface:  #161d2b;
-      --border:   rgba(255,255,255,0.07);
-      --border2:  rgba(255,255,255,0.12);
-      --text:     #f0f4ff;
-      --muted:    #8892a4;
-      --accent:   #4f7eff;
-      --accent2:  #7b9fff;
-      --green:    #22c55e;
-      --nav-h:    68px;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Instrument Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-
-    /* ─────────────── NAV ─────────────── */
-    nav {
-      position: fixed;
-      inset: 0 0 auto 0;
-      height: var(--nav-h);
-      background: rgba(7,9,15,0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 5%;
-      z-index: 200;
-    }
-
-    .logo {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 800;
-      font-size: 1.3rem;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .logo-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      display: inline-block;
-      animation: pulse 2.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.6; transform: scale(0.85); }
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.75rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text); }
-
-    .nav-cta {
-      background: var(--accent);
-      color: #fff !important;
-      padding: 0.5rem 1.2rem;
-      border-radius: 8px;
-      font-weight: 600 !important;
-      font-size: 0.85rem !important;
-      transition: opacity 0.2s !important;
-    }
-    .nav-cta:hover { opacity: 0.85; }
-
-    /* ─────────────── HERO ─────────────── */
-    .hero {
-      min-height: 100vh;
-      padding: calc(var(--nav-h) + 5rem) 5% 5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* animated grid background */
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(79,126,255,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(79,126,255,0.05) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 20%; left: 55%;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(79,126,255,0.12) 0%, transparent 65%);
-      pointer-events: none;
-    }
-
-    .hero-left { position: relative; z-index: 1; }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      border: 1px solid var(--border2);
-      border-radius: 100px;
-      padding: 0.35rem 1rem 0.35rem 0.5rem;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      color: var(--muted);
-      margin-bottom: 2rem;
-    }
-
-    .eyebrow-badge {
-      background: var(--accent);
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 0.2rem 0.55rem;
-      border-radius: 100px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .hero h1 {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      margin-bottom: 1.5rem;
-    }
-
-    .h1-line2 {
-      display: block;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-sub {
-      font-size: 1.1rem;
-      color: var(--muted);
-      max-width: 460px;
-      margin-bottom: 2.5rem;
-      line-height: 1.75;
-    }
-
-    .hero-ctas {
-      display: flex;
-      gap: 0.85rem;
-      flex-wrap: wrap;
-      margin-bottom: 3rem;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      padding: 0.9rem 1.75rem;
-      border-radius: 10px;
-      font-size: 0.925rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.2s, opacity 0.2s;
-      display: inline-block;
-    }
-    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border2);
-      padding: 0.9rem 1.75rem;
-      border-radius: 10px;
-      font-size: 0.925rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: border-color 0.2s, background 0.2s;
-      display: inline-block;
-    }
-    .btn-ghost:hover { border-color: var(--accent); background: rgba(79,126,255,0.07); }
-
-    .hero-trust {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .trust-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
-
-    .trust-icon { color: var(--green); font-size: 1rem; }
-
-    /* right column: floating stats cards */
-    .hero-right {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.5rem 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      transition: border-color 0.3s;
-    }
-    .stat-card:hover { border-color: var(--border2); }
-
-    .stat-icon {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      background: rgba(79,126,255,0.12);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
-
-    .stat-num {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--text);
-    }
-
-    .stat-label {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-top: 0.1rem;
-    }
-
-    /* ─────────────── SECTIONS BASE ─────────────── */
-    section { padding: 6rem 5%; }
-
-    .section-tag {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--accent);
-      margin-bottom: 1rem;
-    }
-
-    h2.s-title {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 1.25rem;
-    }
-
-    /* ─────────────── VALUES ─────────────── */
-    .values { background: var(--bg2); }
-
-    .values-intro {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: end;
-      margin-bottom: 3.5rem;
-    }
-
-    .values-desc {
-      font-size: 1.05rem;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    .values-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-    }
-
-    .value-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .value-card:hover { border-color: var(--border2); transform: translateY(-3px); }
-
-    .value-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .value-card:hover::before { opacity: 1; }
-
-    .value-num {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: 3rem;
-      font-weight: 800;
-      color: rgba(79,126,255,0.15);
-      line-height: 1;
-      margin-bottom: 0.75rem;
-    }
-
-    .value-title {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-    }
-
-    .value-text {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    /* ─────────────── OFFRES ─────────────── */
-    .offres { background: var(--bg); }
-
-    .offres-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .filters {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 0.45rem 1rem;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: inherit;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .offres-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .job-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.75rem;
-      transition: border-color 0.25s, transform 0.25s;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      position: relative;
-    }
-    .job-card:hover {
-      border-color: var(--border2);
-      transform: translateY(-2px);
-    }
-
-    .job-card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-
-    .job-company-logo {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), #6d9dff);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 800;
-      font-size: 0.9rem;
-      color: #fff;
-      flex-shrink: 0;
-    }
-
-    .job-badges {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 0.2rem 0.6rem;
-      border-radius: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .badge-cdi  { background: rgba(34,197,94,0.12);  color: #22c55e; }
-    .badge-cdd  { background: rgba(251,191,36,0.12); color: #fbbf24; }
-    .badge-free { background: rgba(168,85,247,0.12); color: #a855f7; }
-    .badge-alt  { background: rgba(14,165,233,0.12); color: #38bdf8; }
-    .badge-inte { background: rgba(249,115,22,0.12); color: #fb923c; }
-    .badge-new  { background: rgba(79,126,255,0.15); color: var(--accent2); }
-
-    .job-title {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-      line-height: 1.3;
-    }
-
-    .job-meta-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .job-meta-row span {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .job-desc {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.65;
-      margin-bottom: 1rem;
-    }
-
-    .job-skills {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-    }
-
-    .skill-tag {
-      font-size: 0.72rem;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.2rem 0.55rem;
-    }
-
-    .job-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1.25rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .job-salary {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .job-apply-btn {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent);
-      background: rgba(79,126,255,0.1);
-      padding: 0.4rem 0.9rem;
-      border-radius: 7px;
-      transition: background 0.2s;
-    }
-    .job-card:hover .job-apply-btn { background: rgba(79,126,255,0.2); }
-
-    .view-all-row {
-      text-align: center;
-    }
-
-    /* Loading spinner */
-    .loading-spinner {
-      width: 36px; height: 36px;
-      border: 3px solid var(--border2);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      margin: 0 auto;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Scroll to top */
-    #scroll-top {
-      position: fixed;
-      bottom: 2rem; right: 2rem;
-      width: 44px; height: 44px;
-      background: var(--accent);
-      border: none; border-radius: 50%;
-      color: #fff; font-size: 1.1rem;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none;
-      transition: opacity .3s, transform .3s;
-      z-index: 150;
-      box-shadow: 0 4px 16px rgba(79,126,255,.4);
-    }
-    #scroll-top.visible { opacity: 1; pointer-events: auto; }
-    #scroll-top:hover { transform: translateY(-3px); }
-
-    .btn-outline-blue {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      border: 1px solid var(--border2);
-      color: var(--text);
-      padding: 0.85rem 2rem;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .btn-outline-blue:hover { border-color: var(--accent); background: rgba(79,126,255,0.06); }
-
-    /* ─────────────── HOW IT WORKS ─────────────── */
-    .how { background: var(--bg2); }
-
-    .how-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: start;
-    }
-
-    .how-col h3 {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 1.75rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .step {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .step-num {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      background: rgba(79,126,255,0.12);
-      color: var(--accent);
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 800;
-      font-size: 0.85rem;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .step-content h4 {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .step-content p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-
-    /* ─────────────── CONTACT ─────────────── */
-    .contact { background: var(--bg); }
-
-    .contact-wrap {
-      display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .contact-left h2 { margin-bottom: 1rem; }
-
-    .contact-left p {
-      font-size: 1rem;
-      color: var(--muted);
-      line-height: 1.75;
-      margin-bottom: 2rem;
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-    }
-
-    .contact-info a {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.9rem;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .contact-info a:hover { color: var(--text); }
-
-    .contact-icon {
-      width: 36px; height: 36px;
-      border-radius: 9px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem;
-    }
-
-    /* form */
-    .contact-form {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2.5rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      margin-bottom: 1rem;
-    }
-
-    label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    input, select, textarea {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.8rem 1rem;
-      font-size: 0.9rem;
-      font-family: inherit;
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s;
-      width: 100%;
-    }
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--accent);
-    }
-    input::placeholder, textarea::placeholder { color: #404959; }
-
-    select option { background: var(--bg); }
-
-    textarea { resize: vertical; min-height: 110px; }
-
-    .radio-group {
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    .radio-option {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.75rem;
-      cursor: pointer;
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: all 0.2s;
-      user-select: none;
-    }
-
-    .radio-option input[type="radio"] { display: none; }
-
-    .radio-option.selected {
-      border-color: var(--accent);
-      background: rgba(79,126,255,0.08);
-      color: var(--accent);
-    }
-
-    .btn-submit {
-      width: 100%;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      padding: 0.95rem;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.2s;
-      margin-top: 0.5rem;
-    }
-    .btn-submit:hover { opacity: 0.88; transform: translateY(-1px); }
-
-    /* ─────────────── FOOTER ─────────────── */
-    footer {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      padding: 4rem 5% 2rem;
-    }
-
-    .footer-top {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 3rem;
-      padding-bottom: 3rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .footer-brand {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-weight: 800;
-      font-size: 1.3rem;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-      text-decoration: none;
-    }
-
-    .footer-tagline {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.65;
-      margin-bottom: 1.5rem;
-    }
-
-    .footer-socials {
-      display: flex;
-      gap: 0.6rem;
-    }
-
-    .social-link {
-      width: 36px; height: 36px;
-      border-radius: 9px;
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 700;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .social-link:hover { border-color: var(--accent); color: var(--accent); }
-
-    .footer-col h4 {
-      font-family: 'Bricolage Grotesque', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin-bottom: 1.25rem;
-    }
-
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 0.6rem; }
-    .footer-col ul li a {
-      font-size: 0.875rem;
-      color: rgba(136,146,164,0.8);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-col ul li a:hover { color: var(--text); }
-
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 2rem;
-      font-size: 0.8rem;
-      color: rgba(136,146,164,0.5);
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .footer-bottom a {
-      color: rgba(136,146,164,0.5);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-bottom a:hover { color: var(--muted); }
-
-    /* ─────────────── ANIMATIONS ─────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
-    .reveal.visible { opacity: 1; transform: none; }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-
-    /* ─────────────── RESPONSIVE ─────────────── */
-    @media (max-width: 1024px) {
-      .hero { grid-template-columns: 1fr; padding-top: calc(var(--nav-h) + 3rem); }
-      .hero-right { display: none; }
-      .values-grid { grid-template-columns: 1fr 1fr; }
-      .how-grid { grid-template-columns: 1fr; }
-      .contact-wrap { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-width: 768px) {
-      nav { padding: 0 4%; }
-      .nav-links { display: none; }
-      .offres-grid { grid-template-columns: 1fr; }
-      .values-grid { grid-template-columns: 1fr; }
-      .values-intro { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr; }
-      .hero::before, .hero::after { display: none; }
-    }
-  </style>
-</head>
-<body>
-
-<!-- ── NAV ── -->
-<nav>
-  <a href="#" class="logo">
-    <span class="logo-dot"></span>
-    RH-Prospects
-  </a>
-  <ul class="nav-links">
-    <li><a href="#offres">Offres</a></li>
-    <li><a href="candidature-spontanee.html">Candidats</a></li>
-    <li><a href="espace-recruteur.html">Recruteurs</a></li>
-    <li><a href="#contact" class="nav-cta">Nous contacter</a></li>
-  </ul>
-</nav>
-
-<!-- ── HERO ── -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="hero-eyebrow">
-      <span class="eyebrow-badge">Nouveau</span>
-      Cabinet de recrutement IT éthique & transparent — Paris & IDF
-    </div>
-    <h1>
-      Les bons profils.<br>
-      <span class="h1-line2">Sans compromis.</span>
-    </h1>
-    <p class="hero-sub">
-      Nous connectons les talents Tech, Data et Digital avec les entreprises qui leur correspondent vraiment — avec transparence sur les salaires, les projets et les équipes.
-    </p>
-    <div class="hero-ctas">
-      <a href="#offres" class="btn-primary">👨‍💻 Je cherche un poste</a>
-      <a href="espace-recruteur.html" class="btn-ghost">🏢 Je recrute</a>
-    </div>
-    <div class="hero-trust">
-      <div class="trust-item"><span class="trust-icon">✓</span> Salaires toujours affichés</div>
-      <div class="trust-item"><span class="trust-icon">✓</span> Réponse garantie sous 48h</div>
-      <div class="trust-item"><span class="trust-icon">✓</span> Zéro frais candidat</div>
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <div class="stat-card reveal reveal-delay-1">
-      <div class="stat-icon">💼</div>
-      <div>
-        <div class="stat-num">150+</div>
-        <div class="stat-label">Offres actives en ce moment</div>
-      </div>
-    </div>
-    <div class="stat-card reveal reveal-delay-2">
-      <div class="stat-icon">🎯</div>
-      <div>
-        <div class="stat-num">94%</div>
-        <div class="stat-label">De nos candidats placés en moins de 30 jours</div>
-      </div>
-    </div>
-    <div class="stat-card reveal reveal-delay-3">
-      <div class="stat-icon">🤝</div>
-      <div>
-        <div class="stat-num">200+</div>
-        <div class="stat-label">Entreprises partenaires actives</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── VALEURS ── -->
-<section class="values reveal" id="valeurs">
-  <div class="values-intro">
-    <div>
-      <span class="section-tag">Notre ADN</span>
-      <h2 class="s-title">Éthique et transparent,<br>ce n'est pas un slogan.</h2>
-    </div>
-    <p class="values-desc">
-      Le recrutement IT souffre d'un déficit de confiance : salaires flous, ghosting, processus opaques. RH-Prospects existe pour changer ça — en mettant candidats et entreprises sur un pied d'égalité.
-    </p>
-  </div>
-
-  <div class="values-grid">
-    <div class="value-card reveal reveal-delay-1">
-      <div class="value-num">01</div>
-      <div class="value-title">Transparence totale</div>
-      <p class="value-text">Chaque offre affiche la fourchette salariale réelle, le contexte de l'équipe et les vrais critères de sélection. Pas de surprise en entretien.</p>
-    </div>
-    <div class="value-card reveal reveal-delay-2">
-      <div class="value-num">02</div>
-      <div class="value-title">Réponse garantie</div>
-      <p class="value-text">Chaque candidature reçoit une réponse sous 48h ouvrées — positive ou négative. Le ghosting n'a pas sa place dans notre processus.</p>
-    </div>
-    <div class="value-card reveal reveal-delay-3">
-      <div class="value-num">03</div>
-      <div class="value-title">Expertise sectorielle</div>
-      <p class="value-text">Nos consultants ont eux-mêmes évolué dans la Tech. Ils parlent votre langage et savent évaluer un profil Data Engineer ou DevOps Senior sans CV bidon.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── OFFRES ── -->
-<section class="offres" id="offres">
-  <div class="offres-header">
-    <div>
-      <span class="section-tag">Exclusif</span>
-      <h2 class="s-title">Offres du moment</h2>
-    </div>
-    <div class="filters">
-      <button class="filter-btn active" onclick="filterJobs('all', this)">Tous</button>
-      <button class="filter-btn" onclick="filterJobs('cdi', this)">CDI</button>
-      <button class="filter-btn" onclick="filterJobs('cdd', this)">CDD</button>
-      <button class="filter-btn" onclick="filterJobs('freelance', this)">Freelance</button>
-      <button class="filter-btn" onclick="filterJobs('alternance', this)">Alternance</button>
-      <button class="filter-btn" onclick="filterJobs('interimaire', this)">Intérimaire</button>
-    </div>
-  </div>
-
-  <div class="offres-grid" id="offres-grid">
-    <!-- Chargement dynamique depuis Airtable -->
-    <div id="offres-loading" style="grid-column:1/-1;text-align:center;padding:3rem 0;color:var(--muted);">
-      <div class="loading-spinner"></div>
-      <p style="margin-top:1rem;font-size:.9rem;">Chargement des offres…</p>
-    </div>
-  </div>
-
-  <div id="offres-empty" style="display:none;grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted);">Aucune offre disponible pour ce filtre.</div>
-        <div class="job-badges">
-          <span class="badge badge-new">Nouveau</span>
-          <span class="badge badge-cdi">CDI</span>
-        </div>
-      </div>
-      <div class="job-title">Data Engineer Senior — PySpark & Snowflake</div>
-      <div class="job-meta-row">
-        <span>📍 Paris (IDF)</span>
-        <span>🏠 Hybride 3j/sem</span>
-        <span>⏱ ASAP</span>
-      </div>
-      <p class="job-desc">Intégrez une équipe data de 8 personnes pour industrialiser des pipelines critiques. Stack moderne, architecture lakehouse, projets à fort impact.</p>
-      <div class="job-skills">
-        <span class="skill-tag">PySpark</span><span class="skill-tag">Snowflake</span><span class="skill-tag">Airflow</span><span class="skill-tag">Python</span><span class="skill-tag">dbt</span>
-      </div>
-      <div class="job-footer">
-        <span class="job-salary">70 – 90 K€ / an</span>
-        <span class="job-apply-btn">Postuler →</span>
-      </div>
-    </a>
-
-  <div class="view-all-row">
-    <a href="candidature-spontanee.html" class="btn-outline-blue">Voir toutes les offres → (150+)</a>
-  </div>
-</section>
-
-<!-- ── PROCESSUS ── -->
-<section class="how reveal" id="processus">
-  <span class="section-tag">Comment ça marche</span>
-  <h2 class="s-title" style="margin-bottom:3rem">Un processus clair pour tout le monde.</h2>
-  <div class="how-grid">
-    <div class="how-col">
-      <h3>👨‍💻 Pour les candidats</h3>
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>Déposez votre profil ou votre CV</h4>
-          <p>En 5 minutes via le formulaire de candidature spontanée. Pas de compte requis.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>Entretien humain sous 48h</h4>
-          <p>Un consultant RH spécialisé dans votre domaine vous appelle pour comprendre votre projet.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>Matching sur mesure</h4>
-          <p>On vous présente uniquement les offres qui correspondent — on ne spam pas, on qualifie.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h4>Accompagnement jusqu'à la signature</h4>
-          <p>Préparation entretien, négociation salariale, onboarding — on reste présent.</p>
-        </div>
-      </div>
-    </div>
-    <div class="how-col">
-      <h3>🏢 Pour les recruteurs</h3>
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>Déposez votre besoin</h4>
-          <p>Via notre formulaire en ligne ou par appel direct. Brief complet requis pour bien sourcer.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>Shortlist qualifiée sous 5 jours</h4>
-          <p>3 à 5 profils présélectionnés, rencontrés en entretien, avec fiche synthèse.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>Entretiens et suivi</h4>
-          <p>Coordination des agendas, feedback bidirectionnel, gestion des refus avec respect.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h4>Garantie de remplacement</h4>
-          <p>Si le candidat ne confirme pas sa période d'essai, on repart en recherche sans frais supplémentaires.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── CONTACT ── -->
-<section class="contact" id="contact">
-  <div class="contact-wrap">
-    <div class="contact-left reveal">
-      <span class="section-tag">Contact</span>
-      <h2 class="s-title">Une question ?<br>Parlons-en.</h2>
-      <p>Recruteur ou candidat, échangeons ensemble. On répond à chaque message sous 24h ouvrées.</p>
-      <div class="contact-info">
-        <a href="mailto:contact@rh-prospects.fr">
-          <span class="contact-icon">✉️</span>
-          contact@rh-prospects.fr
-        </a>
-        <a href="https://rh-prospects.fr" target="_blank">
-          <span class="contact-icon">🌐</span>
-          rh-prospects.fr
-        </a>
-        <a href="https://www.linkedin.com/company/107464365/admin/dashboard/" target="_blank">
-          <span class="contact-icon">in</span>
-          LinkedIn — RH-Prospects
-        </a>
-      </div>
-    </div>
-
-    <div class="contact-form reveal reveal-delay-1">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Prénom</label>
-          <input type="text" id="contact-prenom" placeholder="Mohamed"/>
-        </div>
-        <div class="form-group">
-          <label>Nom</label>
-          <input type="text" id="contact-nom" placeholder="Dupont"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="contact-email" placeholder="vous@email.com"/>
-      </div>
-      <div class="form-group">
-        <label>Vous êtes...</label>
-        <div class="radio-group">
-          <label class="radio-option selected" id="opt-candidat">
-            <input type="radio" name="type" value="candidat" checked/>
-            👨‍💻 Candidat
-          </label>
-          <label class="radio-option" id="opt-recruteur">
-            <input type="radio" name="type" value="recruteur"/>
-            🏢 Recruteur
-          </label>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Message</label>
-        <textarea id="contact-message" placeholder="Décrivez votre situation en quelques mots…"></textarea>
-      </div>
-      <div id="contact-alert" style="display:none;padding:.9rem 1.1rem;border-radius:10px;font-size:.85rem;margin-bottom:.5rem;"></div>
-      <button class="btn-submit" id="contact-submit-btn" onclick="submitContact(event)">Envoyer le message →</button>
-    </div>
-  </div>
-</section>
-
-<!-- Scroll to top -->
-<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Remonter">↑</button>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <div class="footer-top">
-    <div>
-      <a href="#" class="footer-brand">
-        <span class="logo-dot"></span>
-        RH-Prospects
-      </a>
-      <p class="footer-tagline">
-        Cabinet de recrutement IT éthique & transparent.<br>
-        Paris & Île-de-France — contact@rh-prospects.fr
-      </p>
-      <div class="footer-socials">
-        <a href="https://www.linkedin.com/company/107464365/admin/dashboard/" class="social-link" target="_blank">in</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Candidats</h4>
-      <ul>
-        <li><a href="#offres">Nos offres</a></li>
-        <li><a href="candidature-spontanee.html">Candidature spontanée</a></li>
-        <li><a href="#processus">Comment ça marche</a></li>
-        <li><a href="#contact">Nous contacter</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Recruteurs</h4>
-      <ul>
-        <li><a href="espace-recruteur.html">Espace recruteur</a></li>
-        <li><a href="espace-recruteur.html">Déposer une offre</a></li>
-        <li><a href="#processus">Notre processus</a></li>
-        <li><a href="#contact">Prendre contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>À propos</h4>
-      <ul>
-        <li><a href="#valeurs">Nos valeurs</a></li>
-        <li><a href="mailto:contact@rh-prospects.fr">Contact</a></li>
-        <li><a href="mentions-legales.html">Mentions légales</a></li>
-        <li><a href="politique-confidentialite.html">Politique de confidentialité</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2025 RH-Prospects — Tous droits réservés.</span>
-    <span>rh-prospects.fr | contact@rh-prospects.fr</span>
-  </div>
-</footer>
-
 <script>
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
   }, { threshold: 0.08 });
-
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // Radio buttons
   const optC = document.getElementById('opt-candidat');
   const optR = document.getElementById('opt-recruteur');
-  [optC, optR].forEach(opt => {
-    opt.addEventListener('click', () => {
-      optC.classList.toggle('selected', opt === optC);
-      optR.classList.toggle('selected', opt === optR);
-    });
-  });
+  [optC, optR].forEach(opt => opt.addEventListener('click', () => {
+    optC.classList.toggle('selected', opt === optC);
+    optR.classList.toggle('selected', opt === optR);
+  }));
 
-  // ── Scroll to top ──────────────────────────────
+  // Scroll to top
   const scrollBtn = document.getElementById('scroll-top');
   window.addEventListener('scroll', () => {
     scrollBtn.classList.toggle('visible', window.scrollY > 400);
   });
 
-  // ── Filtres & rendu offres ──────────────────────
+  // Filtres + rendu offres
   let allOffres = [];
   let activeFilter = 'all';
 
   const BADGE_MAP = {
-    'CDI':        '<span class="badge badge-cdi">CDI</span>',
-    'CDD':        '<span class="badge badge-cdd">CDD</span>',
-    'Freelance':  '<span class="badge badge-free">Freelance</span>',
+    'CDI': '<span class="badge badge-cdi">CDI</span>',
+    'CDD': '<span class="badge badge-cdd">CDD</span>',
+    'Freelance': '<span class="badge badge-free">Freelance</span>',
     'Alternance': '<span class="badge badge-alt">Alternance</span>',
-    'Intérimaire':'<span class="badge badge-inte">Intérimaire</span>',
+    'Intérimaire': '<span class="badge badge-inte">Intérimaire</span>',
+    'Interimaire': '<span class="badge badge-inte">Intérimaire</span>'
   };
 
   const GRADIENT_MAP = {
-    'CDI':        'linear-gradient(135deg,#1d4ed8,#60a5fa)',
-    'CDD':        'linear-gradient(135deg,#b45309,#fcd34d)',
-    'Freelance':  'linear-gradient(135deg,#7c3aed,#c4b5fd)',
+    'CDI': 'linear-gradient(135deg,#1d4ed8,#60a5fa)',
+    'CDD': 'linear-gradient(135deg,#b45309,#fcd34d)',
+    'Freelance': 'linear-gradient(135deg,#7c3aed,#c4b5fd)',
     'Alternance': 'linear-gradient(135deg,#0369a1,#67e8f9)',
-    'Intérimaire':'linear-gradient(135deg,#b91c1c,#fca5a5)',
+    'Intérimaire': 'linear-gradient(135deg,#b91c1c,#fca5a5)',
+    'Interimaire': 'linear-gradient(135deg,#b91c1c,#fca5a5)'
   };
 
-  function getInitials(titre) {
-    return (titre || 'XX').split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
+  function getInitials(titre = '') {
+    return titre
+      .split(' ')
+      .slice(0, 2)
+      .map(w => w[0] || '')
+      .join('')
+      .toUpperCase();
+  }
+
+  function normalizeType(type = '') {
+    return String(type).toLowerCase().trim();
   }
 
   function renderCard(offre) {
-    const tc       = offre.type_contrat || '';
-    const badge    = BADGE_MAP[tc]  || `<span class="badge badge-cdi">${tc}</span>`;
+    const tc = offre.typecontrat || offre.typeContrat || offre['Type de contrat'] || '';
+    const badge = BADGE_MAP[tc] || `<span class="badge badge-cdi">${tc || 'Offre'}</span>`;
     const gradient = GRADIENT_MAP[tc] || 'linear-gradient(135deg,#1d4ed8,#4f7eff)';
-    const skills   = (offre.competences_requises || '')
-      .split(/[,\n]+/).map(s => s.trim()).filter(Boolean).slice(0,5)
-      .map(s => `<span class="skill-tag">${s}</span>`).join('');
-    const desc = (offre.description || '').slice(0,140) + ((offre.description||'').length > 140 ? '…' : '');
+
+    const competences =
+      offre.competencesrequises ||
+      offre.competences ||
+      offre['Compétences requises'] ||
+      offre.skills ||
+      '';
+
+    const skills = String(competences)
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean)
+      .slice(0, 5)
+      .map(s => `<span class="skill-tag">${s}</span>`)
+      .join('');
+
+    const titre =
+      offre.titre ||
+      offre.Titre ||
+      'Poste non renseigné';
+
+    const localisation =
+      offre.localisation ||
+      offre.Localisation ||
+      '';
+
+    const entreprise =
+      offre.entreprise ||
+      offre.Entreprise ||
+      '';
+
+    const salaire =
+      offre.salaire ||
+      offre.Salaire ||
+      'Salaire à définir';
+
+    const description =
+      offre.description ||
+      offre.Description ||
+      '';
+
+    const datePublication =
+      offre.datepublication ||
+      offre.datePublication ||
+      offre['Date publication'] ||
+      '';
+
+    let dateTexte = '';
+    if (datePublication) {
+      try {
+        dateTexte = new Date(datePublication).toLocaleDateString('fr-FR', {
+          day: '2-digit',
+          month: 'short'
+        });
+      } catch (e) {
+        dateTexte = '';
+      }
+    }
+
+    const desc = description
+      ? (description.slice(0, 140) + (description.length > 140 ? '…' : ''))
+      : '';
 
     return `
-    <a class="job-card" href="candidature-spontanee.html?offre=${encodeURIComponent(offre.titre)}" data-type="${tc.toLowerCase()}">
-      <div class="job-card-top">
-        <div class="job-company-logo" style="background:${gradient}">${getInitials(offre.titre)}</div>
-        <div class="job-badges">${badge}</div>
-      </div>
-      <div class="job-title">${offre.titre || 'Poste non renseigné'}</div>
-      <div class="job-meta-row">
-        ${offre.localisation ? `<span>📍 ${offre.localisation}</span>` : ''}
-        ${offre.entreprise   ? `<span>🏢 ${offre.entreprise}</span>`   : ''}
-        ${offre.date_publication ? `<span>📅 ${new Date(offre.date_publication).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})}</span>` : ''}
-      </div>
-      ${desc ? `<p class="job-desc">${desc}</p>` : ''}
-      ${skills ? `<div class="job-skills">${skills}</div>` : ''}
-      <div class="job-footer">
-        <span class="job-salary">${offre.salaire || 'Salaire à définir'}</span>
-        <span class="job-apply-btn">Postuler →</span>
-      </div>
-    </a>`;
+      <a class="job-card" href="candidature-spontanee.html?offre=${encodeURIComponent(titre)}" data-type="${normalizeType(tc)}">
+        <div class="job-card-top">
+          <div class="job-company-logo" style="background:${gradient}">${getInitials(titre)}</div>
+          <div class="job-badges">
+            <span class="badge badge-new">Nouveau</span>
+            ${badge}
+          </div>
+        </div>
+
+        <div class="job-title">${titre}</div>
+
+        <div class="job-meta-row">
+          ${localisation ? `<span>📍 ${localisation}</span>` : ''}
+          ${entreprise ? `<span>🏢 ${entreprise}</span>` : ''}
+          ${dateTexte ? `<span>📅 ${dateTexte}</span>` : ''}
+        </div>
+
+        ${desc ? `<p class="job-desc">${desc}</p>` : ''}
+        ${skills ? `<div class="job-skills">${skills}</div>` : ''}
+
+        <div class="job-footer">
+          <span class="job-salary">${salaire}</span>
+          <span class="job-apply-btn">Postuler</span>
+        </div>
+      </a>
+    `;
   }
 
   function applyFilter() {
-    const grid   = document.getElementById('offres-grid');
-    const empty  = document.getElementById('offres-empty');
+    const grid = document.getElementById('offres-grid');
+    const empty = document.getElementById('offres-empty');
     const viewAllLink = document.querySelector('.view-all-row a');
 
     const filtered = activeFilter === 'all'
       ? allOffres
-      : allOffres.filter(o => (o.type_contrat || '').toLowerCase() === activeFilter);
+      : allOffres.filter(o => {
+          const type =
+            o.typecontrat ||
+            o.typeContrat ||
+            o['Type de contrat'] ||
+            '';
+          return normalizeType(type) === activeFilter;
+        });
 
-    // Retire les cartes existantes (garde loading + empty divs)
     grid.querySelectorAll('.job-card').forEach(c => c.remove());
 
     if (filtered.length === 0) {
       empty.style.display = 'block';
     } else {
       empty.style.display = 'none';
-      filtered.forEach(o => grid.insertAdjacentHTML('beforeend', renderCard(o)));
+      filtered.forEach(o => {
+        grid.insertAdjacentHTML('beforeend', renderCard(o));
+      });
     }
 
-    // Met à jour le compteur "Voir toutes les offres"
     if (viewAllLink) {
       const total = allOffres.length;
-      viewAllLink.textContent = `Voir toutes les offres → (${total}+)`;
+      viewAllLink.textContent = `Voir toutes les offres (${total})`;
     }
   }
 
@@ -1354,24 +192,35 @@
     applyFilter();
   }
 
-  // ── Chargement Airtable via /api/offres ─────────
+  window.filterJobs = filterJobs;
+
+  // ✅ Chargement direct Airtable
+  const AIRTABLE_TOKEN = 'patNOUVEAU.xxxxxxxxxxxx'; // ← REMPLACEZ ICI
+  const AIRTABLE_BASE_ID = 'appt58pKcrivGHSdp';
+  const AIRTABLE_TABLE = 'Offres';
+
   async function loadOffres() {
     const loading = document.getElementById('offres-loading');
-    try {
-      const res = await fetch('/api/offres');
 
-      // ✅ Lire comme texte d'abord — évite "Unexpected token '<'" si la route
-      //    renvoie du HTML (404/500) au lieu de JSON
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch {
-        throw new Error('La route /api/offres ne renvoie pas du JSON valide. Vérifier le déploiement.');
+    try {
+      const res = await fetch(
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}?maxRecords=20`,
+        {
+          headers: {
+            'Authorization': 'Bearer ' + AIRTABLE_TOKEN
+          }
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data?.error?.message || ('HTTP ' + res.status));
       }
 
-      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
-      allOffres = Array.isArray(data) ? data : [];
+      allOffres = Array.isArray(data.records)
+        ? data.records.map(r => r.fields || {})
+        : [];
     } catch (err) {
       console.warn('Erreur chargement offres:', err.message);
       allOffres = [];
@@ -1383,17 +232,19 @@
 
   loadOffres();
 
-  // Contact form submit — champs alignés avec api/contact.js et table Airtable Contacts
+  // Contact form
   async function submitContact(e) {
     e.preventDefault();
-    const btn    = document.getElementById('contact-submit-btn');
-    const alert  = document.getElementById('contact-alert');
+
+    const btn = document.getElementById('contact-submit-btn');
+    const alert = document.getElementById('contact-alert');
+
     const prenom = document.getElementById('contact-prenom').value.trim();
-    const nom    = document.getElementById('contact-nom').value.trim();
-    const email  = document.getElementById('contact-email').value.trim();
-    const msg    = document.getElementById('contact-message').value.trim();
+    const nom = document.getElementById('contact-nom').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
+    const msg = document.getElementById('contact-message').value.trim();
     const typeEl = document.querySelector('input[name="type"]:checked');
-    const sujet  = typeEl ? typeEl.value : 'autre'; // 'candidat' ou 'recruteur' → mappé côté API
+    const sujet = typeEl ? typeEl.value : 'autre';
 
     if (!email || !msg) {
       alert.style.display = 'block';
@@ -1409,24 +260,27 @@
     alert.style.display = 'none';
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          nom:     `${prenom} ${nom}`.trim(),
-          email:   email,
-          sujet:   sujet,        // mappé vers "candidature" ou "recrutement" dans l'API
+          nom: `${prenom} ${nom}`.trim(),
+          email: email,
+          sujet: sujet,
           message: msg,
-          source:  'page_accueil' // valeur valide pour singleSelect Airtable
+          source: 'page-accueil'
         })
       });
+
       const result = await res.json();
+
       if (res.ok && !result.error) {
         alert.style.display = 'block';
         alert.style.background = 'rgba(34,197,94,.1)';
         alert.style.border = '1px solid rgba(34,197,94,.25)';
         alert.style.color = '#4ade80';
-        alert.textContent = '✅ Message envoyé ! Nous vous répondons sous 24h ouvrées.';
+        alert.textContent = 'Message envoyé ! Nous vous répondons sous 24h ouvrées.';
+
         document.getElementById('contact-prenom').value = '';
         document.getElementById('contact-nom').value = '';
         document.getElementById('contact-email').value = '';
@@ -1434,17 +288,17 @@
       } else {
         throw new Error(result.details?.error?.message || result.error || 'Erreur inconnue');
       }
-    } catch(err) {
+    } catch (err) {
       alert.style.display = 'block';
       alert.style.background = 'rgba(239,68,68,.1)';
       alert.style.border = '1px solid rgba(239,68,68,.25)';
       alert.style.color = '#f87171';
-      alert.textContent = `❌ ${err.message || 'Erreur. Écrivez à contact@rh-prospects.fr'}`;
+      alert.textContent = err.message || 'Erreur. Écrivez à contact@rh-prospects.fr';
     } finally {
       btn.disabled = false;
-      btn.textContent = 'Envoyer le message →';
+      btn.textContent = 'Envoyer le message';
     }
   }
+
+  window.submitContact = submitContact;
 </script>
-</body>
-</html>
