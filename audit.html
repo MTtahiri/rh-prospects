@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Évaluez la maturité technique et IA de votre équipe en 2 minutes. Audit gratuit par RH-Prospects, cabinet de recrutement IT éthique et transparent."/>
+  <title>Audit de Maturité IA & Vélocité Tech | RH-Prospects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── TOKENS (identiques à index.html) ── */
+    :root {
+      --bg:       #07090f;
+      --bg2:      #0d1117;
+      --bg3:      #111827;
+      --surface:  #161d2b;
+      --border:   rgba(255,255,255,0.07);
+      --border2:  rgba(255,255,255,0.12);
+      --text:     #f0f4ff;
+      --muted:    #8892a4;
+      --accent:   #4f7eff;
+      --accent2:  #7b9fff;
+      --green:    #22c55e;
+      --orange:   #f59e0b;
+      --red:      #ef4444;
+      --nav-h:    68px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ─────────────── NAV ─────────────── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: var(--nav-h);
+      background: rgba(7,9,15,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      z-index: 200;
+    }
+
+    .logo {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+      animation: pulse 2.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.6; transform: scale(0.85); }
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      font-size: 0.85rem !important;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ─────────────── HERO AUDIT ─────────────── */
+    .audit-hero {
+      min-height: 55vh;
+      padding: calc(var(--nav-h) + 5rem) 5% 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .audit-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(79,126,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,126,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .audit-hero::after {
+      content: '';
+      position: absolute;
+      top: 10%; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse, rgba(79,126,255,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      padding: 0.35rem 1rem 0.35rem 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .audit-hero h1 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+    }
+
+    .h1-gradient {
+      display: block;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .audit-hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .meta-icon { color: var(--green); }
+
+    /* ─────────────── PILIERS VISUELS ─────────────── */
+    .pillars-section {
+      padding: 4rem 5%;
+      background: var(--bg2);
+    }
+
+    .pillars-section .section-tag {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
+
+    .pillars-section h2 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .pillar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem 1.25rem;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .pillar-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+    .pillar-card:hover::before { opacity: 1; }
+
+    .pillar-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .pillar-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .pillar-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─────────────── EMBED TALLY ─────────────── */
+    .audit-form-section {
+      padding: 5rem 5%;
+      background: var(--bg);
+    }
+
+    .audit-form-section .section-tag {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
+
+    .audit-form-section h2 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .audit-form-section .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Wrapper Tally embed */
+    .tally-wrapper {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      overflow: hidden;
+      padding: 2.5rem;
+    }
+
+    /* FALLBACK: formulaire natif si Tally pas encore configuré */
+    .fallback-form { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .form-group input,
+    .form-group select {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus { border-color: var(--accent); }
+    .form-group input::placeholder { color: #404959; }
+    .form-group select option { background: var(--bg); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* Piliers questions */
+    .pilier-question {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+    }
+
+    .pilier-question legend {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pilier-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+
+    .pilier-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 0.65rem 0.85rem;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .pilier-option input[type="radio"] { display: none; }
+
+    .pilier-option:hover {
+      border-color: var(--border2);
+      color: var(--text);
+    }
+
+    .pilier-option.selected {
+      border-color: var(--accent);
+      background: rgba(79,126,255,0.1);
+      color: var(--accent2);
+    }
+
+    .option-num {
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      background: rgba(79,126,255,0.12);
+      color: var(--accent);
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: 0.75rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .btn-submit-audit {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 1rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .btn-submit-audit:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-submit-audit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    #audit-alert {
+      display: none;
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Placeholder Tally */
+    .tally-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      padding: 2rem;
+    }
+
+    .tally-placeholder .icon-large { font-size: 3rem; }
+
+    .tally-placeholder h3 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .tally-placeholder p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      max-width: 420px;
+      line-height: 1.7;
+    }
+
+    .tally-placeholder a {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .tally-placeholder a:hover { opacity: 0.85; }
+
+    .tally-placeholder .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text);
+      padding: 0.7rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .tally-placeholder .btn-secondary:hover {
+      border-color: var(--accent);
+      background: rgba(79,126,255,0.07);
+    }
+
+    .tally-ctas {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ─────────────── RÉSULTATS PREVIEW ─────────────── */
+    .results-preview {
+      padding: 5rem 5%;
+      background: var(--bg2);
+    }
+
+    .results-preview .section-tag {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
+
+    .results-preview h2 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .result-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .result-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+
+    .result-score {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .score-low    { color: var(--red); }
+    .score-medium { color: var(--orange); }
+    .score-high   { color: var(--green); }
+
+    .result-label {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .result-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ─────────────── CTA FINAL ─────────────── */
+    .audit-cta-section {
+      padding: 5rem 5%;
+      text-align: center;
+      background: var(--bg);
+    }
+
+    .audit-cta-section h2 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 1rem;
+    }
+
+    .audit-cta-section p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 0.85rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.9rem 1.75rem;
+      border-radius: 10px;
+      font-size: 0.925rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, opacity 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border2);
+      padding: 0.9rem 1.75rem;
+      border-radius: 10px;
+      font-size: 0.925rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--accent); background: rgba(79,126,255,0.07); }
+
+    /* ─────────────── FOOTER ─────────────── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 3rem 5%;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: rgba(136,146,164,0.5);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-bottom a {
+      color: rgba(136,146,164,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-bottom a:hover { color: var(--muted); }
+
+    /* ─────────────── ANIMATIONS ─────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* Scroll to top */
+    #scroll-top {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      width: 44px; height: 44px;
+      background: var(--accent);
+      border: none; border-radius: 50%;
+      color: #fff; font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s, transform .3s;
+      z-index: 150;
+      box-shadow: 0 4px 16px rgba(79,126,255,.4);
+    }
+    #scroll-top.visible { opacity: 1; pointer-events: auto; }
+    #scroll-top:hover { transform: translateY(-3px); }
+
+    /* ─────────────── RESPONSIVE ─────────────── */
+    @media (max-width: 1024px) {
+      .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 4%; }
+      .nav-links { display: none; }
+      .pillars-grid { grid-template-columns: 1fr 1fr; }
+      .results-grid { grid-template-columns: 1fr; }
+      .tally-wrapper { padding: 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .pilier-options { grid-template-columns: 1fr; }
+      .audit-hero::before, .audit-hero::after { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .pillars-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="logo">
+    <span class="logo-dot"></span>
+    RH-Prospects
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#offres">Offres</a></li>
+    <li><a href="candidature-spontanee.html">Candidats</a></li>
+    <li><a href="espace-recruteur.html">Recruteurs</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Nous contacter</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="audit-hero">
+  <div class="hero-eyebrow">
+    <span class="eyebrow-badge">Gratuit</span>
+    Résultats personnalisés sous 24h — Cabinet RH-Prospects
+  </div>
+  <h1>
+    Votre équipe est-elle<br>
+    <span class="h1-gradient">vraiment prête pour demain ?</span>
+  </h1>
+  <p>
+    Évaluez la maturité technique & IA de votre équipe en 2 minutes.
+    Obtenez un diagnostic personnalisé avec des recommandations concrètes.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item"><span class="meta-icon">✓</span> 100% gratuit</div>
+    <div class="meta-item"><span class="meta-icon">✓</span> 2 minutes seulement</div>
+    <div class="meta-item"><span class="meta-icon">✓</span> Rapport par email sous 24h</div>
+    <div class="meta-item"><span class="meta-icon">✓</span> Sans engagement</div>
+  </div>
+</section>
+
+<!-- ── LES 4 PILIERS ── -->
+<section class="pillars-section reveal" id="piliers">
+  <span class="section-tag">La méthode</span>
+  <h2>4 Piliers évalués par notre audit</h2>
+  <div class="pillars-grid">
+    <div class="pillar-card reveal reveal-delay-1">
+      <span class="pillar-icon">🧑‍💻</span>
+      <div class="pillar-title">Pilier Code</div>
+      <p class="pillar-desc">Qualité des pratiques de développement, niveau de dette technique, maîtrise des outils modernes.</p>
+    </div>
+    <div class="pillar-card reveal reveal-delay-2">
+      <span class="pillar-icon">🤖</span>
+      <div class="pillar-title">Pilier Usage IA</div>
+      <p class="pillar-desc">Degré d'adoption des outils IA (Copilot, ChatGPT, etc.) dans les workflows quotidiens de l'équipe.</p>
+    </div>
+    <div class="pillar-card reveal reveal-delay-3">
+      <span class="pillar-icon">🏛️</span>
+      <div class="pillar-title">Pilier Gouvernance</div>
+      <p class="pillar-desc">Niveau de contrôle et d'automatisation des processus : revues, déploiements, monitoring.</p>
+    </div>
+    <div class="pillar-card reveal reveal-delay-3">
+      <span class="pillar-icon">🎓</span>
+      <div class="pillar-title">Pilier Compétences</div>
+      <p class="pillar-desc">Identification des freins humains : manque de bande passante, besoins de formation, chantiers bloquants.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FORMULAIRE AUDIT ── -->
+<section class="audit-form-section" id="formulaire">
+  <span class="section-tag">Lancer l'audit</span>
+  <h2>Évaluez votre équipe maintenant</h2>
+  <p class="subtitle">Remplissez ce formulaire — nous analysons votre score et vous envoyons votre rapport personnalisé.</p>
+
+  <div class="tally-wrapper reveal">
+    <!--
+      ════════════════════════════════════════════════════════════════
+      INSTRUCTIONS POUR CONNECTER TALLY (à faire APRÈS création du formulaire)
+      ════════════════════════════════════════════════════════════════
+
+      OPTION A — IFRAME TALLY (recommandée) :
+      Remplacez le bloc "tally-placeholder" ci-dessous par :
+
+      <iframe
+        data-tally-src="https://tally.so/embed/VOTRE_ID_TALLY?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+        loading="lazy"
+        width="100%"
+        height="800"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="Audit de Maturité IA & Vélocité Tech"
+        style="border:none;background:transparent;"
+      ></iframe>
+      <script async src="https://tally.so/widgets/embed.js"></script>
+
+      OPTION B — LIEN DIRECT vers Tally :
+      Remplacez le bouton ci-dessous par :
+      <a href="https://tally.so/r/VOTRE_ID_TALLY" target="_blank" class="btn-submit-audit">
+        🚀 Démarrer l'audit (2 min)
+      </a>
+
+      ════════════════════════════════════════════════════════════════
+      Votre ID Tally se trouve dans l'URL de votre formulaire :
+      https://tally.so/forms/VOTRE_ID_TALLY/edit
+      ════════════════════════════════════════════════════════════════
+    -->
+
+    <!-- PLACEHOLDER — à remplacer par l'embed Tally une fois configuré -->
+    <div class="tally-placeholder" id="tally-placeholder">
+      <div class="icon-large">📋</div>
+      <h3>Le formulaire arrive bientôt</h3>
+      <p>
+        Notre formulaire d'audit est en cours de configuration sur Tally.
+        En attendant, envoyez-nous directement votre demande d'audit par email ou LinkedIn.
+      </p>
+      <div class="tally-ctas">
+        <a href="mailto:contact@rh-prospects.fr?subject=Demande%20d'audit%20de%20maturité%20IA&body=Bonjour,%0A%0AJe%20souhaite%20réaliser%20l'audit%20de%20maturité%20IA%20%26%20Vélocité%20Tech%20pour%20mon%20équipe.%0A%0AMon%20entreprise%20:%20%0AMonnom%20:%20%0A%0ACordialement" target="_blank" rel="noopener noreferrer">
+          ✉️ Demander l'audit par email
+        </a>
+        <a href="https://www.linkedin.com/company/107464365/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          💼 Nous contacter sur LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <!-- FORMULAIRE NATIF DE SECOURS (si Tally non configuré, utilisable en direct) -->
+    <div id="native-form-wrapper" style="display:none;">
+      <form class="fallback-form" id="audit-native-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="audit-nom">Nom & Prénom *</label>
+            <input type="text" id="audit-nom" name="nom" placeholder="Mohamed Tahiri" required/>
+          </div>
+          <div class="form-group">
+            <label for="audit-entreprise">Entreprise *</label>
+            <input type="text" id="audit-entreprise" name="entreprise" placeholder="SM Consulting" required/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="audit-email">Email Professionnel *</label>
+          <input type="email" id="audit-email" name="email" placeholder="vous@entreprise.com" required/>
+        </div>
+
+        <!-- PILIER CODE -->
+        <fieldset class="pilier-question">
+          <legend>🧑‍💻 Pilier Code — Maturité technique de votre équipe</legend>
+          <div class="pilier-options" id="opts-code">
+            <label class="pilier-option" data-group="code" data-value="1">
+              <input type="radio" name="pilier_code" value="1"/>
+              <span class="option-num">1</span> Faible
+            </label>
+            <label class="pilier-option" data-group="code" data-value="2">
+              <input type="radio" name="pilier_code" value="2"/>
+              <span class="option-num">2</span> Moyenne
+            </label>
+            <label class="pilier-option" data-group="code" data-value="3">
+              <input type="radio" name="pilier_code" value="3"/>
+              <span class="option-num">3</span> Bonne
+            </label>
+            <label class="pilier-option" data-group="code" data-value="4">
+              <input type="radio" name="pilier_code" value="4"/>
+              <span class="option-num">4</span> Excellente
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- PILIER IA -->
+        <fieldset class="pilier-question">
+          <legend>🤖 Pilier Usage IA — Adoption des outils IA</legend>
+          <div class="pilier-options" id="opts-ia">
+            <label class="pilier-option" data-group="ia" data-value="1">
+              <input type="radio" name="pilier_ia" value="1"/>
+              <span class="option-num">1</span> Pas du tout
+            </label>
+            <label class="pilier-option" data-group="ia" data-value="2">
+              <input type="radio" name="pilier_ia" value="2"/>
+              <span class="option-num">2</span> Basique
+            </label>
+            <label class="pilier-option" data-group="ia" data-value="3">
+              <input type="radio" name="pilier_ia" value="3"/>
+              <span class="option-num">3</span> Avancée
+            </label>
+            <label class="pilier-option" data-group="ia" data-value="4">
+              <input type="radio" name="pilier_ia" value="4"/>
+              <span class="option-num">4</span> Stratégique
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- PILIER GOUVERNANCE -->
+        <fieldset class="pilier-question">
+          <legend>🏛️ Pilier Gouvernance — Contrôle des processus</legend>
+          <div class="pilier-options" id="opts-gouv">
+            <label class="pilier-option" data-group="gouv" data-value="1">
+              <input type="radio" name="pilier_gouvernance" value="1"/>
+              <span class="option-num">1</span> Aucun contrôle
+            </label>
+            <label class="pilier-option" data-group="gouv" data-value="2">
+              <input type="radio" name="pilier_gouvernance" value="2"/>
+              <span class="option-num">2</span> Processus standard
+            </label>
+            <label class="pilier-option" data-group="gouv" data-value="3">
+              <input type="radio" name="pilier_gouvernance" value="3"/>
+              <span class="option-num">3</span> Processus adapté
+            </label>
+            <label class="pilier-option" data-group="gouv" data-value="4">
+              <input type="radio" name="pilier_gouvernance" value="4"/>
+              <span class="option-num">4</span> Automatisation totale
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- PILIER COMPÉTENCES -->
+        <fieldset class="pilier-question">
+          <legend>🎓 Pilier Compétences — Freins humains</legend>
+          <div class="pilier-options" id="opts-comp">
+            <label class="pilier-option" data-group="comp" data-value="1">
+              <input type="radio" name="pilier_competences" value="1"/>
+              <span class="option-num">1</span> Manque de bande passante
+            </label>
+            <label class="pilier-option" data-group="comp" data-value="2">
+              <input type="radio" name="pilier_competences" value="2"/>
+              <span class="option-num">2</span> Besoin de formation
+            </label>
+            <label class="pilier-option" data-group="comp" data-value="3">
+              <input type="radio" name="pilier_competences" value="3"/>
+              <span class="option-num">3</span> Chantiers lourds
+            </label>
+            <label class="pilier-option" data-group="comp" data-value="4">
+              <input type="radio" name="pilier_competences" value="4"/>
+              <span class="option-num">4</span> Aucun frein
+            </label>
+          </div>
+        </fieldset>
+
+        <div id="audit-alert"></div>
+
+        <button type="submit" class="btn-submit-audit" id="audit-submit-btn">
+          🚀 Obtenir mon rapport personnalisé
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── CE QUE VOUS RECEVREZ ── -->
+<section class="results-preview reveal" id="resultats">
+  <span class="section-tag">Votre rapport</span>
+  <h2>Ce que vous recevez dans les 24h</h2>
+  <div class="results-grid">
+    <div class="result-card reveal reveal-delay-1">
+      <div class="result-score score-low">4/16</div>
+      <div class="result-label">Score Faible</div>
+      <p class="result-desc">Plan d'action prioritaire avec les 3 chantiers critiques à lancer en premier.</p>
+    </div>
+    <div class="result-card reveal reveal-delay-2">
+      <div class="result-score score-medium">10/16</div>
+      <div class="result-label">Score Intermédiaire</div>
+      <p class="result-desc">Identification des points forts à consolider et des gaps à combler rapidement.</p>
+    </div>
+    <div class="result-card reveal reveal-delay-3">
+      <div class="result-score score-high">15/16</div>
+      <div class="result-label">Score Élevé</div>
+      <p class="result-desc">Recommandations pour passer à la vitesse supérieure et rester compétitif.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA FINAL ── -->
+<section class="audit-cta-section">
+  <h2>Prêt à recruter les bons profils ?</h2>
+  <p>Après votre audit, notre équipe vous propose des consultants parfaitement alignés avec vos besoins réels.</p>
+  <div class="cta-buttons">
+    <a href="#formulaire" class="btn-primary">🎯 Faire l'audit maintenant</a>
+    <a href="espace-recruteur.html" class="btn-ghost">🏢 Espace recruteur</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-bottom">
+    <span>© 2025 RH-Prospects — <a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Confidentialité</a></span>
+    <span><a href="index.html">Retour à l'accueil</a> · <a href="mailto:contact@rh-prospects.fr">contact@rh-prospects.fr</a></span>
+  </div>
+</footer>
+
+<!-- Scroll to top -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Remonter">↑</button>
+
+<script>
+  // ── Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Scroll to top
+  const scrollBtn = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => {
+    scrollBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // ── Radio options styling
+  document.querySelectorAll('.pilier-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const group = opt.dataset.group;
+      document.querySelectorAll(`.pilier-option[data-group="${group}"]`).forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      opt.querySelector('input[type="radio"]').checked = true;
+    });
+  });
+
+  // ── Formulaire natif — soumission vers n8n webhook
+  // ⚠️ REMPLACEZ L'URL CI-DESSOUS par votre URL webhook n8n de PRODUCTION
+  // Exemple : https://votre-instance.app.n8n.cloud/webhook/audit-tally
+  const N8N_WEBHOOK_URL = 'REMPLACEZ_PAR_VOTRE_URL_WEBHOOK_N8N_PRODUCTION';
+
+  const auditForm = document.getElementById('audit-native-form');
+  if (auditForm) {
+    auditForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('audit-submit-btn');
+      const alertEl = document.getElementById('audit-alert');
+
+      const nom = document.getElementById('audit-nom').value.trim();
+      const entreprise = document.getElementById('audit-entreprise').value.trim();
+      const email = document.getElementById('audit-email').value.trim();
+      const code = document.querySelector('input[name="pilier_code"]:checked')?.value;
+      const ia = document.querySelector('input[name="pilier_ia"]:checked')?.value;
+      const gouv = document.querySelector('input[name="pilier_gouvernance"]:checked')?.value;
+      const comp = document.querySelector('input[name="pilier_competences"]:checked')?.value;
+
+      if (!nom || !email || !code || !ia || !gouv || !comp) {
+        alertEl.style.display = 'block';
+        alertEl.style.cssText = 'display:block;padding:1rem 1.25rem;border-radius:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#f87171;margin-top:.5rem;';
+        alertEl.textContent = '⚠️ Veuillez remplir tous les champs et répondre aux 4 piliers.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Envoi en cours…';
+      alertEl.style.display = 'none';
+
+      try {
+        const payload = {
+          nom, entreprise, email,
+          pilier_code: code,
+          pilier_ia: ia,
+          pilier_gouvernance: gouv,
+          pilier_competences: comp,
+          source: 'audit-rh-prospects',
+          date: new Date().toISOString()
+        };
+
+        const res = await fetch(N8N_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok || res.status === 200) {
+          alertEl.style.cssText = 'display:block;padding:1rem 1.25rem;border-radius:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#4ade80;margin-top:.5rem;font-size:.875rem;';
+          alertEl.textContent = '✅ Audit envoyé ! Vous recevrez votre rapport personnalisé dans les 24h.';
+          auditForm.reset();
+          document.querySelectorAll('.pilier-option').forEach(o => o.classList.remove('selected'));
+        } else {
+          throw new Error('Erreur serveur ' + res.status);
+        }
+      } catch (err) {
+        alertEl.style.cssText = 'display:block;padding:1rem 1.25rem;border-radius:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#f87171;margin-top:.5rem;font-size:.875rem;';
+        alertEl.textContent = `❌ ${err.message || 'Erreur. Écrivez à contact@rh-prospects.fr'}`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🚀 Obtenir mon rapport personnalisé';
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
