@@ -807,56 +807,18 @@
   <p class="subtitle">Remplissez ce formulaire — nous analysons votre score et vous envoyons votre rapport personnalisé.</p>
 
   <div class="tally-wrapper reveal">
-    <!--
-      ════════════════════════════════════════════════════════════════
-      INSTRUCTIONS POUR CONNECTER TALLY (à faire APRÈS création du formulaire)
-      ════════════════════════════════════════════════════════════════
-
-      OPTION A — IFRAME TALLY (recommandée) :
-      Remplacez le bloc "tally-placeholder" ci-dessous par :
-
-      <iframe
-        data-tally-src="https://tally.so/embed/VOTRE_ID_TALLY?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-        loading="lazy"
-        width="100%"
-        height="800"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        title="Audit de Maturité IA & Vélocité Tech"
-        style="border:none;background:transparent;"
-      ></iframe>
-      <script async src="https://tally.so/widgets/embed.js"></script>
-
-      OPTION B — LIEN DIRECT vers Tally :
-      Remplacez le bouton ci-dessous par :
-      <a href="https://tally.so/r/VOTRE_ID_TALLY" target="_blank" class="btn-submit-audit">
-        🚀 Démarrer l'audit (2 min)
-      </a>
-
-      ════════════════════════════════════════════════════════════════
-      Votre ID Tally se trouve dans l'URL de votre formulaire :
-      https://tally.so/forms/VOTRE_ID_TALLY/edit
-      ════════════════════════════════════════════════════════════════
-    -->
-
-    <!-- PLACEHOLDER — à remplacer par l'embed Tally une fois configuré -->
-    <div class="tally-placeholder" id="tally-placeholder">
-      <div class="icon-large">📋</div>
-      <h3>Le formulaire arrive bientôt</h3>
-      <p>
-        Notre formulaire d'audit est en cours de configuration sur Tally.
-        En attendant, envoyez-nous directement votre demande d'audit par email ou LinkedIn.
-      </p>
-      <div class="tally-ctas">
-        <a href="mailto:contact@rh-prospects.fr?subject=Demande%20d'audit%20de%20maturité%20IA&body=Bonjour,%0A%0AJe%20souhaite%20réaliser%20l'audit%20de%20maturité%20IA%20%26%20Vélocité%20Tech%20pour%20mon%20équipe.%0A%0AMon%20entreprise%20:%20%0AMonnom%20:%20%0A%0ACordialement" target="_blank" rel="noopener noreferrer">
-          ✉️ Demander l'audit par email
-        </a>
-        <a href="https://www.linkedin.com/company/107464365/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-          💼 Nous contacter sur LinkedIn
-        </a>
-      </div>
-    </div>
+    <!-- ✅ FORMULAIRE TALLY — ID : 44pLoX -->
+    <iframe
+      data-tally-src="https://tally.so/embed/44pLoX?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+      loading="lazy"
+      width="100%"
+      height="800"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0"
+      title="Audit de Maturité IA & Vélocité Tech — RH-Prospects"
+      style="border:none;background:transparent;min-height:600px;">
+    </iframe>
 
     <!-- FORMULAIRE NATIF DE SECOURS (si Tally non configuré, utilisable en direct) -->
     <div id="native-form-wrapper" style="display:none;">
@@ -1049,7 +1011,7 @@
   // ── Formulaire natif — soumission vers n8n webhook
   // ⚠️ REMPLACEZ L'URL CI-DESSOUS par votre URL webhook n8n de PRODUCTION
   // Exemple : https://votre-instance.app.n8n.cloud/webhook/audit-tally
-  const N8N_WEBHOOK_URL = 'REMPLACEZ_PAR_VOTRE_URL_WEBHOOK_N8N_PRODUCTION';
+  const N8N_WEBHOOK_URL = 'https://smconsulting.app.n8n.cloud/webhook/audit-rh-prospects';
 
   const auditForm = document.getElementById('audit-native-form');
   if (auditForm) {
@@ -1113,5 +1075,14 @@
   }
 </script>
 
+<!-- Script Tally embed -->
+<script>
+var d=document,w="https://tally.so/widgets/embed.js",
+v=function(){if(typeof Tally!=="undefined"){Tally.loadEmbeds();}
+else{d.querySelectorAll("[data-tally-src]:not([src])").forEach(function(e){e.src=e.dataset.tallySrc;});}};
+if(typeof Tally!=="undefined"){v();}
+else if(d.querySelector('script[src="'+w+'"]')==null){
+var s=d.createElement("script");s.src=w;s.onload=v;s.onerror=v;d.body.appendChild(s);}
+</script>
 </body>
 </html>
