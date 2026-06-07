@@ -13,7 +13,7 @@
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: `${process.env.MAX_CV_SIZE_MB || 5}mb`,
+      sizeLimit: '5mb',
     },
   },
 };
