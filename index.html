@@ -4,6 +4,14 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Cabinet de recrutement éthique et transparent pour les talents Tech et les entreprises innovantes. Offres exclusives CDI/Freelance, dépôt CV, espace recruteur — Paris & IDF."/>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
   <title>RH-Prospects | Cabinet de recrutement IT éthique & transparent</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -1073,15 +1081,15 @@
         var desc = (f.description || "").substring(0, 180);
         var techs = f.competences_requises || "";
         var formUrl = "candidature-spontanee.html?titre=" + encodeURIComponent(titre) + "&entreprise=" + encodeURIComponent(entreprise) + "&contrat=" + encodeURIComponent(contrat);
-        html += '<article class="job-card" data-type="' + contratClass + '" style="border:1px solid #dcdcdc;border-radius:10px;padding:20px;background:#f8f9fb;color:#222;box-shadow:0 2px 8px rgba(0,0,0,0.06);">';
+        html += '<article class="job-card" data-type="' + contratClass + '">';
         html += '<div class="job-badges" style="margin-bottom:10px;"><span class="badge badge-new">Nouveau</span> <span class="badge badge-' + contratClass + '">' + contrat + '</span></div>';
-        html += '<h3 style="color:#2557a7;margin:0 0 8px;">' + titre + '</h3>';
-        html += '<p style="margin:0 0 6px;"><strong>' + entreprise + '</strong></p>';
-        html += '<p style="color:#666;font-size:14px;margin:0 0 8px;">📍 ' + loc + '</p>';
-        if (salaire) html += '<p style="color:#0a8043;font-weight:600;margin:0 0 10px;">💶 ' + salaire + '</p>';
-        html += '<p style="font-size:14px;line-height:1.5;margin:0 0 10px;">' + desc + '…</p>';
-        if (techs) html += '<p style="font-size:13px;color:#888;margin:0 0 12px;"><em>' + techs + '</em></p>';
-        html += '<a href="' + formUrl + '" style="display:inline-block;background:#2557a7;color:#fff;padding:10px 20px;border-radius:4px;text-decoration:none;font-size:14px;">Postuler</a>';
+        html += '<h3 style="color:#4f7eff;margin:0 0 8px;">' + titre + '</h3>';
+        html += '<p style="margin:0 0 6px;color:#f0f4ff;"><strong>' + entreprise + '</strong></p>';
+        html += '<p style="color:#8892a4;font-size:14px;margin:0 0 8px;">📍 ' + loc + '</p>';
+        if (salaire) html += '<p style="color:#22c55e;font-weight:600;margin:0 0 10px;">💶 ' + salaire + '</p>';
+        html += '<p style="font-size:14px;line-height:1.5;margin:0 0 10px;color:#f0f4ff;">' + desc + '…</p>';
+        if (techs) html += '<p style="font-size:13px;color:#8892a4;margin:0 0 12px;"><em>' + techs + '</em></p>';
+        html += '<a href="' + formUrl + '" style="display:inline-block;background:#4f7eff;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;">Postuler</a>';
         html += '</article>';
       }
       grid.innerHTML = html;
