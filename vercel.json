@@ -1,4 +1,4 @@
 {
-  "rewrites": [{ "source": "/api/(.*)", "destination": "/api/offres" }],
-  "redirects": [{ "source": "/audit-ia", "destination": "/audit.html", "permanent": true }]
+  "cleanUrls": true,
+  "rewrites": [{ "source": "/api/(.*)", "destination": "/api/offres" }]
 }
