@@ -120,7 +120,21 @@
       main{padding:1.5rem 4% 4rem;}
       .form-card{padding:1.5rem;}
     }
-  </style>
+  
+    /* ── HAMBURGER MOBILE NAV ── */
+    .menu-btn{display:none;flex-direction:column;justify-content:space-between;width:28px;height:20px;background:none;border:none;cursor:pointer;padding:0;z-index:300;}
+    .menu-btn span{display:block;width:100%;height:2px;background:var(--text);border-radius:2px;transition:all 0.3s ease;transform-origin:center;}
+    .menu-btn.open span:nth-child(1){transform:translateY(9px) rotate(45deg);}
+    .menu-btn.open span:nth-child(2){opacity:0;}
+    .menu-btn.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg);}
+    .mobile-menu{display:none;position:fixed;top:var(--nav-h,68px);left:0;right:0;bottom:0;background:rgba(7,9,15,0.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:199;padding:1.5rem 5%;flex-direction:column;overflow-y:auto;}
+    .mobile-menu.open{display:flex;}
+    .mobile-menu a{font-size:1.05rem;font-weight:500;color:var(--muted);text-decoration:none;padding:1rem 0;border-bottom:1px solid var(--border);transition:color 0.2s;}
+    .mobile-menu a:last-child{border-bottom:none;}
+    .mobile-menu a:hover,.mobile-menu a:active{color:var(--text);}
+    .mobile-menu .mob-cta{margin-top:1.25rem;background:var(--accent);color:#fff!important;padding:1rem 1.5rem;border-radius:10px;font-weight:600!important;text-align:center;border:none!important;}
+    @media(max-width:768px){.nav-links{display:none!important;}.menu-btn{display:flex!important;}}
+</style>
 </head>
 <body>
 
@@ -132,7 +146,17 @@
     <li><a href="espace-recruteur.html">Recruteurs</a></li>
     <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
   </ul>
+  <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+
 </nav>
+<div class="mobile-menu" id="mobileMenu" role="navigation">
+  <a href="index.html#offres">Offres</a>
+  <a href="candidature-spontanee.html">Candidats</a>
+  <a href="espace-recruteur.html">Recruteurs</a>
+  <a href="/offres" style="color:var(--green);font-weight:600;">💼 Nos services</a>
+  <a href="index.html#contact" class="mob-cta">Contact</a>
+</div>
+
 
 <div class="page-header">
   <span class="section-tag">Candidature spontanée</span>
@@ -425,6 +449,25 @@
       btn.textContent = 'Envoyer ma candidature →';
     }
   });
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('menuBtn');
+  var menu=document.getElementById('mobileMenu');
+  if(!btn||!menu)return;
+  btn.addEventListener('click',function(){
+    var open=menu.classList.toggle('open');
+    btn.classList.toggle('open',open);
+    btn.setAttribute('aria-expanded',open);
+    document.body.style.overflow=open?'hidden':'';
+  });
+  menu.querySelectorAll('a').forEach(function(l){
+    l.addEventListener('click',function(){
+      menu.classList.remove('open');btn.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');document.body.style.overflow='';
+    });
+  });
+})();
 </script>
 </body>
 </html>
