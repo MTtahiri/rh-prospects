@@ -61,7 +61,12 @@
     .offer-num::before { content: ''; display: inline-block; width: 20px; height: 2px; background: var(--accent); }
     .offer-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); line-height: 1.25; }
     .offer-subtitle { font-size: 0.875rem; color: var(--muted); line-height: 1.55; }
-    .offer-price { display: flex; align-items: baseline; gap: 0.4rem; padding: 1rem 1.2rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; }
+    .offer-price{display:flex;align-items:center;justify-content:space-between;gap:0.4rem;padding:1rem 1.2rem;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}
+.offer-price .amount{font-family:'Bricolage Grotesque',sans-serif;font-size:2rem;font-weight:800;color:var(--text);letter-spacing:-0.04em;line-height:1;}
+.offer-price .currency{font-size:1rem;color:var(--muted);font-weight:500;}
+.offer-price .period{font-size:0.8rem;color:var(--muted);margin-left:0.2rem;}
+.offer-price .tag{flex-shrink:0;font-size:0.72rem;font-weight:600;color:var(--green);background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);padding:0.2rem 0.6rem;border-radius:6px;text-transform:uppercase;letter-spacing:0.06em;}
+@media(max-width:640px){.offer-price{flex-direction:column;align-items:flex-start;gap:0.3rem;}.offer-price .tag{margin-left:0;}}
     .offer-price .amount { font-family: 'Bricolage Grotesque', sans-serif; font-size: 2rem; font-weight: 800; color: var(--text); letter-spacing: -0.04em; }
     .offer-price .currency { font-size: 1rem; color: var(--muted); font-weight: 500; }
     .offer-price .period { font-size: 0.8rem; color: var(--muted); margin-left: 0.2rem; }
