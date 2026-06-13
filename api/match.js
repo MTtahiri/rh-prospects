@@ -9,7 +9,13 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée' });
 
-  const { offreText, topN = 10 } = req.body || {};
+  // Accepte JSON ({"offreText":"..."}) ET text/plain (corps brut = le texte de l'offre)
+  let offreText, topN = 10;
+  if (typeof req.body === 'string') {
+    offreText = req.body;           // text/plain → corps brut
+  } else {
+    ({ offreText, topN = 10 } = req.body || {});  // application/json
+  }
   if (!offreText || typeof offreText !== 'string' || offreText.trim().length < 10) {
     return res.status(400).json({ error: 'offreText requis (min 10 caractères)' });
   }
