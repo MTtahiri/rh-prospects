@@ -140,11 +140,26 @@ export default async function handler(req, res) {
     .sort((a, b) => b.score - a.score)
     .slice(0, Math.min(topN, 20));
 
+  // ── 3. Pré-formater le texte Slack ──────────────────────────────────────────
+  const lines = results.map(c => {
+    const skills = c.matchedSkills.length ? c.matchedSkills.join(', ') : '—';
+    const dispo  = c.disponibilite || 'N/A';
+    const tjm    = c.tjm || 'NC';
+    const tel    = c.telephone || '—';
+    const mail   = c.email || '—';
+    return `*${c.score} pts — ${c.nom}* | ${c.role}\n📍 ${c.localisation} | ${dispo} | TJM: ${tjm}\n✅ ${skills}\n📞 ${tel} | ✉️ ${mail}`;
+  });
+
+  const slackText = results.length === 0
+    ? '❌ Aucun candidat trouvé pour cette offre.'
+    : `🤖 *Matching IA — Top ${results.length} candidats sur ${allRecords.length}*\n${'━'.repeat(20)}\n${lines.join('\n\n')}\n\n🔍 ${offreTokens.length} mots-clés extraits | 📊 https://rh-prospects.vercel.app/matching.html`;
+
   return res.status(200).json({
     results,
     totalCandidates: allRecords.length,
     matched: results.length,
     offreTokensCount: offreTokens.length,
+    slackText,
   });
 }
 
