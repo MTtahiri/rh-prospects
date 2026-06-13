@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matching IA — RH Prospects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+  <style>
+    /* ── Reset & base ────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0d0d0f;
+      --panel:    #16161a;
+      --card:     #1e1e24;
+      --border:   #2a2a35;
+      --accent:   #a855f7;
+      --accent2:  #7c3aed;
+      --gold:     #f59e0b;
+      --green:    #22c55e;
+      --blue:     #38bdf8;
+      --red:      #f87171;
+      --text:     #e5e7eb;
+      --muted:    #6b7280;
+      --radius:   12px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ─────────────────────────────────────────── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 32px;
+      border-bottom: 1px solid var(--border);
+      background: var(--panel);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo-pill {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: .5px;
+      color: #fff;
+    }
+    header h1 { font-size: 17px; font-weight: 600; color: var(--text); }
+    header .badge {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* ── Layout ─────────────────────────────────────────── */
+    .workspace {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 0;
+      height: calc(100vh - 61px);
+    }
+
+    /* ── Left panel ─────────────────────────────────────── */
+    .left-panel {
+      border-right: 1px solid var(--border);
+      padding: 28px 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    label { font-size: 13px; font-weight: 500; color: var(--muted); display: block; margin-bottom: 6px; }
+    textarea {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: var(--radius);
+      padding: 14px;
+      font-size: 14px;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 240px;
+      line-height: 1.6;
+      transition: border-color .2s;
+      outline: none;
+    }
+    textarea:focus { border-color: var(--accent); }
+    textarea::placeholder { color: var(--muted); }
+
+    .row { display: flex; gap: 12px; align-items: flex-end; }
+    .field { flex: 1; }
+    select, input[type=number] {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s;
+    }
+    select:focus, input[type=number]:focus { border-color: var(--accent); }
+
+    .btn-analyze {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 13px 0;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: opacity .2s, transform .1s;
+    }
+    .btn-analyze:hover { opacity: .9; }
+    .btn-analyze:active { transform: scale(.98); }
+    .btn-analyze:disabled { opacity: .5; cursor: not-allowed; }
+
+    .status-bar {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .status-bar span { display: flex; align-items: center; gap: 5px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; }
+    .dot.loading { background: var(--gold); animation: pulse 1s infinite; }
+    .dot.error   { background: var(--red); }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    .tip-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .tip-box b { color: var(--text); }
+
+    /* ── Right panel ─────────────────────────────────────── */
+    .right-panel {
+      overflow-y: auto;
+      padding: 28px 28px;
+    }
+
+    /* Empty state */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 16px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .empty-state .icon { font-size: 56px; opacity: .4; }
+    .empty-state p { font-size: 15px; max-width: 300px; line-height: 1.7; }
+
+    /* Results header */
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .results-header h2 { font-size: 18px; font-weight: 600; }
+    .results-header .meta { font-size: 13px; color: var(--muted); }
+
+    /* Candidate cards */
+    .cards-grid { display: flex; flex-direction: column; gap: 14px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: border-color .2s;
+      position: relative;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card.rank-1 { border-color: var(--gold); }
+    .card.rank-2 { border-color: #9ca3af; }
+    .card.rank-3 { border-color: #92400e; }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .rank-badge {
+      min-width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      background: var(--border);
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .rank-badge.r1 { background: linear-gradient(135deg,#f59e0b,#d97706); color: #fff; }
+    .rank-badge.r2 { background: linear-gradient(135deg,#9ca3af,#6b7280); color: #fff; }
+    .rank-badge.r3 { background: linear-gradient(135deg,#b45309,#92400e); color: #fff; }
+
+    .card-info { flex: 1; min-width: 0; }
+    .card-info h3 { font-size: 16px; font-weight: 600; margin-bottom: 3px; }
+    .card-info .role { font-size: 13px; color: var(--muted); }
+
+    .score-area { text-align: right; }
+    .score-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .score-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* Score bar */
+    .score-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .score-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transition: width .6s ease;
+    }
+
+    /* Skills chips */
+    .skills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .skill-chip {
+      background: rgba(168,85,247,.15);
+      color: #c084fc;
+      border: 1px solid rgba(168,85,247,.3);
+      border-radius: 6px;
+      padding: 3px 9px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Meta info */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .meta-item {
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .meta-item .mi-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+    .meta-item .mi-value { font-size: 13px; font-weight: 500; }
+
+    /* Dispo badge */
+    .dispo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+    .dispo-disponible   { background: rgba(34,197,94,.15);  color: #4ade80; border:1px solid rgba(34,197,94,.3); }
+    .dispo-recherche    { background: rgba(56,189,248,.15); color: #7dd3fc; border:1px solid rgba(56,189,248,.3); }
+    .dispo-independant  { background: rgba(168,85,247,.15); color: #c084fc; border:1px solid rgba(168,85,247,.3); }
+    .dispo-enposte      { background: rgba(248,161,66,.15); color: #fbbf24; border:1px solid rgba(248,161,66,.3); }
+    .dispo-autre        { background: rgba(107,114,128,.15);color: #9ca3af; border:1px solid rgba(107,114,128,.3);}
+
+    /* Contact area */
+    .contact-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+      text-decoration: none;
+      font-family: inherit;
+    }
+    .contact-btn:hover {
+      background: var(--border);
+      border-color: var(--accent);
+    }
+    .contact-btn .copy-icon { font-size: 12px; opacity: .6; }
+
+    /* Loading overlay */
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--green);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .2s, transform .2s;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-pill">RHP</div>
+  <h1>Matching IA &nbsp;·&nbsp; Vivier Consultants</h1>
+  <div class="badge" id="vivier-count">⏳ chargement...</div>
+</header>
+
+<!-- WORKSPACE -->
+<div class="workspace">
+
+  <!-- LEFT: INPUT -->
+  <div class="left-panel">
+    <div>
+      <label for="offre-text">📋 Texte de l'offre</label>
+      <textarea
+        id="offre-text"
+        placeholder="Colle ici le texte de l'offre reçue sur Slack, WhatsApp ou email.&#10;&#10;Exemple :&#10;Mission Java / Spring Boot – 6 mois – Paris&#10;Nous recherchons un développeur senior Java 11, Spring Boot, Angular, PostgreSQL, Kafka...&#10;Disponible immédiatement, TJM 600-700 €."
+      ></textarea>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="top-n">Nombre de résultats</label>
+        <input type="number" id="top-n" value="10" min="3" max="20" />
+      </div>
+    </div>
+
+    <button class="btn-analyze" id="btn-analyze" onclick="runMatch()">
+      <span id="btn-icon">🔍</span>
+      <span id="btn-label">Analyser le vivier</span>
+    </button>
+
+    <div class="status-bar" id="status-bar">
+      <span><span class="dot" id="status-dot"></span><span id="status-text">Prêt</span></span>
+    </div>
+
+    <div class="tip-box">
+      <b>Conseils pour un bon matching :</b><br>
+      Inclure les <b>technologies clés</b> (ex: React, Java 17, Docker…),
+      le <b>type de contrat</b> (Freelance, CDI…), la <b>ville</b> et le
+      <b>niveau d'expérience</b>. Plus l'offre est détaillée, meilleur est le score.
+    </div>
+  </div>
+
+  <!-- RIGHT: RESULTS -->
+  <div class="right-panel" id="right-panel">
+    <div class="empty-state" id="empty-state">
+      <div class="icon">🎯</div>
+      <p>Colle une offre à gauche puis clique sur <strong>Analyser le vivier</strong> pour trouver les meilleurs profils.</p>
+    </div>
+    <div id="results-zone" style="display:none"></div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── State ─────────────────────────────────────────────── */
+let lastResults = [];
+let maxScore    = 0;
+
+/* ── Helpers ───────────────────────────────────────────── */
+function dispoClass(d) {
+  if (!d) return 'dispo-autre';
+  const l = d.toLowerCase();
+  if (l.includes('disponible')) return 'dispo-disponible';
+  if (l.includes('recherche'))  return 'dispo-recherche';
+  if (l.includes('nd') || l.includes('consultant') || l.includes('freelance')) return 'dispo-independant';
+  if (l.includes('poste'))      return 'dispo-enposte';
+  return 'dispo-autre';
+}
+
+function dispoEmoji(d) {
+  if (!d) return '⚫';
+  const l = d.toLowerCase();
+  if (l.includes('disponible')) return '🟢';
+  if (l.includes('recherche'))  return '🔵';
+  if (l.includes('nd') || l.includes('consultant') || l.includes('freelance')) return '🟣';
+  if (l.includes('poste'))      return '🟡';
+  return '⚫';
+}
+
+function rankClass(i) {
+  if (i === 0) return 'r1';
+  if (i === 1) return 'r2';
+  if (i === 2) return 'r3';
+  return '';
+}
+
+function cardClass(i) {
+  if (i === 0) return 'card rank-1';
+  if (i === 1) return 'card rank-2';
+  if (i === 2) return 'card rank-3';
+  return 'card';
+}
+
+function rankLabel(i) {
+  if (i === 0) return '🥇';
+  if (i === 1) return '🥈';
+  if (i === 2) return '🥉';
+  return `#${i+1}`;
+}
+
+function showToast(msg, color = '#22c55e') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = color;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); ta.remove();
+  });
+  showToast('Copié !');
+}
+
+function setStatus(msg, state = 'idle') {
+  document.getElementById('status-text').textContent = msg;
+  const dot = document.getElementById('status-dot');
+  dot.className = 'dot' + (state === 'loading' ? ' loading' : state === 'error' ? ' error' : '');
+}
+
+/* ── Render cards ──────────────────────────────────────── */
+function renderCard(c, i) {
+  const pct = maxScore > 0 ? Math.round((c.score / maxScore) * 100) : 0;
+  const chips = c.matchedSkills.length > 0
+    ? c.matchedSkills.map(s => `<span class="skill-chip">${s}</span>`).join('')
+    : '<span style="color:var(--muted);font-size:13px">Aucune compétence exacte matchée</span>';
+
+  const tel = c.telephone || '';
+  const email = c.email || '';
+
+  return `
+  <div class="${cardClass(i)}" id="card-${i}">
+    <div class="card-header">
+      <div class="rank-badge ${rankClass(i)}">${rankLabel(i)}</div>
+      <div class="card-info">
+        <h3>${c.nom}</h3>
+        <div class="role">${c.role || 'Rôle non renseigné'}</div>
+      </div>
+      <div class="score-area">
+        <div class="score-value">${c.score}</div>
+        <div class="score-label">pts match</div>
+      </div>
+    </div>
+
+    <div class="score-bar">
+      <div class="score-fill" style="width:${pct}%"></div>
+    </div>
+
+    <div class="skills-row">${chips}</div>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="mi-label">Niveau</div>
+        <div class="mi-value">${c.niveau || '—'}</div>
+      </div>
+      <div class="meta-item">
+        <div class="mi-label">Expérience</div>
+        <div class="mi-value">${c.experience || '—'}</div>
+      </div>
+      <div class="meta-item">
+        <div class="mi-label">TJM</div>
+        <div class="mi-value">${c.tjm || '—'}</div>
+      </div>
+      <div class="meta-item" style="grid-column:span 2">
+        <div class="mi-label">Localisation</div>
+        <div class="mi-value">📍 ${c.localisation || '—'}</div>
+      </div>
+      <div class="meta-item">
+        <div class="mi-label">Disponibilité</div>
+        <div class="mi-value">
+          <span class="dispo-badge ${dispoClass(c.disponibilite)}">
+            ${dispoEmoji(c.disponibilite)} ${c.disponibilite || 'Inconnue'}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    ${c.contexte ? `<div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6;font-style:italic">"${c.contexte}${c.contexte.length >= 200 ? '…' : ''}"</div>` : ''}
+
+    <div class="contact-row">
+      ${tel ? `
+        <button class="contact-btn" onclick="copyText('${tel.replace(/'/g,"\\'")}')">
+          📞 ${tel} <span class="copy-icon">⎘</span>
+        </button>` : ''}
+      ${email ? `
+        <a class="contact-btn" href="mailto:${email}">
+          ✉️ ${email}
+        </a>
+        <button class="contact-btn" onclick="copyText('${email.replace(/'/g,"\\'")}')">
+          Copier email <span class="copy-icon">⎘</span>
+        </button>` : ''}
+      ${!tel && !email ? `<span style="color:var(--muted);font-size:13px">Coordonnées non renseignées</span>` : ''}
+    </div>
+  </div>`;
+}
+
+/* ── Main matching call ────────────────────────────────── */
+async function runMatch() {
+  const text = document.getElementById('offre-text').value.trim();
+  const topN  = parseInt(document.getElementById('top-n').value) || 10;
+
+  if (text.length < 10) {
+    showToast('Colle un texte d\'offre !', '#f87171');
+    return;
+  }
+
+  const btn = document.getElementById('btn-analyze');
+  btn.disabled = true;
+  document.getElementById('btn-icon').innerHTML = '<span class="spinner"></span>';
+  document.getElementById('btn-label').textContent = 'Analyse en cours…';
+  setStatus('Récupération du vivier Airtable…', 'loading');
+
+  document.getElementById('empty-state').style.display  = 'none';
+  document.getElementById('results-zone').style.display = 'none';
+
+  try {
+    const res  = await fetch('/api/match', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ offreText: text, topN }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+
+    lastResults = data.results || [];
+    maxScore    = lastResults.length > 0 ? lastResults[0].score : 1;
+
+    // Update vivier count badge
+    document.getElementById('vivier-count').textContent = `👥 ${data.totalCandidates} candidats analysés`;
+
+    if (lastResults.length === 0) {
+      document.getElementById('results-zone').innerHTML = `
+        <div class="empty-state" style="height:auto;padding:60px 0">
+          <div class="icon">🤷</div>
+          <p>Aucun candidat ne correspond à cette offre.<br>Essaie avec plus de mots-clés techniques.</p>
+        </div>`;
+      document.getElementById('results-zone').style.display = 'block';
+      setStatus(`${data.totalCandidates} candidats analysés — 0 résultats`, 'idle');
+      return;
+    }
+
+    // Render
+    const zone = document.getElementById('results-zone');
+    zone.innerHTML = `
+      <div class="results-header">
+        <h2>🎯 Top ${lastResults.length} profils</h2>
+        <span class="meta">${data.totalCandidates} candidats · ${data.offreTokensCount} mots-clés extraits</span>
+      </div>
+      <div class="cards-grid">
+        ${lastResults.map((c, i) => renderCard(c, i)).join('')}
+      </div>`;
+    zone.style.display = 'block';
+    zone.scrollTop = 0;
+    document.getElementById('right-panel').scrollTop = 0;
+
+    setStatus(`✅ ${lastResults.length} profils trouvés sur ${data.totalCandidates} candidats`, 'idle');
+    showToast(`${lastResults.length} profils matchés !`);
+
+  } catch (err) {
+    setStatus('Erreur : ' + err.message, 'error');
+    document.getElementById('empty-state').style.display = 'flex';
+    showToast('Erreur : ' + err.message, '#f87171');
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    document.getElementById('btn-icon').textContent = '🔍';
+    document.getElementById('btn-label').textContent = 'Analyser le vivier';
+  }
+}
+
+/* ── Keyboard shortcut: Cmd/Ctrl+Enter ─────────────────── */
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runMatch();
+});
+
+/* ── Initial vivier count (optional warm call) ─────────── */
+// We don't pre-load to avoid unnecessary Airtable calls.
+document.getElementById('vivier-count').textContent = '👥 ~202 candidats';
+</script>
+
+</body>
+</html>
