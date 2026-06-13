@@ -88,7 +88,8 @@
     .prog-info strong { display: block; font-size: 0.875rem; font-weight: 600; color: var(--text); }
     .prog-info span { font-size: 0.78rem; color: var(--muted); }
     .prog-arrow { font-size: 1.2rem; color: var(--muted); margin: 0 0.5rem; flex-shrink: 0; }
-    @media (max-width: 700px) { .prog-arrow { display: none; } }
+    @media(max-width:768px){.prog-arrow{display:none!important;}.progression{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:1.5rem;}.prog-step{justify-content:flex-start;min-width:0;flex:none;}}
+    @media(max-width:480px){.progression{grid-template-columns:1fr;gap:0;}.prog-step{padding:0.6rem 0;border-bottom:1px solid var(--border);}.prog-step:last-child{border-bottom:none;}}
     .faq-section { max-width: 720px; margin: 0 auto; padding: 0 5% 6rem; }
     .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
     .section-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 2.5rem; }
@@ -110,7 +111,7 @@
     footer a { color: var(--muted); text-decoration: none; font-size: 0.8rem; }
     footer a:hover { color: var(--text); }
     .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-    @media (max-width: 640px) { .offers-grid { grid-template-columns: 1fr; } .cta-banner { padding: 2rem; flex-direction: column; align-items: flex-start; } .hero-stats { gap: 1.5rem; } .progression { flex-direction: column; gap: 1.2rem; } }
+    @media (max-width: 640px) { .offers-grid { grid-template-columns: 1fr; } .cta-banner { padding: 2rem; flex-direction: column; align-items: flex-start; } .hero-stats { gap: 1.5rem; } }
   
     /* ── PRICE FIX ── */
     .offer-price{display:flex;align-items:center;justify-content:space-between;gap:0.4rem;padding:1rem 1.2rem;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}
