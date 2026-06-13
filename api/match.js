@@ -1,3 +1,4 @@
+// v2 — updated AIRTABLE_TOKEN (2026-06-13)
 // api/match.js — Moteur de matching offres ↔ vivier candidats RH-Prospects
 // Prend un texte d'offre, retourne le top N candidats scorés depuis Airtable.
 
