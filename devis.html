@@ -88,7 +88,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--text)
 .p-text{font-size:13px;line-height:1.7;color:var(--text)}
 .deliv{list-style:none;display:flex;flex-direction:column;gap:6px}
 .deliv li{display:flex;align-items:flex-start;gap:9px;font-size:13px;line-height:1.5}
-.deliv li::before{content:'checkmark';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.deliv li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
 .ptable{width:100%;border-collapse:collapse;font-size:13px}
 .ptable th{background:var(--navy);color:#fff;padding:9px 13px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 .ptable th:last-child,.ptable td:last-child{text-align:right}
@@ -195,6 +195,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--text)
   .p-top,.p-body,.p-meta,.p-footer{padding-left:18px;padding-right:18px}
   .sig-fields{grid-template-columns:1fr}
   .c-abar{flex-direction:column;gap:10px;align-items:stretch}
+  .how-steps{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -319,25 +320,29 @@ P&#233;nalit&#233;s de retard : 1,5% par mois conform&#233;ment &#224; la loi en
 
 <!-- CLIENT MODE -->
 <div id="client">
+  <div style="background:var(--navy);padding:10px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.3)">
+    <a href="https://rh-prospects.fr" style="color:rgba(255,255,255,.7);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px;font-weight:600">&#8592; Retour au site</a>
+    <span style="color:var(--gold);font-size:12px;font-weight:700">SM Consulting RH</span>
+  </div>
   <div class="cl-wrap">
-    <!-- Écran paiement confirmé -->
+    <!-- Ecran paiement confirme -->
     <div class="pay-screen" id="pay-ok">
       <div class="pay-screen-ico">&#127881;</div>
-      <div class="pay-screen-t">Paiement confirmé !</div>
-      <div class="pay-screen-s">Votre paiement a bien été reçu. Vous recevrez une confirmation par email.<br>Notre équipe prend contact avec vous dans les 24h pour démarrer la mission.</div>
-      <button class="btn btn-p" style="margin:0 auto" onclick="window.location.hash=''">&#8592; Retour à la proposition</button>
+      <div class="pay-screen-t">Paiement confirm&#233; !</div>
+      <div class="pay-screen-s">Votre paiement a bien &#233;t&#233; re&#231;u. Vous recevrez une confirmation par email.<br>Notre &#233;quipe prend contact avec vous dans les 24h pour d&#233;marrer la mission.</div>
+      <button class="btn btn-p" style="margin:0 auto" onclick="window.location.hash=''">&#8592; Retour &#224; la proposition</button>
     </div>
-    <!-- Écran paiement annulé -->
+    <!-- Ecran paiement annule -->
     <div class="pay-screen" id="pay-cancel">
       <div class="pay-screen-ico">&#10006;&#65039;</div>
-      <div class="pay-screen-t" style="color:var(--red)">Paiement annulé</div>
-      <div class="pay-screen-s">Le paiement n'a pas abouti. Vous pouvez réessayer ou nous contacter directement.</div>
-      <button class="btn btn-p" style="margin:0 auto" onclick="hidePay()">&#8592; Retour à la proposition</button>
+      <div class="pay-screen-t" style="color:var(--red)">Paiement annul&#233;</div>
+      <div class="pay-screen-s">Le paiement n&#8217;a pas abouti. Vous pouvez r&#233;essayer ou nous contacter directement.</div>
+      <button class="btn btn-p" style="margin:0 auto" onclick="hidePay()">&#8592; Retour &#224; la proposition</button>
     </div>
 
     <div id="cl-proposal" class="pw"></div>
 
-    <!-- Comment ça marche -->
+    <!-- Comment ca marche -->
     <div class="how-banner">
       <div class="how-ttl">&#128161; Comment &#231;a marche ?</div>
       <div class="how-steps">
@@ -388,6 +393,7 @@ P&#233;nalit&#233;s de retard : 1,5% par mois conform&#233;ment &#224; la loi en
       </div>
     </div>
   </div>
+  </div>
 </div>
 
 <!-- Chargement paiement -->
@@ -430,10 +436,10 @@ P&#233;nalit&#233;s de retard : 1,5% par mois conform&#233;ment &#224; la loi en
 
 <script>
 var CS_DATA=[
-  {id:'cs1',title:'Mission PO Digital — Grande Banque',desc:'Placement d\'un Product Owner Digital en urgence pour piloter la refonte d\'une application mobile client.',res:'Mission lancée en 72h, prolongée 12 mois. Satisfaction client : 9/10.',on:true},
-  {id:'cs2',title:'Sourcing SAP FI/CO — ETI Industrielle',desc:'Sourcing de 3 consultants SAP pour transformation numérique dans le secteur manufacturier.',res:'3 profils validés en 2 semaines. Économie de 40% vs cabinet traditionnel.',on:true},
-  {id:'cs3',title:'Build team Agile — Startup Fintech',desc:'Constitution d\'une squad Agile complète (PO, SM, Devs) pour accélérer la livraison produit.',res:'Équipe opérationnelle en J+21. Livraison produit accélérée de 30%.',on:false},
-  {id:'cs4',title:'Recrutement CDI — ESN Parisienne',desc:'Recrutement de 5 profils IT senior : Architecte Cloud, DevOps Lead, Data Engineer.',res:'100% des postes pourvus en 3 semaines. 0 turn-over à 6 mois.',on:false}
+  {id:'cs1',title:'Mission PO Digital — Grande Banque',desc:'Placement d\'un Product Owner Digital en urgence pour piloter la refonte d\'une application mobile client.',res:'Mission lancee en 72h, prolongee 12 mois. Satisfaction client : 9/10.',on:true},
+  {id:'cs2',title:'Sourcing SAP FI/CO — ETI Industrielle',desc:'Sourcing de 3 consultants SAP pour transformation numerique dans le secteur manufacturier.',res:'3 profils valides en 2 semaines. Economie de 40% vs cabinet traditionnel.',on:true},
+  {id:'cs3',title:'Build team Agile — Startup Fintech',desc:'Constitution d\'une squad Agile complete (PO, SM, Devs) pour accelerer la livraison produit.',res:'Equipe operationnelle en J+21. Livraison produit acceleree de 30%.',on:false},
+  {id:'cs4',title:'Recrutement CDI — ESN Parisienne',desc:'Recrutement de 5 profils IT senior : Architecte Cloud, DevOps Lead, Data Engineer.',res:'100% des postes pourvus en 3 semaines. 0 turn-over a 6 mois.',on:false}
 ];
 var lines=[];
 var genLink='';
@@ -463,8 +469,8 @@ function initCreator(){
   box.innerHTML=CS_DATA.map(function(c){
     return '<label class="cs-check"><input type="checkbox" id="'+c.id+'" '+(c.on?'checked':'')+' onchange="dp()"><div><div class="cs-check-title">'+c.title+'</div><div class="cs-check-sub">'+c.res+'</div></div></label>';
   }).join('');
-  addLine('Sourcing & sélection des profils',5,700);
-  addLine('Accompagnement intégration',3,700);
+  addLine('Sourcing & selection des profils',5,700);
+  addLine('Accompagnement integration',3,700);
   toggleStripe();
   dp();
 }
@@ -564,7 +570,7 @@ function render(d,el){
     '<tr class="sub"><td colspan="3"><em>TVA (20%)</em></td><td>'+fmt(d.tva)+' €</td></tr>'+
     '<tr class="tot"><td colspan="3"><strong>TOTAL TTC</strong></td><td><strong>'+fmt(d.ttc)+' €</strong></td></tr>'+
     '</tbody></table>'+
-    (d.dep?'<div class="acompte-note"><span>Acompte à la signature ('+d.dep+'%) :</span><strong>'+fmt(d.ttc*d.dep/100)+' €</strong></div>':'')+
+    (d.dep?'<div class="acompte-note"><span>Acompte a la signature ('+d.dep+'%) :</span><strong>'+fmt(d.ttc*d.dep/100)+' €</strong></div>':'')+
     '</div>';
   }
 
@@ -578,19 +584,19 @@ function render(d,el){
     '<div class="p-ref">'+
       '<div class="rl">Proposition Commerciale</div>'+
       '<div class="rv">'+esc(d.ref)+'</div>'+
-      '<div class="rd">&#201;mise le '+esc(d.date)+'</div>'+
-      '<div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:5px">Validité : '+d.validity+' jours</div>'+
+      '<div class="rd">Emise le '+esc(d.date)+'</div>'+
+      '<div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:5px">Validite : '+d.validity+' jours</div>'+
     '</div>'+
   '</div>'+
   '<div class="p-meta">'+
     '<div>'+
-      '<div class="pm-lbl">Préparée pour</div>'+
+      '<div class="pm-lbl">Preparee pour</div>'+
       '<div class="pm-name">'+esc(d.client.name)+'</div>'+
       (d.client.co?'<div class="pm-detail">'+esc(d.client.co)+'</div>':'')+
       (d.client.email?'<div class="pm-detail">'+esc(d.client.email)+'</div>':'')+
     '</div>'+
     '<div>'+
-      '<div class="pm-lbl">Préparée par</div>'+
+      '<div class="pm-lbl">Preparee par</div>'+
       '<div class="pm-name">'+esc(d.company.sig)+'</div>'+
       '<div class="pm-detail">'+esc(d.company.name)+'</div>'+
       '<div class="pm-detail">'+esc(d.company.email)+'</div>'+
@@ -598,7 +604,7 @@ function render(d,el){
   '</div>'+
   '<div class="p-body">'+
     '<div class="obj-banner"><div class="obj-lbl">Objet</div><div class="obj-val">'+esc(d.title)+'</div></div>'+
-    (d.problem?'<div class="p-sec"><div class="p-sec-t"><span class="p-sec-num">'+n+++'</span> Contexte &amp; Problématique</div><div class="p-text">'+esc(d.problem).replace(/\n/g,'<br>')+'</div></div>':'')+
+    (d.problem?'<div class="p-sec"><div class="p-sec-t"><span class="p-sec-num">'+n+++'</span> Contexte &amp; Problematique</div><div class="p-text">'+esc(d.problem).replace(/\n/g,'<br>')+'</div></div>':'')+
     (d.solution?'<div class="p-sec"><div class="p-sec-t"><span class="p-sec-num">'+n+++'</span> Notre Solution</div><div class="p-text">'+esc(d.solution).replace(/\n/g,'<br>')+'</div></div>':'')+
     (d.delivs&&d.delivs.length?'<div class="p-sec"><div class="p-sec-t"><span class="p-sec-num">'+n+++'</span> Livrables &amp; Engagements</div><ul class="deliv">'+d.delivs.map(function(x){return'<li>'+esc(x)+'</li>';}).join('')+'</ul></div>':'')+
     linesHtml+
@@ -608,14 +614,14 @@ function render(d,el){
         return '<div class="tl-item"><div class="tl-line"><div class="tl-dot"></div><div class="tl-con"></div></div><div class="tl-cnt"><div class="tl-ph">'+esc(ph)+'</div>'+(ds?'<div class="tl-d">'+esc(ds)+'</div>':'')+'</div></div>';
       }).join('')+
     '</div></div>':'')+
-    (d.cs&&d.cs.length?'<div class="p-sec"><div class="p-sec-t"><span class="p-sec-num">'+n+++'</span> Références &amp; Résultats</div><div class="cs-grid">'+
+    (d.cs&&d.cs.length?'<div class="p-sec"><div class="p-sec-t"><span class="p-sec-num">'+n+++'</span> References &amp; Resultats</div><div class="cs-grid">'+
       d.cs.map(function(c){return'<div class="cs-card"><div class="cs-title">'+esc(c.title)+'</div><div class="cs-desc">'+esc(c.desc)+'</div><div class="cs-res">'+esc(c.res)+'</div></div>';}).join('')+
     '</div></div>':'')+
     (d.cond?'<div class="p-sec"><div class="p-sec-t"><span class="p-sec-num">'+n+++'</span> Conditions</div><div class="p-text" style="font-size:12px;color:var(--muted)">'+esc(d.cond).replace(/\n/g,'<br>')+'</div></div>':'')+
   '</div>'+
   '<div class="p-footer">'+
     '<p>Proposition confidentielle — <strong>'+esc(d.company.name)+'</strong> · <strong>'+esc(d.company.email)+'</strong></p>'+
-    '<p style="margin-top:3px">Valable '+d.validity+' jours à compter du '+esc(d.date)+'</p>'+
+    '<p style="margin-top:3px">Valable '+d.validity+' jours a compter du '+esc(d.date)+'</p>'+
     '<p style="margin-top:5px;font-size:10px;color:rgba(255,255,255,.3)">SM Consulting RH — SIRET 93372459700016 — rh-prospects.fr</p>'+
   '</div>';
 }
@@ -637,8 +643,8 @@ function doGenLink(){
 function copyLink(){
   navigator.clipboard.writeText(genLink).then(function(){
     var b=document.getElementById('copy-btn');
-    b.textContent='✅ Copié !';b.classList.add('ok');
-    setTimeout(function(){b.textContent='📋 Copier le lien';b.classList.remove('ok');},2000);
+    b.textContent='Copie !';b.classList.add('ok');
+    setTimeout(function(){b.textContent='Copier le lien';b.classList.remove('ok');},2000);
   });
 }
 function openLink(){window.open(genLink,'_blank');}
@@ -656,7 +662,7 @@ function doExportPDF(){
     image:{type:'jpeg',quality:.95},
     html2canvas:{scale:2,useCORS:true},
     jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-  }).from(tmp).save().then(function(){document.body.removeChild(tmp);toast('✅ PDF téléchargé !','ok');});
+  }).from(tmp).save().then(function(){document.body.removeChild(tmp);toast('PDF telecharge !','ok');});
 }
 function doFullscreen(){
   var d=collect();
@@ -669,7 +675,6 @@ function initClient(d){
   document.getElementById('creator').style.display='none';
   document.getElementById('client').style.display='block';
 
-  // Détecter paiement confirmé/annulé depuis URL params
   var sp=new URLSearchParams(window.location.search);
   var pStatus=sp.get('paiement');
   if(pStatus==='confirme'){
@@ -713,13 +718,14 @@ function doAccept(){
   document.getElementById('ok-date').textContent=date;
   document.getElementById('ok-box').style.display='block';
   var btn=document.getElementById('btn-accept');
-  btn.textContent='✅ Signé';btn.style.background='rgba(16,185,129,.3)';
+  btn.textContent='Signe';btn.style.background='rgba(16,185,129,.3)';
   document.getElementById('ok-box').scrollIntoView({behavior:'smooth',block:'center'});
-  toast('✅ Proposition acceptée !','ok');
+  toast('Proposition acceptee !','ok');
 }
+
 function doPay(){
   var d=window._pd||{};
-  if(!d.stripeLink){toast('Aucun webhook de paiement configuré','err');return;}
+  if(!d.stripeLink){toast('Aucun webhook de paiement configure','err');return;}
   var loader=document.getElementById('pay-loading');
   loader.classList.add('on');
   var currentUrl=window.location.origin+window.location.pathname+'?paiement=confirme'+window.location.hash;
@@ -747,18 +753,27 @@ function doPay(){
   })
   .catch(function(){
     loader.classList.remove('on');
-    toast('Connexion impossible — réessayez ou contactez-nous','err');
+    toast('Connexion impossible — reessayez ou contactez-nous','err');
   });
 }
+
 function clientPDF(){
-  var el=document.getElementById('cl-proposal');
   var d=window._pd||{};
+  if(!d.ref){toast('Aucune proposition chargee','err');return;}
+  var tmp=document.createElement('div');
+  tmp.style.cssText='position:fixed;left:-9999px;top:0;width:800px;background:white;font-family:Segoe UI,system-ui,sans-serif;z-index:-1';
+  document.body.appendChild(tmp);
+  render(d,tmp);
   html2pdf().set({
-    margin:0,filename:'Proposition_'+(d.ref||'PC')+'.pdf',
+    margin:0,
+    filename:'Proposition_'+(d.ref||'PC')+'.pdf',
     image:{type:'jpeg',quality:.95},
-    html2canvas:{scale:2,useCORS:true},
+    html2canvas:{scale:2,useCORS:true,windowWidth:800},
     jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-  }).from(el).save().then(function(){toast('✅ PDF téléchargé !','ok');});
+  }).from(tmp).save().then(function(){
+    document.body.removeChild(tmp);
+    toast('PDF telecharge !','ok');
+  });
 }
 
 function initSigCanvas(){
