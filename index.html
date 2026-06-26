@@ -984,6 +984,25 @@
       text-align: center;
       border: none !important;
     }
+
+    /* ─────────────── CTA SOUVERAINETÉ IA ─────────────── */
+    .cta-souv { background:linear-gradient(135deg,#060a15 0%,#0b1628 60%,#0f1e3d 100%); border-top:1px solid rgba(79,126,255,.18); border-bottom:1px solid rgba(79,126,255,.18); padding:5rem 5%; text-align:center; position:relative; overflow:hidden; }
+    .cta-souv::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(79,126,255,.07) 0%,transparent 70%); pointer-events:none; }
+    .cta-souv-inner { max-width:720px; margin:0 auto; position:relative; }
+    .cta-souv-eyebrow { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); margin-bottom:1rem; display:block; }
+    .cta-souv h2 { font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:800; letter-spacing:-.03em; line-height:1.1; margin-bottom:1.25rem; }
+    .cta-souv h2 span { color:var(--accent); }
+    .cta-souv-sub { font-size:1.05rem; color:var(--muted); line-height:1.75; margin-bottom:2rem; max-width:580px; margin-left:auto; margin-right:auto; }
+    .cta-souv-sub strong { color:var(--text); }
+    .cta-souv-badges { display:flex; justify-content:center; gap:.75rem; flex-wrap:wrap; margin-bottom:2.25rem; }
+    .cta-souv-badge { display:inline-flex; align-items:center; gap:.45rem; background:rgba(79,126,255,.12); border:1px solid rgba(79,126,255,.35); border-radius:100px; color:#a8c0ff; font-size:.8rem; font-weight:600; padding:.4rem 1rem; }
+    .cta-souv-btns { display:flex; justify-content:center; gap:.85rem; flex-wrap:wrap; }
+    /* ─────────────── BADGE BPI ─────────────── */
+    .bpi-badge { display:inline-flex; align-items:flex-start; gap:.75rem; background:#fff; border:1px solid #003189; border-radius:10px; padding:.7rem 1rem; text-decoration:none; transition:background .2s; margin-top:1.25rem; }
+    .bpi-badge:hover { background:#eef2ff; }
+    .bpi-badge-logo { width:34px; height:34px; background:#003189; border-radius:7px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:.6rem; font-weight:800; flex-shrink:0; margin-top:1px; }
+    .bpi-badge-text p:first-child { font-size:.8rem; font-weight:700; color:#003189; line-height:1.2; }
+    .bpi-badge-text p:last-child { font-size:.72rem; color:#555; margin-top:.2rem; line-height:1.35; }
   </style>
 </head>
 <body>
@@ -999,6 +1018,7 @@
     <li><a href="candidature-spontanee.html">Candidats</a></li>
     <li><a href="espace-recruteur.html">Recruteurs</a></li>
     <li><a href="audit.html" style="color:var(--accent);font-weight:600;">🎯 Audit IA</a></li>
+    <li><a href="audit-ia-subventionne.html" style="color:#4ade80;font-weight:600;">💶 BPI 40%</a></li>
     <li><a href="/offres" style="color:var(--green);font-weight:600;">💼 Nos services</a></li>
     <li><a href="devis.html" style="color:#c9a84c;font-weight:700;">📋 Devis Pro</a></li>
     <li><a href="#contact" class="nav-cta">Nous contacter</a></li>
@@ -1065,6 +1085,24 @@
         <div class="stat-num">200+</div>
         <div class="stat-label">Entreprises partenaires actives</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA SOUVERAINETÉ IA ── -->
+<section class="cta-souv reveal" id="souverainete-ia">
+  <div class="cta-souv-inner">
+    <span class="cta-souv-eyebrow">AI Act — Août 2026</span>
+    <h2>Vos recrutements IA, <span>100% souverains</span></h2>
+    <p class="cta-souv-sub">AI Act août 2026 — nous sourçons des <strong>AI Engineers</strong> maîtrisant Mistral, vLLM, Scaleway, OVH. <strong>Vos données ne quittent jamais la France.</strong></p>
+    <div class="cta-souv-badges">
+      <span class="cta-souv-badge">🇫🇷 Hébergement France</span>
+      <span class="cta-souv-badge">✅ RGPD &amp; AI Act compliant</span>
+      <span class="cta-souv-badge">🔒 Zéro Cloud Act</span>
+    </div>
+    <div class="cta-souv-btns">
+      <a href="#contact" class="btn-primary">Trouver mon AI Engineer souverain →</a>
+      <a href="candidature-spontanee.html" class="btn-ghost">Voir les profils disponibles →</a>
     </div>
   </div>
 </section>
@@ -1352,6 +1390,13 @@ function filterJobs(type, btn) {
       <div class="footer-socials">
         <a href="https://www.linkedin.com/company/107464365/admin/dashboard/" class="social-link" target="_blank">in</a>
       </div>
+      <a href="audit-ia-subventionne.html" class="bpi-badge">
+        <div class="bpi-badge-logo">BPI</div>
+        <div class="bpi-badge-text">
+          <p>Candidat Prestataire agréé Bpifrance</p>
+          <p>Audit IA subventionné à 40% — <strong style="color:#003189;">6 000€</strong> au lieu de 10 000€</p>
+        </div>
+      </a>
     </div>
     <div class="footer-col">
       <h4>Candidats</h4>
