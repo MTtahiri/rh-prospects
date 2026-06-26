@@ -986,23 +986,64 @@
     }
 
     /* ─────────────── CTA SOUVERAINETÉ IA ─────────────── */
-    .cta-souv { background:linear-gradient(135deg,#060a15 0%,#0b1628 60%,#0f1e3d 100%); border-top:1px solid rgba(79,126,255,.18); border-bottom:1px solid rgba(79,126,255,.18); padding:5rem 5%; text-align:center; position:relative; overflow:hidden; }
-    .cta-souv::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 80% at 50% 50%,rgba(79,126,255,.07) 0%,transparent 70%); pointer-events:none; }
-    .cta-souv-inner { max-width:720px; margin:0 auto; position:relative; }
-    .cta-souv-eyebrow { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); margin-bottom:1rem; display:block; }
-    .cta-souv h2 { font-family:'Bricolage Grotesque',sans-serif; font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:800; letter-spacing:-.03em; line-height:1.1; margin-bottom:1.25rem; }
-    .cta-souv h2 span { color:var(--accent); }
-    .cta-souv-sub { font-size:1.05rem; color:var(--muted); line-height:1.75; margin-bottom:2rem; max-width:580px; margin-left:auto; margin-right:auto; }
-    .cta-souv-sub strong { color:var(--text); }
-    .cta-souv-badges { display:flex; justify-content:center; gap:.75rem; flex-wrap:wrap; margin-bottom:2.25rem; }
-    .cta-souv-badge { display:inline-flex; align-items:center; gap:.45rem; background:rgba(79,126,255,.12); border:1px solid rgba(79,126,255,.35); border-radius:100px; color:#a8c0ff; font-size:.8rem; font-weight:600; padding:.4rem 1rem; }
-    .cta-souv-btns { display:flex; justify-content:center; gap:.85rem; flex-wrap:wrap; }
+    .cta-souv {
+      background: linear-gradient(135deg, #060a15 0%, #0b1628 60%, #0f1e3d 100%);
+      border-top: 1px solid rgba(79,126,255,.18);
+      border-bottom: 1px solid rgba(79,126,255,.18);
+      padding: 5rem 5%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-souv::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(79,126,255,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-souv-inner { max-width: 720px; margin: 0 auto; position: relative; }
+    .cta-souv-eyebrow {
+      font-size: .72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .14em; color: var(--accent); margin-bottom: 1rem; display: block;
+    }
+    .cta-souv h2 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 1.25rem;
+    }
+    .cta-souv h2 span { color: var(--accent); }
+    .cta-souv-sub {
+      font-size: 1.05rem; color: var(--muted); line-height: 1.75;
+      margin-bottom: 2rem; max-width: 580px; margin-left: auto; margin-right: auto;
+    }
+    .cta-souv-sub strong { color: var(--text); }
+    .cta-souv-badges {
+      display: flex; justify-content: center; gap: .75rem;
+      flex-wrap: wrap; margin-bottom: 2.25rem;
+    }
+    .cta-souv-badge {
+      display: inline-flex; align-items: center; gap: .45rem;
+      background: rgba(79,126,255,.12); border: 1px solid rgba(79,126,255,.35);
+      border-radius: 100px; color: #a8c0ff; font-size: .8rem; font-weight: 600;
+      padding: .4rem 1rem;
+    }
+    .cta-souv-btns { display: flex; justify-content: center; gap: .85rem; flex-wrap: wrap; }
+
     /* ─────────────── BADGE BPI ─────────────── */
-    .bpi-badge { display:inline-flex; align-items:flex-start; gap:.75rem; background:#fff; border:1px solid #003189; border-radius:10px; padding:.7rem 1rem; text-decoration:none; transition:background .2s; margin-top:1.25rem; }
-    .bpi-badge:hover { background:#eef2ff; }
-    .bpi-badge-logo { width:34px; height:34px; background:#003189; border-radius:7px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:.6rem; font-weight:800; flex-shrink:0; margin-top:1px; }
-    .bpi-badge-text p:first-child { font-size:.8rem; font-weight:700; color:#003189; line-height:1.2; }
-    .bpi-badge-text p:last-child { font-size:.72rem; color:#555; margin-top:.2rem; line-height:1.35; }
+    .bpi-badge {
+      display: inline-flex; align-items: flex-start; gap: .75rem;
+      background: #fff; border: 1px solid #003189; border-radius: 10px;
+      padding: .7rem 1rem; text-decoration: none; transition: background .2s; margin-top: 1.25rem;
+    }
+    .bpi-badge:hover { background: #eef2ff; }
+    .bpi-badge-logo {
+      width: 34px; height: 34px; background: #003189; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: .6rem; font-weight: 800; letter-spacing: .02em;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .bpi-badge-text p:first-child { font-size: .8rem; font-weight: 700; color: #003189; line-height: 1.2; }
+    .bpi-badge-text p:last-child  { font-size: .72rem; color: #555; margin-top: .2rem; line-height: 1.35; }
   </style>
 </head>
 <body>
@@ -1094,7 +1135,11 @@
   <div class="cta-souv-inner">
     <span class="cta-souv-eyebrow">AI Act — Août 2026</span>
     <h2>Vos recrutements IA, <span>100% souverains</span></h2>
-    <p class="cta-souv-sub">AI Act août 2026 — nous sourçons des <strong>AI Engineers</strong> maîtrisant Mistral, vLLM, Scaleway, OVH. <strong>Vos données ne quittent jamais la France.</strong></p>
+    <p class="cta-souv-sub">
+      AI Act août 2026 — nous sourçons des <strong>AI Engineers</strong> mètrisant
+      Mistral, vLLM, Scaleway, OVH.
+      <strong>Vos données ne quittent jamais la France.</strong>
+    </p>
     <div class="cta-souv-badges">
       <span class="cta-souv-badge">🇫🇷 Hébergement France</span>
       <span class="cta-souv-badge">✅ RGPD &amp; AI Act compliant</span>
@@ -1112,7 +1157,7 @@
   <div class="values-intro">
     <div>
       <span class="section-tag">Notre ADN</span>
-      <h2 class="s-title">Éthique et transparent,<br>ce n'est pas un slogan.</h2>
+      <h2 class="s-title">É�thique et transparent,<br>ce n'est pas un slogan.</h2>
     </div>
     <p class="values-desc">
       Le recrutement IT souffre d'un déficit de confiance : salaires flous, ghosting, processus opaques. RH-Prospects existe pour changer ça — en mettant candidats et entreprises sur un pied d'égalité.
@@ -1165,81 +1210,6 @@
   </div>
 </section>
 
-<script>
-(function() {
-  var BASE = "appt58pKcrivGHSdp";
-  var TABLE = "Offres";
-  var TOKEN = "patjLrYBiffvYDJdx.52b674d4a1a75614a8154f987ec59120e79eaea51e85b4862eb3451bca795598"; // ⚠️ REMPLACEZ par votre PAT
-  var formula = encodeURIComponent("{statut}='Ouverte'");
-  var url = "https://api.airtable.com/v0/" + BASE + "/" + TABLE + "?filterByFormula=" + formula + "&pageSize=50";
-  var grid = document.getElementById("offres-grid");
-  var empty = document.getElementById("offres-empty");
-  if (!grid) return;
-
-  fetch(url, { headers: { "Authorization": "Bearer " + TOKEN } })
-    .then(function(r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-    .then(function(data) {
-      var recs = data.records || [];
-      if (recs.length === 0) {
-        grid.innerHTML = "";
-        empty.style.display = "block";
-        return;
-      }
-      var html = "";
-      for (var i = 0; i < recs.length; i++) {
-        var f = recs[i].fields || {};
-        var titre = f.titre || "—";
-        var entreprise = f.entreprise || "";
-        var loc = f.localisation || "";
-        var contrat = (f.type_contrat || "Autres");
-        var c = contrat.toLowerCase();
-        var contratClass = "autres";
-        if (c.indexOf("freelance") >= 0 || c.indexOf("liberale") >= 0 || c.indexOf("independant") >= 0 || c.indexOf("mission") >= 0) contratClass = "freelance";
-        else if (c.indexOf("cdi") >= 0) contratClass = "cdi";
-        else if (c.indexOf("cdd") >= 0) contratClass = "cdd";
-        else if (c.indexOf("alternance") >= 0 || c.indexOf("apprentissage") >= 0) contratClass = "alternance";
-        else if (c.indexOf("interim") >= 0 || c.indexOf("intérim") >= 0) contratClass = "interimaire";
-        var salaire = f.salaire || "";
-        var desc = (f.description || "").substring(0, 180);
-        var techs = f.competences_requises || "";
-        var formUrl = "candidature-spontanee.html?titre=" + encodeURIComponent(titre) + "&entreprise=" + encodeURIComponent(entreprise) + "&contrat=" + encodeURIComponent(contrat);
-        html += '<article class="job-card" data-type="' + contratClass + '">';
-        html += '<div class="job-badges" style="margin-bottom:10px;"><span class="badge badge-new">Nouveau</span> <span class="badge badge-' + contratClass + '">' + contrat + '</span></div>';
-        html += '<h3 style="color:#4f7eff;margin:0 0 8px;">' + titre + '</h3>';
-        html += '<p style="margin:0 0 6px;color:#f0f4ff;"><strong>' + entreprise + '</strong></p>';
-        html += '<p style="color:#8892a4;font-size:14px;margin:0 0 8px;">📍 ' + loc + '</p>';
-        if (salaire) html += '<p style="color:#22c55e;font-weight:600;margin:0 0 10px;">💶 ' + salaire + '</p>';
-        html += '<p style="font-size:14px;line-height:1.5;margin:0 0 10px;color:#f0f4ff;">' + desc + '…</p>';
-        if (techs) html += '<p style="font-size:13px;color:#8892a4;margin:0 0 12px;"><em>' + techs + '</em></p>';
-        html += '<a href="' + formUrl + '" style="display:inline-block;background:#4f7eff;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;">Postuler</a>';
-        html += '</article>';
-      }
-      grid.innerHTML = html;
-    })
-    .catch(function(err) { 
-      console.error("[Offres]", err); 
-      grid.innerHTML = "<p style='color:#c00;grid-column:1/-1;text-align:center;'>Erreur de chargement des offres.</p>"; 
-    });
-})();
-
-// Filtre par type de contrat
-function filterJobs(type, btn) {
-  var btns = document.querySelectorAll(".filter-btn");
-  for (var i = 0; i < btns.length; i++) btns[i].classList.remove("active");
-  btn.classList.add("active");
-  var cards = document.querySelectorAll(".job-card");
-  var visible = 0;
-  for (var i = 0; i < cards.length; i++) {
-    if (type === "all" || cards[i].getAttribute("data-type") === type) {
-      cards[i].style.display = "";
-      visible++;
-    } else {
-      cards[i].style.display = "none";
-    }
-  }
-  document.getElementById("offres-empty").style.display = (visible === 0) ? "block" : "none";
-}
-</script>
 
 <!-- ── PROCESSUS ── -->
 <section class="how reveal" id="processus">
@@ -1676,308 +1646,3 @@ function filterJobs(type, btn) {
 
 </body>
 </html>
-
-<script>
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  // Radio buttons
-  const optC = document.getElementById('opt-candidat');
-  const optR = document.getElementById('opt-recruteur');
-  [optC, optR].forEach(opt => opt.addEventListener('click', () => {
-    optC.classList.toggle('selected', opt === optC);
-    optR.classList.toggle('selected', opt === optR);
-  }));
-
-  // Scroll to top
-  const scrollBtn = document.getElementById('scroll-top');
-  window.addEventListener('scroll', () => {
-    scrollBtn.classList.toggle('visible', window.scrollY > 400);
-  });
-
-  // Filtres + rendu offres
-  let allOffres = [];
-  let activeFilter = 'all';
-
-  const BADGE_MAP = {
-    'CDI': '<span class="badge badge-cdi">CDI</span>',
-    'CDD': '<span class="badge badge-cdd">CDD</span>',
-    'Freelance': '<span class="badge badge-free">Freelance</span>',
-    'Alternance': '<span class="badge badge-alt">Alternance</span>',
-    'Intérimaire': '<span class="badge badge-inte">Intérimaire</span>',
-    'Interimaire': '<span class="badge badge-inte">Intérimaire</span>'
-  };
-
-  const GRADIENT_MAP = {
-    'CDI': 'linear-gradient(135deg,#1d4ed8,#60a5fa)',
-    'CDD': 'linear-gradient(135deg,#b45309,#fcd34d)',
-    'Freelance': 'linear-gradient(135deg,#7c3aed,#c4b5fd)',
-    'Alternance': 'linear-gradient(135deg,#0369a1,#67e8f9)',
-    'Intérimaire': 'linear-gradient(135deg,#b91c1c,#fca5a5)',
-    'Interimaire': 'linear-gradient(135deg,#b91c1c,#fca5a5)'
-  };
-
-  function getInitials(titre = '') {
-    return titre
-      .split(' ')
-      .slice(0, 2)
-      .map(w => w[0] || '')
-      .join('')
-      .toUpperCase();
-  }
-
-  function normalizeType(type = '') {
-    return String(type).toLowerCase().trim();
-  }
-
-  function renderCard(offre) {
-    const tc = offre.typecontrat || offre.typeContrat || offre['Type de contrat'] || '';
-    const badge = BADGE_MAP[tc] || `<span class="badge badge-cdi">${tc || 'Offre'}</span>`;
-    const gradient = GRADIENT_MAP[tc] || 'linear-gradient(135deg,#1d4ed8,#4f7eff)';
-
-    const competences =
-      offre.competencesrequises ||
-      offre.competences ||
-      offre['Compétences requises'] ||
-      offre.skills ||
-      '';
-
-    const skills = String(competences)
-      .split(',')
-      .map(s => s.trim())
-      .filter(Boolean)
-      .slice(0, 5)
-      .map(s => `<span class="skill-tag">${s}</span>`)
-      .join('');
-
-    const titre =
-      offre.titre ||
-      offre.Titre ||
-      'Poste non renseigné';
-
-    const localisation =
-      offre.localisation ||
-      offre.Localisation ||
-      '';
-
-    const entreprise =
-      offre.entreprise ||
-      offre.Entreprise ||
-      '';
-
-    const salaire =
-      offre.salaire ||
-      offre.Salaire ||
-      'Salaire à définir';
-
-    const description =
-      offre.description ||
-      offre.Description ||
-      '';
-
-    const datePublication =
-      offre.datepublication ||
-      offre.datePublication ||
-      offre['Date publication'] ||
-      '';
-
-    let dateTexte = '';
-    if (datePublication) {
-      try {
-        dateTexte = new Date(datePublication).toLocaleDateString('fr-FR', {
-          day: '2-digit',
-          month: 'short'
-        });
-      } catch (e) {
-        dateTexte = '';
-      }
-    }
-
-    const desc = description
-      ? (description.slice(0, 140) + (description.length > 140 ? '…' : ''))
-      : '';
-
-    return `
-      <a class="job-card" href="candidature-spontanee.html?offre=${encodeURIComponent(titre)}" data-type="${normalizeType(tc)}">
-        <div class="job-card-top">
-          <div class="job-company-logo" style="background:${gradient}">${getInitials(titre)}</div>
-          <div class="job-badges">
-            <span class="badge badge-new">Nouveau</span>
-            ${badge}
-          </div>
-        </div>
-
-        <div class="job-title">${titre}</div>
-
-        <div class="job-meta-row">
-          ${localisation ? `<span>📍 ${localisation}</span>` : ''}
-          ${entreprise ? `<span>🏢 ${entreprise}</span>` : ''}
-          ${dateTexte ? `<span>📅 ${dateTexte}</span>` : ''}
-        </div>
-
-        ${desc ? `<p class="job-desc">${desc}</p>` : ''}
-        ${skills ? `<div class="job-skills">${skills}</div>` : ''}
-
-        <div class="job-footer">
-          <span class="job-salary">${salaire}</span>
-          <span class="job-apply-btn">Postuler</span>
-        </div>
-      </a>
-    `;
-  }
-
-  function applyFilter() {
-    const grid = document.getElementById('offres-grid');
-    const empty = document.getElementById('offres-empty');
-    const viewAllLink = document.querySelector('.view-all-row a');
-
-    const filtered = activeFilter === 'all'
-      ? allOffres
-      : allOffres.filter(o => {
-          const type =
-            o.typecontrat ||
-            o.typeContrat ||
-            o['Type de contrat'] ||
-            '';
-          return normalizeType(type) === activeFilter;
-        });
-
-    grid.querySelectorAll('.job-card').forEach(c => c.remove());
-
-    if (filtered.length === 0) {
-      empty.style.display = 'block';
-    } else {
-      empty.style.display = 'none';
-      filtered.forEach(o => {
-        grid.insertAdjacentHTML('beforeend', renderCard(o));
-      });
-    }
-
-    if (viewAllLink) {
-      const total = allOffres.length;
-      viewAllLink.textContent = `Voir toutes les offres (${total})`;
-    }
-  }
-
-  function filterJobs(type, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeFilter = type;
-    applyFilter();
-  }
-
-  window.filterJobs = filterJobs;
-
-  // ✅ Chargement direct Airtable
-  const AIRTABLE_TOKEN = ''; // ← REMPLACEZ ICI
-  const AIRTABLE_BASE_ID = 'appt58pKcrivGHSdp';
-  const AIRTABLE_TABLE = 'Offres';
-
-  async function loadOffres() {
-    const loading = document.getElementById('offres-loading');
-
-    try {
-      const res = await fetch(
-        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}?maxRecords=20`,
-        {
-          headers: {
-            'Authorization': 'Bearer ' + AIRTABLE_TOKEN
-          }
-        }
-      );
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data?.error?.message || ('HTTP ' + res.status));
-      }
-
-      allOffres = Array.isArray(data.records)
-        ? data.records.map(r => r.fields || {})
-        : [];
-    } catch (err) {
-      console.warn('Erreur chargement offres:', err.message);
-      allOffres = [];
-    } finally {
-      loading.style.display = 'none';
-      applyFilter();
-    }
-  }
-
-  loadOffres();
-
-  // Contact form
-  async function submitContact(e) {
-    e.preventDefault();
-
-    const btn = document.getElementById('contact-submit-btn');
-    const alert = document.getElementById('contact-alert');
-
-    const prenom = document.getElementById('contact-prenom').value.trim();
-    const nom = document.getElementById('contact-nom').value.trim();
-    const email = document.getElementById('contact-email').value.trim();
-    const msg = document.getElementById('contact-message').value.trim();
-    const typeEl = document.querySelector('input[name="type"]:checked');
-    const sujet = typeEl ? typeEl.value : 'autre';
-
-    if (!email || !msg) {
-      alert.style.display = 'block';
-      alert.style.background = 'rgba(239,68,68,.1)';
-      alert.style.border = '1px solid rgba(239,68,68,.25)';
-      alert.style.color = '#f87171';
-      alert.textContent = 'Merci de renseigner votre email et votre message.';
-      return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = 'Envoi en cours…';
-    alert.style.display = 'none';
-
-    try {
-      const res = await fetch('api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nom: `${prenom} ${nom}`.trim(),
-          email: email,
-          sujet: sujet,
-          message: msg,
-          source: 'page-accueil'
-        })
-      });
-
-      const result = await res.json();
-
-      if (res.ok && !result.error) {
-        alert.style.display = 'block';
-        alert.style.background = 'rgba(34,197,94,.1)';
-        alert.style.border = '1px solid rgba(34,197,94,.25)';
-        alert.style.color = '#4ade80';
-        alert.textContent = 'Message envoyé ! Nous vous répondons sous 24h ouvrées.';
-
-        document.getElementById('contact-prenom').value = '';
-        document.getElementById('contact-nom').value = '';
-        document.getElementById('contact-email').value = '';
-        document.getElementById('contact-message').value = '';
-      } else {
-        throw new Error(result.details?.error?.message || result.error || 'Erreur inconnue');
-      }
-    } catch (err) {
-      alert.style.display = 'block';
-      alert.style.background = 'rgba(239,68,68,.1)';
-      alert.style.border = '1px solid rgba(239,68,68,.25)';
-      alert.style.color = '#f87171';
-      alert.textContent = err.message || 'Erreur. Écrivez à contact@rh-prospects.fr';
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Envoyer le message';
-    }
-  }
-
-  window.submitContact = submitContact;
-</script>
