@@ -1136,7 +1136,7 @@
     <span class="cta-souv-eyebrow">AI Act — Août 2026</span>
     <h2>Vos recrutements IA, <span>100% souverains</span></h2>
     <p class="cta-souv-sub">
-      AI Act août 2026 — nous sourçons des <strong>AI Engineers</strong> mètrisant
+      AI Act août 2026 — nous sourçons des <strong>AI Engineers</strong> maítrisant
       Mistral, vLLM, Scaleway, OVH.
       <strong>Vos données ne quittent jamais la France.</strong>
     </p>
@@ -1157,7 +1157,7 @@
   <div class="values-intro">
     <div>
       <span class="section-tag">Notre ADN</span>
-      <h2 class="s-title">É�thique et transparent,<br>ce n'est pas un slogan.</h2>
+      <h2 class="s-title">Éthique et transparent,<br>ce n'est pas un slogan.</h2>
     </div>
     <p class="values-desc">
       Le recrutement IT souffre d'un déficit de confiance : salaires flous, ghosting, processus opaques. RH-Prospects existe pour changer ça — en mettant candidats et entreprises sur un pied d'égalité.
@@ -1332,6 +1332,18 @@
           </label>
         </div>
       </div>
+      <div id="recruteur-fields" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Téléphone <span style="color:var(--accent)">*</span></label>
+            <input type="tel" id="contact-telephone" placeholder="+33 6 XX XX XX XX"/>
+          </div>
+          <div class="form-group">
+            <label>Entreprise</label>
+            <input type="text" id="contact-company" placeholder="Nom de votre société"/>
+          </div>
+        </div>
+      </div>
       <div class="form-group">
         <label>Message</label>
         <textarea id="contact-message" placeholder="Décrivez votre situation en quelques mots…"></textarea>
@@ -1410,13 +1422,15 @@
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // Radio buttons
+  // Radio buttons + affichage champs recruteur
   const optC = document.getElementById('opt-candidat');
   const optR = document.getElementById('opt-recruteur');
+  const recruteurFields = document.getElementById('recruteur-fields');
   [optC, optR].forEach(opt => {
     opt.addEventListener('click', () => {
       optC.classList.toggle('selected', opt === optC);
       optR.classList.toggle('selected', opt === optR);
+      recruteurFields.style.display = (opt === optR) ? 'block' : 'none';
     });
   });
 
@@ -1550,9 +1564,12 @@
     const prenom = document.getElementById('contact-prenom').value.trim();
     const nom    = document.getElementById('contact-nom').value.trim();
     const email  = document.getElementById('contact-email').value.trim();
-    const msg    = document.getElementById('contact-message').value.trim();
-    const typeEl = document.querySelector('input[name="type"]:checked');
-    const sujet  = typeEl ? typeEl.value : 'autre'; // 'candidat' ou 'recruteur' → mappé côté API
+    const msg       = document.getElementById('contact-message').value.trim();
+    const typeEl    = document.querySelector('input[name="type"]:checked');
+    const sujet     = typeEl ? typeEl.value : 'autre'; // 'candidat' ou 'recruteur' → mappé côté API
+    const telephone = document.getElementById('contact-telephone').value.trim();
+    const company   = document.getElementById('contact-company').value.trim();
+    const isRecruteur = sujet === 'recruteur';
 
     if (!email || !msg) {
       alert.style.display = 'block';
@@ -1560,6 +1577,14 @@
       alert.style.border = '1px solid rgba(239,68,68,.25)';
       alert.style.color = '#f87171';
       alert.textContent = 'Merci de renseigner votre email et votre message.';
+      return;
+    }
+    if (isRecruteur && !telephone) {
+      alert.style.display = 'block';
+      alert.style.background = 'rgba(239,68,68,.1)';
+      alert.style.border = '1px solid rgba(239,68,68,.25)';
+      alert.style.color = '#f87171';
+      alert.textContent = 'Merci de renseigner votre téléphone (obligatoire pour les recruteurs).';
       return;
     }
 
@@ -1572,11 +1597,13 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          nom:     `${prenom} ${nom}`.trim(),
-          email:   email,
-          sujet:   sujet,        // mappé vers "candidature" ou "recrutement" dans l'API
-          message: msg,
-          source:  'page_accueil' // valeur valide pour singleSelect Airtable
+          nom:       `${prenom} ${nom}`.trim(),
+          email:     email,
+          sujet:     sujet,          // mappé vers "candidature" ou "recrutement" dans l'API
+          message:   msg,
+          source:    'page_accueil', // valeur valide pour singleSelect Airtable
+          telephone: telephone || undefined,
+          company:   company || undefined,
         })
       });
       const result = await res.json();
@@ -1589,60 +1616,10 @@
         document.getElementById('contact-prenom').value = '';
         document.getElementById('contact-nom').value = '';
         document.getElementById('contact-email').value = '';
+        document.getElementById('contact-telephone').value = '';
+        document.getElementById('contact-company').value = '';
         document.getElementById('contact-message').value = '';
       } else {
         throw new Error(result.details?.error?.message || result.error || 'Erreur inconnue');
       }
-    } catch(err) {
-      alert.style.display = 'block';
-      alert.style.background = 'rgba(239,68,68,.1)';
-      alert.style.border = '1px solid rgba(239,68,68,.25)';
-      alert.style.color = '#f87171';
-      alert.textContent = `❌ ${err.message || 'Erreur. Écrivez à contact@rh-prospects.fr'}`;
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Envoyer le message →';
-    }
-  }
-</script>
-
-<script>
-(function() {
-  var params = new URLSearchParams(window.location.search);
-  ["titre", "entreprise", "contrat"].forEach(function(name) {
-    var val = params.get(name);
-    if (val) {
-      var input = document.querySelector('[name="' + name + '"]');
-      if (input) input.value = val;
-    }
-  });
-})();
-</script>
-
-<script>
-/* ── MOBILE MENU TOGGLE ── */
-(function(){
-  var btn  = document.getElementById('menuBtn');
-  var menu = document.getElementById('mobileMenu');
-  if (!btn || !menu) return;
-
-  btn.addEventListener('click', function(){
-    var open = menu.classList.toggle('open');
-    btn.classList.toggle('open', open);
-    btn.setAttribute('aria-expanded', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
-
-  menu.querySelectorAll('a').forEach(function(link){
-    link.addEventListener('click', function(){
-      menu.classList.remove('open');
-      btn.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
-})();
-</script>
-
-</body>
-</html>
+   
