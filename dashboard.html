@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">🔒 Dashboard — RH-Prospects</title>
+<style>
+:root {
+  --bg: #0f172a;
+  --bg2: #1e293b;
+  --bg3: #334155;
+  --accent: #6366f1;
+  --accent2: #818cf8;
+  --green: #22c55e;
+  --red: #ef4444;
+  --orange: #f97316;
+  --yellow: #eab308;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --border: #334155;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+
+/* LOGIN */
+#login-screen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; background: var(--bg);
+}
+.login-box {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 48px 40px; width: 100%; max-width: 380px;
+  box-shadow: var(--shadow); text-align: center;
+}
+.login-box h1 { font-size: 1.6rem; margin-bottom: 8px; }
+.login-box p { color: var(--text2); margin-bottom: 28px; font-size: 0.9rem; }
+.login-box input {
+  width: 100%; padding: 14px 16px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--bg3);
+  color: var(--text); font-size: 1rem; margin-bottom: 16px;
+  outline: none; transition: border-color .2s;
+}
+.login-box input:focus { border-color: var(--accent); }
+.login-box button {
+  width: 100%; padding: 14px; border-radius: 10px; border: none;
+  background: var(--accent); color: #fff; font-size: 1rem;
+  font-weight: 600; cursor: pointer; transition: opacity .2s;
+}
+.login-box button:hover { opacity: .85; }
+#login-error { color: var(--red); font-size: 0.85rem; margin-top: 10px; min-height: 20px; }
+
+/* DASHBOARD */
+#dashboard { display: none; }
+.topbar {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 12px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.topbar .logo { font-size: 1.1rem; font-weight: 700; color: var(--accent2); flex: 1; }
+.topbar .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn {
+  padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg3); color: var(--text); font-size: 0.82rem;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.btn:hover { background: var(--accent); border-color: var(--accent); }
+.btn-red { border-color: var(--red); color: var(--red); }
+.btn-red:hover { background: var(--red); color: #fff; }
+.btn-green { border-color: var(--green); color: var(--green); }
+.btn-green:hover { background: var(--green); color: #fff; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px; padding: 20px;
+}
+
+.bloc {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  box-shadow: var(--shadow);
+}
+.bloc-title {
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--accent2); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.bloc-title .icon { font-size: 1rem; }
+
+/* BLOC 1 - Morning */
+#clock { font-size: 3rem; font-weight: 700; letter-spacing: -2px; line-height: 1; }
+#date-str { color: var(--text2); font-size: 0.95rem; margin: 4px 0 14px; }
+.weather-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+#weather-icon { font-size: 2rem; }
+#weather-info { font-size: 1rem; }
+#weather-info span { display: block; color: var(--text2); font-size: 0.8rem; }
+.motivation { background: var(--bg3); border-radius: 8px; padding: 12px; font-style: italic; font-size: 0.9rem; color: var(--text2); margin-bottom: 14px; }
+.meta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.meta-chip {
+  background: var(--bg3); border-radius: 8px; padding: 8px 12px;
+  font-size: 0.82rem; text-align: center;
+}
+.meta-chip b { display: block; font-size: 1.1rem; color: var(--accent2); }
+
+/* BLOC 2 - CA */
+.ca-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.ca-card {
+  background: var(--bg3); border-radius: 8px; padding: 12px;
+}
+.ca-label { font-size: 0.72rem; color: var(--text2); text-transform: uppercase; letter-spacing: .06em; }
+.ca-value { font-size: 1.4rem; font-weight: 700; color: var(--text); }
+.ca-value input {
+  background: transparent; border: none; color: var(--text);
+  font-size: 1.4rem; font-weight: 700; width: 100%; outline: none;
+  border-bottom: 1px dashed var(--border);
+}
+.progress-wrap { margin-bottom: 10px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text2); margin-bottom: 4px; }
+.progress-bar { height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width .4s; }
+.progress-fill.green { background: var(--green); }
+.sparkline-wrap { margin-top: 12px; }
+.sparkline-wrap label { font-size: 0.75rem; color: var(--text2); }
+canvas#sparkline { display: block; width: 100%; height: 60px; margin-top: 6px; }
+.best-day { font-size: 0.8rem; color: var(--text2); margin-top: 6px; }
+.best-day b { color: var(--yellow); }
+.obj-row { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text2); margin-top: 8px; }
+.obj-row input { background: var(--bg3); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 3px 8px; width: 90px; font-size: 0.8rem; }
+
+/* BLOC 3 - Emails */
+.counter-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.counter-label { flex: 1; font-size: 0.9rem; }
+.counter-val { font-size: 1.5rem; font-weight: 700; min-width: 40px; text-align: center; }
+.btn-round {
+  width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border);
+  background: var(--bg3); color: var(--text); font-size: 1.1rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.btn-round:hover { background: var(--accent); border-color: var(--accent); }
+.relance-item {
+  display: flex; align-items: center; gap: 8px; padding: 8px 0;
+  border-bottom: 1px solid var(--border); font-size: 0.85rem;
+}
+.relance-item:last-child { border-bottom: none; }
+.relance-item input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; }
+.relance-item .name { flex: 1; }
+.relance-item .days { font-size: 0.75rem; padding: 2px 7px; border-radius: 10px; }
+.days.red { background: rgba(239,68,68,.2); color: var(--red); }
+.days.orange { background: rgba(249,115,22,.2); color: var(--orange); }
+.days.ok { background: rgba(34,197,94,.15); color: var(--green); }
+.add-relance { display: flex; gap: 8px; margin-top: 10px; }
+.add-relance input {
+  flex: 1; background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); border-radius: 8px; padding: 7px 10px; font-size: 0.82rem;
+}
+.brevo-field { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 0.82rem; color: var(--text2); }
+.brevo-field input { background: var(--bg3); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 4px 8px; width: 80px; font-size: 0.82rem; }
+
+/* BLOC 4 - Prospection */
+.pomodoro-wrap { background: var(--bg3); border-radius: 10px; padding: 14px; margin-bottom: 14px; text-align: center; }
+#pomo-display { font-size: 2.4rem; font-weight: 700; letter-spacing: -1px; }
+#pomo-label { color: var(--text2); font-size: 0.8rem; margin-bottom: 10px; }
+.pomo-btns { display: flex; gap: 8px; justify-content: center; }
+.prospect-list { margin-top: 12px; }
+.prospect-item {
+  display: flex; align-items: center; gap: 8px; padding: 8px;
+  border-radius: 8px; background: var(--bg3); margin-bottom: 6px;
+}
+.prospect-item .prio { cursor: pointer; font-size: 1rem; }
+.prospect-item .pname { flex: 1; font-size: 0.85rem; }
+.prospect-item .pnotes { font-size: 0.75rem; color: var(--text2); }
+.prospect-item input[type=checkbox] { accent-color: var(--green); }
+.add-prospect { display: flex; gap: 6px; margin-top: 8px; }
+.add-prospect input { flex: 1; background: var(--bg3); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 7px 10px; font-size: 0.82rem; }
+.conversion-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 0.85rem; color: var(--text2); }
+.conversion-row b { color: var(--green); font-size: 1.1rem; }
+
+/* BLOC 5 - Todos */
+.tab-row { display: flex; gap: 6px; margin-bottom: 12px; }
+.tab {
+  padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border);
+  background: transparent; color: var(--text2); font-size: 0.8rem;
+  cursor: pointer; transition: all .2s;
+}
+.tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tab .badge {
+  display: inline-block; background: var(--red); color: #fff;
+  border-radius: 10px; font-size: 0.65rem; padding: 1px 5px; margin-left: 4px;
+}
+.todo-list { min-height: 80px; }
+.todo-item {
+  display: flex; align-items: center; gap: 8px; padding: 9px 10px;
+  border-radius: 8px; background: var(--bg3); margin-bottom: 6px;
+  cursor: grab; border: 2px solid transparent; transition: border-color .2s;
+}
+.todo-item.drag-over { border-color: var(--accent); }
+.todo-item input[type=checkbox] { accent-color: var(--accent); width: 15px; height: 15px; flex-shrink: 0; }
+.todo-item .ttext { flex: 1; font-size: 0.85rem; }
+.todo-item .ttext.done { text-decoration: line-through; color: var(--text2); }
+.todo-item .del-btn { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 0.9rem; opacity: 0; transition: opacity .2s; }
+.todo-item:hover .del-btn { opacity: 1; }
+.todo-prio { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.prio-urgent { background: var(--red); }
+.prio-important { background: var(--orange); }
+.prio-week { background: var(--green); }
+.add-todo { display: flex; gap: 6px; margin-top: 10px; }
+.add-todo input { flex: 1; background: var(--bg3); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 7px 10px; font-size: 0.82rem; }
+
+/* FOCUS MODE */
+body.focus .bloc:not(.focus-bloc) { opacity: 0.15; pointer-events: none; }
+
+/* TOAST */
+#toast {
+  position: fixed; bottom: 20px; right: 20px; background: var(--accent);
+  color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 0.85rem;
+  opacity: 0; transition: opacity .3s; z-index: 9999; pointer-events: none;
+}
+#toast.show { opacity: 1; }
+
+/* FOCUS toggle btn */
+#focus-active-bloc {
+  position: fixed; bottom: 20px; left: 20px;
+  background: var(--bg2); border: 1px solid var(--accent);
+  color: var(--accent2); border-radius: 10px; padding: 8px 16px;
+  font-size: 0.82rem; cursor: pointer; z-index: 1000;
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; padding: 12px; gap: 12px; }
+  #clock { font-size: 2.2rem; }
+  .ca-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <h1>🔐 RH-Prospects</h1>
+    <p>Accès réservé — entrez votre mot de passe</p>
+    <input type="password" id="pwd-input" placeholder="Mot de passe" autocomplete="current-password">
+    <button onclick="doLogin()">Connexion</button>
+    <div id="login-error"></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="topbar">
+    <div class="logo">📊 Dashboard RH-Prospects</div>
+    <div class="actions">
+      <button class="btn" id="focus-btn" onclick="toggleFocus()">🎯 Focus</button>
+      <button class="btn btn-green" onclick="exportCSV()">⬇️ Export CSV</button>
+      <button class="btn btn-red" onclick="doLogout()">🚪 Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- BLOC 1 : Morning Briefing -->
+    <div class="bloc" id="bloc-morning">
+      <div class="bloc-title"><span class="icon">☀️</span> Morning Briefing</div>
+      <div id="clock">00:00:00</div>
+      <div id="date-str">Samedi 27 juin 2026</div>
+      <div class="weather-row">
+        <div id="weather-icon">🌡️</div>
+        <div id="weather-info">Chargement météo…<span id="weather-sub"></span></div>
+      </div>
+      <div class="motivation" id="motivation-text">Chargement…</div>
+      <div class="meta-row">
+        <div class="meta-chip"><b id="streak-val">0</b> 🔥 Streak</div>
+        <div class="meta-chip"><b id="countdown-val">--h--</b> jusqu'à 18h</div>
+        <div class="meta-chip"><b id="week-num">S--</b> Semaine</div>
+      </div>
+    </div>
+
+    <!-- BLOC 2 : CA -->
+    <div class="bloc" id="bloc-ca">
+      <div class="bloc-title"><span class="icon">💰</span> Chiffre d'Affaires</div>
+      <div class="ca-grid">
+        <div class="ca-card">
+          <div class="ca-label">Aujourd'hui</div>
+          <div class="ca-value"><input type="number" id="ca-jour" placeholder="0" oninput="saveCA()"></div>
+        </div>
+        <div class="ca-card">
+          <div class="ca-label">Cette semaine</div>
+          <div class="ca-value"><input type="number" id="ca-semaine" placeholder="0" oninput="saveCA()"></div>
+        </div>
+        <div class="ca-card">
+          <div class="ca-label">Ce mois</div>
+          <div class="ca-value"><input type="number" id="ca-mois" placeholder="0" oninput="saveCA()"></div>
+        </div>
+        <div class="ca-card">
+          <div class="ca-label">Pipeline</div>
+          <div class="ca-value"><input type="number" id="ca-pipeline" placeholder="0" oninput="saveCA()"></div>
+        </div>
+        <div class="ca-card">
+          <div class="ca-label">Factures en attente</div>
+          <div class="ca-value"><input type="number" id="ca-factures" placeholder="0" oninput="saveCA()"></div>
+        </div>
+      </div>
+      <div class="obj-row">
+        🎯 Objectif semaine : <input type="number" id="obj-semaine" value="5000" oninput="updateProgress()"> €
+      </div>
+      <div class="progress-wrap" style="margin-top:8px">
+        <div class="progress-label"><span>Semaine</span><span id="prog-s-pct">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="prog-s" style="width:0%"></div></div>
+      </div>
+      <div class="obj-row">
+        🎯 Objectif mois : <input type="number" id="obj-mois" value="20000" oninput="updateProgress()"> €
+      </div>
+      <div class="progress-wrap" style="margin-top:8px">
+        <div class="progress-label"><span>Mois</span><span id="prog-m-pct">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="prog-m" style="width:0%"></div></div>
+      </div>
+      <div class="sparkline-wrap">
+        <label>📈 7 derniers jours (€)</label>
+        <canvas id="sparkline" width="400" height="60"></canvas>
+        <div class="best-day">Meilleur jour : <b id="best-day-val">—</b></div>
+      </div>
+    </div>
+
+    <!-- BLOC 3 : Emails & Relances -->
+    <div class="bloc" id="bloc-emails">
+      <div class="bloc-title"><span class="icon">📧</span> Emails & Relances</div>
+      <div class="counter-row">
+        <div class="counter-label">Emails envoyés aujourd'hui</div>
+        <button class="btn-round" onclick="adjustCounter('emails',-1)">−</button>
+        <div class="counter-val" id="cnt-emails">0</div>
+        <button class="btn-round" onclick="adjustCounter('emails',1)">+</button>
+      </div>
+      <div class="counter-row">
+        <div class="counter-label">Réponses reçues</div>
+        <button class="btn-round" onclick="adjustCounter('reponses',-1)">−</button>
+        <div class="counter-val" id="cnt-reponses">0</div>
+        <button class="btn-round" onclick="adjustCounter('reponses',1)">+</button>
+      </div>
+      <div style="font-size:0.8rem;color:var(--text2);margin-bottom:8px;margin-top:4px;">Relances à faire :</div>
+      <div id="relance-list"></div>
+      <div class="add-relance">
+        <input type="text" id="relance-name" placeholder="Nom prospect">
+        <input type="number" id="relance-days" placeholder="J+" style="width:60px">
+        <button class="btn" onclick="addRelance()">+</button>
+      </div>
+      <div class="brevo-field">
+        📨 Taux ouverture Brevo : <input type="number" id="brevo-rate" placeholder="0" oninput="saveBrevo()"> %
+      </div>
+    </div>
+
+    <!-- BLOC 4 : Prospection Téléphonique -->
+    <div class="bloc" id="bloc-prospection">
+      <div class="bloc-title"><span class="icon">📞</span> Prospection Téléphonique</div>
+      <div class="pomodoro-wrap">
+        <div id="pomo-label">Pomodoro — Prêt</div>
+        <div id="pomo-display">25:00</div>
+        <div class="pomo-btns">
+          <button class="btn" onclick="pomoStart()">▶ Start</button>
+          <button class="btn" onclick="pomoPause()">⏸ Pause</button>
+          <button class="btn" onclick="pomoReset()">↺ Reset</button>
+        </div>
+      </div>
+      <div class="counter-row">
+        <div class="counter-label">Appels passés</div>
+        <button class="btn-round" onclick="adjustCounter('appels',-1)">−</button>
+        <div class="counter-val" id="cnt-appels">0</div>
+        <button class="btn-round" onclick="adjustCounter('appels',1)">+</button>
+      </div>
+      <div class="counter-row">
+        <div class="counter-label">RDV obtenus</div>
+        <button class="btn-round" onclick="adjustCounter('rdv',-1)">−</button>
+        <div class="counter-val" id="cnt-rdv">0</div>
+        <button class="btn-round" onclick="adjustCounter('rdv',1)">+</button>
+      </div>
+      <div class="conversion-row">
+        Taux conversion : <b id="conv-rate">0%</b>
+      </div>
+      <div style="font-size:0.8rem;color:var(--text2);margin:10px 0 6px;">Prospects :</div>
+      <div id="prospect-list" class="prospect-list"></div>
+      <div class="add-prospect">
+        <input type="text" id="pros-name" placeholder="Nom">
+        <input type="text" id="pros-notes" placeholder="Notes" style="max-width:120px">
+        <button class="btn" onclick="addProspect()">+</button>
+      </div>
+    </div>
+
+    <!-- BLOC 5 : Todos -->
+    <div class="bloc" id="bloc-todos" style="grid-column: 1 / -1;">
+      <div class="bloc-title"><span class="icon">✅</span> Todos</div>
+      <div class="tab-row">
+        <button class="tab active" id="tab-urgent" onclick="switchTab('urgent')">🔴 URGENT <span class="badge" id="badge-urgent" style="display:none">0</span></button>
+        <button class="tab" id="tab-important" onclick="switchTab('important')">🟠 IMPORTANT</button>
+        <button class="tab" id="tab-week" onclick="switchTab('week')">🟢 CETTE SEMAINE</button>
+      </div>
+      <div id="todo-list" class="todo-list"></div>
+      <div class="add-todo">
+        <input type="text" id="todo-input" placeholder="Nouvelle tâche…" onkeydown="if(event.key==='Enter')addTodo()">
+        <button class="btn" onclick="addTodo()">Ajouter</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+<button id="focus-active-bloc" onclick="exitFocus()">✕ Quitter le focus</button>
+
+<script>
+// ===== AUTH =====
+const HASH = '3ebe6af4be0b884f3ef8421eb1f2ed0b83fcb11829f0503f6fe7e61f5dac22b9';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function doLogin() {
+  const pwd = document.getElementById('pwd-input').value;
+  const h = await sha256(pwd);
+  if (h === HASH) {
+    localStorage.setItem('dash_auth', '1');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    initDashboard();
+  } else {
+    document.getElementById('login-error').textContent = '❌ Mot de passe incorrect';
+    document.getElementById('pwd-input').value = '';
+  }
+}
+
+document.getElementById('pwd-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogout() {
+  localStorage.removeItem('dash_auth');
+  location.reload();
+}
+
+// Auto-login if session active
+if (localStorage.getItem('dash_auth') === '1') {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.addEventListener('DOMContentLoaded', initDashboard);
+  initDashboard();
+}
+
+// ===== STORAGE HELPERS =====
+function ls(k, def) {
+  try { const v = localStorage.getItem('dash_' + k); return v !== null ? JSON.parse(v) : def; }
+  catch { return def; }
+}
+function ss(k, v) { localStorage.setItem('dash_' + k, JSON.stringify(v)); }
+
+// ===== INIT =====
+function initDashboard() {
+  startClock();
+  loadWeather();
+  showMotivation();
+  updateStreak();
+  loadCA();
+  loadCounters();
+  renderRelances();
+  loadBrevo();
+  renderProspects();
+  renderTodos();
+  loadObjectives();
+  updateProgress();
+  drawSparkline();
+  updateConvRate();
+  setWeekNum();
+  setInterval(autoRefresh, 5 * 60 * 1000);
+}
+
+// ===== CLOCK =====
+function startClock() {
+  function tick() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      now.toLocaleTimeString('fr-FR');
+    document.getElementById('date-str').textContent =
+      now.toLocaleDateString('fr-FR', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    // Countdown to 18h
+    const end = new Date(now); end.setHours(18,0,0,0);
+    const diff = end - now;
+    if (diff > 0) {
+      const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000);
+      document.getElementById('countdown-val').textContent = `${h}h${String(m).padStart(2,'0')}`;
+    } else {
+      document.getElementById('countdown-val').textContent = '✅ 18h00';
+    }
+  }
+  tick(); setInterval(tick, 1000);
+}
+
+function setWeekNum() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 1);
+  const week = Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
+  document.getElementById('week-num').textContent = 'S' + week;
+}
+
+// ===== WEATHER =====
+async function loadWeather() {
+  try {
+    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=48.8566&longitude=2.3522&current=temperature_2m,weathercode,windspeed_10m&timezone=Europe/Paris');
+    const d = await r.json();
+    const c = d.current;
+    const icons = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',71:'❄️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️'};
+    const code = c.weathercode;
+    document.getElementById('weather-icon').textContent = icons[code] || '🌡️';
+    document.getElementById('weather-info').innerHTML = `${Math.round(c.temperature_2m)}°C — Paris<span>Vent ${Math.round(c.windspeed_10m)} km/h</span>`;
+  } catch {
+    document.getElementById('weather-info').textContent = 'Météo indisponible';
+  }
+}
+
+// ===== MOTIVATION =====
+const MOTIVATIONS = [
+  "Chaque appel est une opportunité. Décrochez !",
+  "Le succès appartient à ceux qui agissent aujourd'hui.",
+  "Un prospect de plus, un pas de plus vers l'objectif.",
+  "La régularité bat le talent quand le talent ne travaille pas.",
+  "Votre réseau est votre net worth. Cultivez-le.",
+  "Les meilleurs recruteurs n'attendent pas — ils créent.",
+  "Aujourd'hui est le meilleur jour pour dépasser votre record.",
+  "Chaque non vous rapproche du prochain oui.",
+  "L'excellence est une habitude. Soyez excellent aujourd'hui.",
+  "Faites le travail que les autres évitent. C'est là que réside le succès."
+];
+function showMotivation() {
+  const idx = new Date().getDate() % MOTIVATIONS.length;
+  document.getElementById('motivation-text').textContent = '"' + MOTIVATIONS[idx] + '"';
+}
+
+// ===== STREAK =====
+function updateStreak() {
+  const today = new Date().toDateString();
+  const last = ls('streak_last', null);
+  let streak = ls('streak_count', 0);
+  if (last === today) {
+    // same day, no change
+  } else if (last === new Date(Date.now() - 86400000).toDateString()) {
+    streak++;
+    ss('streak_count', streak);
+    ss('streak_last', today);
+  } else {
+    streak = 1;
+    ss('streak_count', streak);
+    ss('streak_last', today);
+  }
+  document.getElementById('streak-val').textContent = streak;
+}
+
+// ===== CA =====
+function loadCA() {
+  ['jour','semaine','mois','pipeline','factures'].forEach(k => {
+    const el = document.getElementById('ca-' + k);
+    const v = ls('ca_' + k, '');
+    if (el) el.value = v || '';
+  });
+}
+function saveCA() {
+  ['jour','semaine','mois','pipeline','factures'].forEach(k => {
+    const el = document.getElementById('ca-' + k);
+    if (el) ss('ca_' + k, el.value);
+  });
+  updateProgress();
+  updateSparklineToday();
+}
+function loadObjectives() {
+  const os = document.getElementById('obj-semaine');
+  const om = document.getElementById('obj-mois');
+  if (os) os.value = ls('obj_semaine', 5000);
+  if (om) om.value = ls('obj_mois', 20000);
+}
+function updateProgress() {
+  const os = document.getElementById('obj-semaine');
+  const om = document.getElementById('obj-mois');
+  const cs = document.getElementById('ca-semaine');
+  const cm = document.getElementById('ca-mois');
+  ss('obj_semaine', os ? os.value : 5000);
+  ss('obj_mois', om ? om.value : 20000);
+  const vs = parseFloat(cs ? cs.value : 0) || 0;
+  const vm = parseFloat(cm ? cm.value : 0) || 0;
+  const objS = parseFloat(os ? os.value : 5000) || 5000;
+  const objM = parseFloat(om ? om.value : 20000) || 20000;
+  const pS = Math.min(100, Math.round(vs / objS * 100));
+  const pM = Math.min(100, Math.round(vm / objM * 100));
+  const fS = document.getElementById('prog-s');
+  const fM = document.getElementById('prog-m');
+  if (fS) { fS.style.width = pS + '%'; fS.className = 'progress-fill' + (pS >= 100 ? ' green' : ''); }
+  if (fM) { fM.style.width = pM + '%'; fM.className = 'progress-fill' + (pM >= 100 ? ' green' : ''); }
+  const pSp = document.getElementById('prog-s-pct');
+  const pMp = document.getElementById('prog-m-pct');
+  if (pSp) pSp.textContent = pS + '%';
+  if (pMp) pMp.textContent = pM + '%';
+}
+
+// ===== SPARKLINE =====
+function getSparklineData() {
+  let data = ls('sparkline_7', [0,0,0,0,0,0,0]);
+  if (!Array.isArray(data) || data.length !== 7) data = [0,0,0,0,0,0,0];
+  return data;
+}
+function updateSparklineToday() {
+  let data = getSparklineData();
+  const val = parseFloat(document.getElementById('ca-jour').value) || 0;
+  data[6] = val;
+  ss('sparkline_7', data);
+  drawSparkline();
+}
+function drawSparkline() {
+  const canvas = document.getElementById('sparkline');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const data = getSparklineData();
+  const W = canvas.offsetWidth || 400, H = 60;
+  canvas.width = W; canvas.height = H;
+  ctx.clearRect(0, 0, W, H);
+  const max = Math.max(...data, 1);
+  const pts = data.map((v, i) => [i / 6 * (W - 20) + 10, H - 10 - (v / max) * (H - 20)]);
+  // grid line
+  ctx.strokeStyle = 'rgba(148,163,184,0.15)';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(0, H - 10); ctx.lineTo(W, H - 10); ctx.stroke();
+  // gradient fill
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, 'rgba(99,102,241,0.4)');
+  grad.addColorStop(1, 'rgba(99,102,241,0)');
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0], H - 10);
+  pts.forEach(p => ctx.lineTo(p[0], p[1]));
+  ctx.lineTo(pts[pts.length-1][0], H - 10);
+  ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+  // line
+  ctx.beginPath();
+  pts.forEach((p, i) => i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]));
+  ctx.strokeStyle = '#6366f1'; ctx.lineWidth = 2; ctx.stroke();
+  // dots
+  pts.forEach(p => {
+    ctx.beginPath(); ctx.arc(p[0], p[1], 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#818cf8'; ctx.fill();
+  });
+  // best day
+  const best = Math.max(...data);
+  const bestIdx = data.lastIndexOf(best);
+  const days = ['L','M','M','J','V','S','D'];
+  const today = new Date().getDay();
+  const dayLabels = Array.from({length:7}, (_,i) => {
+    const d = new Date(); d.setDate(d.getDate() - (6 - i));
+    return ['D','L','M','M','J','V','S'][d.getDay()];
+  });
+  document.getElementById('best-day-val').textContent = best > 0 ? `${best.toLocaleString('fr-FR')} € (${dayLabels[bestIdx]})` : '—';
+}
+
+// ===== COUNTERS =====
+function loadCounters() {
+  ['emails','reponses','appels','rdv'].forEach(k => {
+    const el = document.getElementById('cnt-' + k);
+    if (el) el.textContent = ls('cnt_' + k, 0);
+  });
+}
+function adjustCounter(k, d) {
+  let v = ls('cnt_' + k, 0) + d;
+  if (v < 0) v = 0;
+  ss('cnt_' + k, v);
+  const el = document.getElementById('cnt-' + k);
+  if (el) el.textContent = v;
+  if (k === 'appels' || k === 'rdv') updateConvRate();
+}
+function updateConvRate() {
+  const a = ls('cnt_appels', 0);
+  const r = ls('cnt_rdv', 0);
+  const pct = a > 0 ? Math.round(r / a * 100) : 0;
+  const el = document.getElementById('conv-rate');
+  if (el) el.textContent = pct + '%';
+}
+
+// ===== RELANCES =====
+function renderRelances() {
+  const list = document.getElementById('relance-list');
+  if (!list) return;
+  const relances = ls('relances', []);
+  list.innerHTML = '';
+  relances.forEach((r, i) => {
+    const div = document.createElement('div');
+    div.className = 'relance-item';
+    const daysClass = r.days > 3 ? 'red' : r.days > 1 ? 'orange' : 'ok';
+    div.innerHTML = `
+      <input type="checkbox" ${r.done ? 'checked' : ''} onchange="toggleRelance(${i})">
+      <span class="name" style="${r.done ? 'text-decoration:line-through;color:var(--text2)' : ''}">${r.name}</span>
+      <span class="days ${daysClass}">J+${r.days}</span>
+      <button onclick="delRelance(${i})" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:0.9rem">✕</button>
+    `;
+    list.appendChild(div);
+  });
+}
+function addRelance() {
+  const name = document.getElementById('relance-name').value.trim();
+  const days = parseInt(document.getElementById('relance-days').value) || 0;
+  if (!name) return;
+  const relances = ls('relances', []);
+  relances.push({name, days, done: false});
+  ss('relances', relances);
+  document.getElementById('relance-name').value = '';
+  document.getElementById('relance-days').value = '';
+  renderRelances();
+  showToast('Relance ajoutée');
+}
+function toggleRelance(i) {
+  const relances = ls('relances', []);
+  relances[i].done = !relances[i].done;
+  ss('relances', relances);
+  renderRelances();
+}
+function delRelance(i) {
+  const relances = ls('relances', []);
+  relances.splice(i, 1);
+  ss('relances', relances);
+  renderRelances();
+}
+
+// ===== BREVO =====
+function loadBrevo() {
+  const el = document.getElementById('brevo-rate');
+  if (el) el.value = ls('brevo_rate', '');
+}
+function saveBrevo() {
+  const el = document.getElementById('brevo-rate');
+  if (el) ss('brevo_rate', el.value);
+}
+
+// ===== POMODORO =====
+let pomoInterval = null, pomoSeconds = 25 * 60, pomoRunning = false;
+function pomoDisplay() {
+  const m = Math.floor(pomoSeconds / 60), s = pomoSeconds % 60;
+  document.getElementById('pomo-display').textContent =
+    String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+function pomoStart() {
+  if (pomoRunning) return;
+  pomoRunning = true;
+  document.getElementById('pomo-label').textContent = 'Pomodoro en cours…';
+  pomoInterval = setInterval(() => {
+    if (pomoSeconds <= 0) {
+      clearInterval(pomoInterval); pomoRunning = false;
+      document.getElementById('pomo-label').textContent = '✅ Pomodoro terminé !';
+      pomoBeep();
+      showToast('🍅 Pomodoro terminé ! Pause méritée.');
+      return;
+    }
+    pomoSeconds--;
+    pomoDisplay();
+  }, 1000);
+}
+function pomoPause() {
+  clearInterval(pomoInterval); pomoRunning = false;
+  document.getElementById('pomo-label').textContent = 'Pomodoro en pause';
+}
+function pomoReset() {
+  clearInterval(pomoInterval); pomoRunning = false;
+  pomoSeconds = 25 * 60; pomoDisplay();
+  document.getElementById('pomo-label').textContent = 'Pomodoro — Prêt';
+}
+function pomoBeep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.3, 0.6].forEach(t => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.3, ctx.currentTime + t);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.25);
+      osc.start(ctx.currentTime + t);
+      osc.stop(ctx.currentTime + t + 0.25);
+    });
+  } catch {}
+}
+
+// ===== PROSPECTS =====
+const PRIOS = ['🔴', '🟠', '🟢'];
+function renderProspects() {
+  const list = document.getElementById('prospect-list');
+  if (!list) return;
+  const prospects = ls('prospects', []);
+  list.innerHTML = '';
+  prospects.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'prospect-item';
+    div.innerHTML = `
+      <span class="prio" onclick="cyclePrio(${i})" title="Changer priorité">${PRIOS[p.prio || 0]}</span>
+      <div style="flex:1">
+        <div class="pname">${p.name}</div>
+        ${p.notes ? `<div class="pnotes">${p.notes}</div>` : ''}
+      </div>
+      <input type="checkbox" ${p.done ? 'checked' : ''} onchange="toggleProspect(${i})" title="Converti">
+      <button onclick="delProspect(${i})" style="background:none;border:none;color:var(--text2);cursor:pointer">✕</button>
+    `;
+    list.appendChild(div);
+  });
+}
+function addProspect() {
+  const name = document.getElementById('pros-name').value.trim();
+  const notes = document.getElementById('pros-notes').value.trim();
+  if (!name) return;
+  const prospects = ls('prospects', []);
+  prospects.push({name, notes, prio: 0, done: false});
+  ss('prospects', prospects);
+  document.getElementById('pros-name').value = '';
+  document.getElementById('pros-notes').value = '';
+  renderProspects();
+  showToast('Prospect ajouté');
+}
+function cyclePrio(i) {
+  const prospects = ls('prospects', []);
+  prospects[i].prio = ((prospects[i].prio || 0) + 1) % 3;
+  ss('prospects', prospects);
+  renderProspects();
+}
+function toggleProspect(i) {
+  const prospects = ls('prospects', []);
+  prospects[i].done = !prospects[i].done;
+  ss('prospects', prospects);
+  renderProspects();
+}
+function delProspect(i) {
+  const prospects = ls('prospects', []);
+  prospects.splice(i, 1);
+  ss('prospects', prospects);
+  renderProspects();
+}
+
+// ===== TODOS =====
+let currentTab = 'urgent';
+const tabPrios = {urgent: 0, important: 1, week: 2};
+const prioColors = ['prio-urgent', 'prio-important', 'prio-week'];
+
+function switchTab(tab) {
+  currentTab = tab;
+  ['urgent','important','week'].forEach(t => {
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+  });
+  renderTodos();
+}
+
+function renderTodos() {
+  const list = document.getElementById('todo-list');
+  if (!list) return;
+  const todos = ls('todos', []);
+  const prio = tabPrios[currentTab];
+  const filtered = todos.filter(t => t.prio === prio);
+  list.innerHTML = '';
+
+  filtered.forEach((todo, fi) => {
+    const realIdx = todos.indexOf(todo);
+    const div = document.createElement('div');
+    div.className = 'todo-item';
+    div.draggable = true;
+    div.dataset.idx = realIdx;
+    div.innerHTML = `
+      <div class="todo-prio ${prioColors[prio]}"></div>
+      <input type="checkbox" ${todo.done ? 'checked' : ''} onchange="toggleTodo(${realIdx})">
+      <span class="ttext ${todo.done ? 'done' : ''}">${todo.text}</span>
+      <button class="del-btn" onclick="delTodo(${realIdx})">✕</button>
+    `;
+    // Drag & drop
+    div.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', realIdx); div.style.opacity = '0.5'; });
+    div.addEventListener('dragend', () => { div.style.opacity = '1'; });
+    div.addEventListener('dragover', e => { e.preventDefault(); div.classList.add('drag-over'); });
+    div.addEventListener('dragleave', () => div.classList.remove('drag-over'));
+    div.addEventListener('drop', e => {
+      e.preventDefault(); div.classList.remove('drag-over');
+      const fromIdx = parseInt(e.dataTransfer.getData('text/plain'));
+      const toIdx = realIdx;
+      if (fromIdx !== toIdx) {
+        const todos2 = ls('todos', []);
+        const [moved] = todos2.splice(fromIdx, 1);
+        todos2.splice(toIdx, 0, moved);
+        ss('todos', todos2);
+        renderTodos();
+      }
+    });
+    list.appendChild(div);
+  });
+
+  // Update urgent badge
+  const urgentCount = todos.filter(t => t.prio === 0 && !t.done).length;
+  const badge = document.getElementById('badge-urgent');
+  if (badge) {
+    badge.textContent = urgentCount;
+    badge.style.display = urgentCount > 0 ? 'inline-block' : 'none';
+  }
+  // Update page title
+  document.getElementById('page-title').textContent = urgentCount > 0
+    ? `(${urgentCount}) 🔴 Dashboard — RH-Prospects`
+    : '📊 Dashboard — RH-Prospects';
+}
+
+function addTodo() {
+  const input = document.getElementById('todo-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const todos = ls('todos', []);
+  todos.push({text, prio: tabPrios[currentTab], done: false});
+  ss('todos', todos);
+  input.value = '';
+  renderTodos();
+  showToast('Tâche ajoutée');
+}
+function toggleTodo(i) {
+  const todos = ls('todos', []);
+  todos[i].done = !todos[i].done;
+  ss('todos', todos);
+  renderTodos();
+}
+function delTodo(i) {
+  const todos = ls('todos', []);
+  todos.splice(i, 1);
+  ss('todos', todos);
+  renderTodos();
+}
+
+// ===== FOCUS MODE =====
+let focusBloc = null;
+function toggleFocus() {
+  if (document.body.classList.contains('focus')) {
+    exitFocus(); return;
+  }
+  // Click on a bloc to focus it
+  showToast('Cliquez sur un bloc pour le focus');
+  document.querySelectorAll('.bloc').forEach(b => {
+    b.style.cursor = 'crosshair';
+    b.addEventListener('click', selectFocusBloc, {once: true});
+  });
+}
+function selectFocusBloc(e) {
+  const bloc = e.currentTarget;
+  document.querySelectorAll('.bloc').forEach(b => b.style.cursor = '');
+  bloc.classList.add('focus-bloc');
+  document.body.classList.add('focus');
+  document.getElementById('focus-active-bloc').style.display = 'block';
+  focusBloc = bloc;
+}
+function exitFocus() {
+  document.body.classList.remove('focus');
+  if (focusBloc) { focusBloc.classList.remove('focus-bloc'); focusBloc = null; }
+  document.getElementById('focus-active-bloc').style.display = 'none';
+  document.querySelectorAll('.bloc').forEach(b => b.style.cursor = '');
+}
+
+// ===== TOAST =====
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== CSV EXPORT =====
+function exportCSV() {
+  const rows = [
+    ['Métrique','Valeur'],
+    ['CA Jour', ls('ca_jour','')],
+    ['CA Semaine', ls('ca_semaine','')],
+    ['CA Mois', ls('ca_mois','')],
+    ['Pipeline', ls('ca_pipeline','')],
+    ['Factures', ls('ca_factures','')],
+    ['Emails envoyés', ls('cnt_emails',0)],
+    ['Réponses', ls('cnt_reponses',0)],
+    ['Appels', ls('cnt_appels',0)],
+    ['RDV obtenus', ls('cnt_rdv',0)],
+    ['Streak', ls('streak_count',0)],
+    ['Taux ouverture Brevo', ls('brevo_rate','')],
+    ['Date export', new Date().toLocaleString('fr-FR')]
+  ];
+  const csv = rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+  const blob = new Blob(['﻿' + csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `dashboard_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  showToast('Export CSV téléchargé');
+}
+
+// ===== AUTO REFRESH =====
+function autoRefresh() {
+  loadWeather();
+  showToast('🔄 Données actualisées');
+}
+</script>
+</body>
+</html>
