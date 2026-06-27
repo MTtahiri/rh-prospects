@@ -14,7 +14,7 @@
           "value": "dashboard.rh-prospects.fr"
         }
       ],
-      "destination": "/dashboard",
+      "destination": "/dashboard.html",
       "permanent": false
     }
   ]
