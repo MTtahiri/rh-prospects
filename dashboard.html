@@ -373,6 +373,7 @@ const AT_BASE='appNwg9iP8ub0cDCn';
 const ls=(k,d)=>{try{const v=localStorage.getItem('d_'+k);return v!=null?JSON.parse(v):d}catch{return d}};
 const ss=(k,v)=>{try{localStorage.setItem('d_'+k,JSON.stringify(v))}catch{}};
 const atTok=()=>ls('at_tok',null);
+const x=s=>{const d=document.createElement('div');d.textContent=String(s??'');return d.innerHTML;};
 
 async function atPatch(table,id,fields){const tok=atTok();if(!tok||!id)return false;try{const r=await fetch('https://api.airtable.com/v0/'+AT_BASE+'/'+encodeURIComponent(table)+'/'+id,{method:'PATCH',headers:{'Authorization':'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify({fields})});return r.ok;}catch{return false;}}
 
