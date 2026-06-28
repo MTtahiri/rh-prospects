@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.rh-prospects.fr/sitemap.xml
+Disallow: /api/
+Disallow: /_next/
+Disallow: /node_modules/
