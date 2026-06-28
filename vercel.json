@@ -3,20 +3,14 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/offres"
-    }
+    {"source": "/sitemap.xml", "destination": "/public/sitemap.xml"},
+    {"source": "/robots.txt", "destination": "/public/robots.txt"},
+    {"source": "/api/(.*)", "destination": "/api/offres"}
   ],
   "redirects": [
     {
       "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "dashboard.rh-prospects.fr"
-        }
-      ],
+      "has": [{"type": "host", "value": "dashboard.rh-prospects.fr"}],
       "destination": "/dashboard.html",
       "permanent": false
     }
