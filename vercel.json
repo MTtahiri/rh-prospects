@@ -13,6 +13,11 @@
       "has": [{"type": "host", "value": "dashboard.rh-prospects.fr"}],
       "destination": "/dashboard.html",
       "permanent": false
+    },
+    {
+      "source": "/confidentialite",
+      "destination": "/politique-confidentialite",
+      "permanent": true
     }
   ]
 }
