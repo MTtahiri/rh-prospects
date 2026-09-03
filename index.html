@@ -1180,7 +1180,7 @@
     <div class="stat-card reveal reveal-delay-1">
       <div class="stat-icon">💼</div>
       <div>
-        <div class="stat-num">150+</div>
+        <div class="stat-num" id="stat-offres-count">…</div>
         <div class="stat-label">Offres actives en ce moment</div>
       </div>
     </div>
@@ -1244,7 +1244,7 @@
       <a href="/expertise-recrutement-it-paris" style="background:linear-gradient(135deg,rgba(79,126,255,.12),rgba(123,159,255,.06));border:1px solid rgba(79,126,255,.25);border-radius:12px;padding:1.4rem;display:flex;flex-direction:column;gap:.6rem;text-decoration:none">
         <span style="font-size:1.5rem">🏆</span>
         <span style="font-weight:700;color:#f0f4ff;font-size:.95rem">Notre expertise complète</span>
-        <span style="color:#8892a4;font-size:.84rem;line-height:1.5">10 ans · 200+ partenaires · 150+ offres actives</span>
+        <span style="color:#8892a4;font-size:.84rem;line-height:1.5">10 ans · 200+ partenaires · <span id="stat-offres-inline">…</span> offres actives</span>
         <span style="color:#4f7eff;font-size:.82rem;font-weight:600;margin-top:auto">Voir nos chiffres &amp; méthodologie →</span>
       </a>
     </div>
@@ -1751,6 +1751,11 @@
     } finally {
       loading.style.display = 'none';
       applyFilter();
+      const count = allOffres.length;
+      const s1 = document.getElementById('stat-offres-count');
+      const s2 = document.getElementById('stat-offres-inline');
+      if (s1) s1.textContent = count;
+      if (s2) s2.textContent = count;
     }
   }
 
