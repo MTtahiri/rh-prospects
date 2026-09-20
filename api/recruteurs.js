@@ -1,3 +1,5 @@
+import { sendNotificationEmail } from './_lib/notify.js';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -68,6 +70,18 @@ export default async function handler(req, res) {
       console.error('Erreur Airtable Recruteurs :', JSON.stringify(data, null, 2));
       return res.status(response.status).json({ error: 'Erreur Airtable', details: data });
     }
+
+    await sendNotificationEmail({
+      subject: `Nouvelle inscription recruteur : ${fields.entreprise || ''}`.trim(),
+      lines: [
+        ['Entreprise', fields.entreprise],
+        ['SIRET', fields.siret],
+        ['Contact', `${fields.prenom_contact || ''} ${fields.nom_contact || ''}`.trim()],
+        ['Email', fields.email],
+        ['Téléphone', fields.telephone],
+        ['Statut', fields.statut],
+      ],
+    });
 
     return res.status(200).json({ success: true, id: data.records?.[0]?.id });
   } catch (error) {

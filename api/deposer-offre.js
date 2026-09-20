@@ -1,3 +1,5 @@
+import { sendNotificationEmail } from './_lib/notify.js';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée' });
 
@@ -52,6 +54,19 @@ export default async function handler(req, res) {
     const text2 = await r2.text();
     let d2; try { d2 = JSON.parse(text2); } catch { d2 = {}; }
     if (!r2.ok) console.warn('Recruteur non enregistré :', d2); // non bloquant
+
+    await sendNotificationEmail({
+      subject: `Nouvelle offre déposée : ${offreFields.titre || ''} - ${offreFields.entreprise || ''}`.trim(),
+      lines: [
+        ['Titre', offreFields.titre],
+        ['Entreprise', offreFields.entreprise],
+        ['Localisation', offreFields.localisation],
+        ['Type de contrat', offreFields.type_contrat],
+        ['Salaire', offreFields.salaire],
+        ['Email contact offre', offreFields['E-mail']],
+        ['Description', offreFields.description],
+      ],
+    });
 
     res.status(200).json({ success: true });
   } catch (err) {

@@ -1,3 +1,5 @@
+import { sendNotificationEmail } from './_lib/notify.js';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée' });
 
@@ -41,6 +43,21 @@ export default async function handler(req, res) {
     const text = await response.text();
     let data; try { data = JSON.parse(text); } catch { data = { raw: text.slice(0,300) }; }
     if (!response.ok) return res.status(response.status).json({ error:'Erreur Airtable', details:data });
+
+    await sendNotificationEmail({
+      subject: `Nouvelle candidature : ${fields.prenom || ''} ${fields.nom || ''}`.trim(),
+      lines: [
+        ['Nom', `${fields.prenom || ''} ${fields.nom || ''}`.trim()],
+        ['Email', fields.email],
+        ['Téléphone', fields.telephone],
+        ['Titre / poste', fields.titre],
+        ['Expérience', fields.experience],
+        ['TJM', fields.tjm],
+        ['Disponibilité', fields.disponibilite],
+        ['CV', fields.cv_url],
+      ],
+    });
+
     res.status(200).json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
