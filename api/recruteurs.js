@@ -36,13 +36,10 @@ export default async function handler(req, res) {
     prenom_contact:    req.body.prenom_contact     || req.body.prenom || undefined,
     email:             req.body.email              || undefined,
     telephone:         req.body.telephone          || undefined,
-    titre_du_poste:    req.body.titre_du_poste     || undefined,
-    localisation:      req.body.localisation       || undefined,
-    type_de_contrat:   req.body.type_de_contrat    || undefined,
-    salaire:           req.body.salaire            ? Number(req.body.salaire) : undefined,
     statut:            statut,
     date_inscription:  new Date().toISOString().slice(0, 10),
-    // ❌ "competences" omis volontairement — champ multilineText, pas envoyé ici
+    // ❌ titre_du_poste / localisation / type_de_contrat / salaire retirés :
+    // ces champs n'existent pas dans la table Airtable "Recruteurs" (INVALID_FIELD_NAME)
   };
 
   Object.keys(fields).forEach(key => {
