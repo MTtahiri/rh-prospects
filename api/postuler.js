@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     let data; try { data = JSON.parse(text); } catch { data = { raw: text.slice(0,300) }; }
     if (!response.ok) return res.status(response.status).json({ error:'Erreur Airtable', details:data });
 
-    await sendNotificationEmail({
+    const notify = await sendNotificationEmail({
       subject: `Nouvelle candidature : ${fields.prenom || ''} ${fields.nom || ''}`.trim(),
       lines: [
         ['Nom', `${fields.prenom || ''} ${fields.nom || ''}`.trim()],
@@ -58,7 +58,8 @@ export default async function handler(req, res) {
       ],
     });
 
-    res.status(200).json({ success: true });
+    // TODO(diagnostic) : retirer `notify` de la réponse une fois le bug résolu.
+    res.status(200).json({ success: true, notify });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
