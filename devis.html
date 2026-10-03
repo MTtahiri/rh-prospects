@@ -11,7 +11,8 @@
     gtag('js', new Date());
     gtag('config', 'G-QDTSY8N139');
   </script>
-<title>PropCommerciale — SM Consulting RH</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Proposition commerciale — RH-Prospects</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -215,7 +216,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--text)
   <header class="c-header">
     <div>
       <h1>&#9889; PropCommerciale</h1>
-      <div class="sub">SM Consulting RH &#8212; G&#233;n&#233;rateur de propositions</div>
+      <div class="sub">RH-Prospects &#8212; G&#233;n&#233;rateur de propositions</div>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
       <span class="badge">PRO</span>
@@ -296,7 +297,7 @@ P&#233;nalit&#233;s de retard : 1,5% par mois conform&#233;ment &#224; la loi en
 
       <div class="tc" id="tc-config">
         <div class="stitle">&#9881;&#65039; Configuration entreprise</div>
-        <div class="fg"><label>Nom de l&#8217;entreprise</label><input id="cfg-name" value="SM Consulting RH" oninput="dp()"></div>
+        <div class="fg"><label>Nom de l&#8217;entreprise</label><input id="cfg-name" value="RH-Prospects" oninput="dp()"></div>
         <div class="fg"><label>Slogan</label><input id="cfg-tag" value="Sourcing &amp; Placement IT" oninput="dp()"></div>
         <div class="fg"><label>Email de contact</label><input id="cfg-email" value="contact@rh-prospects.fr" oninput="dp()"></div>
         <div class="fg"><label>Site web</label><input id="cfg-web" value="rh-prospects.fr" oninput="dp()"></div>
@@ -331,7 +332,7 @@ P&#233;nalit&#233;s de retard : 1,5% par mois conform&#233;ment &#224; la loi en
 <div id="client">
   <div style="background:var(--navy);padding:10px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.3)">
     <a href="https://rh-prospects.fr" style="color:rgba(255,255,255,.7);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px;font-weight:600">&#8592; Retour au site</a>
-    <span style="color:var(--gold);font-size:12px;font-weight:700">SM Consulting RH</span>
+    <span style="color:var(--gold);font-size:12px;font-weight:700">RH-Prospects</span>
   </div>
   <div class="cl-wrap">
     <!-- Ecran paiement confirme -->
@@ -467,7 +468,42 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 });
 
+/* Acces createur protege par code (empreinte SHA-256, le code n'est jamais stocke en clair).
+   Les liens clients (avec #...) ne sont pas concernes. */
+var GATE_HASH='b083977f66e6805ecacc27c8cf11dd9c6f5bf470707c35a89f94edaba88cf405';
+function gateSha(s){
+  return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)).then(function(b){
+    return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,'0');}).join('');
+  });
+}
 function initCreator(){
+  var ok=false;
+  try{ok=sessionStorage.getItem('devis_ok')==='1';}catch(e){}
+  if(ok){startCreator();return;}
+  var g=document.createElement('div');
+  g.style.cssText='position:fixed;inset:0;background:#1a2744;display:flex;align-items:center;justify-content:center;z-index:9999;font-family:system-ui,sans-serif';
+  g.innerHTML='<div style="background:#fff;border-radius:12px;padding:28px;max-width:340px;width:90%;text-align:center">'
+    +'<div style="font-weight:800;font-size:18px;color:#1a2744;margin-bottom:6px">Acc&#232;s r&#233;serv&#233;</div>'
+    +'<div style="font-size:13px;color:#64748b;margin-bottom:16px">Outil interne RH-Prospects. Saisissez votre code d&#8217;acc&#232;s.</div>'
+    +'<input id="gate-in" type="password" autocomplete="off" style="width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:15px;margin-bottom:10px">'
+    +'<button id="gate-btn" style="width:100%;padding:10px;border:0;border-radius:8px;background:#c9a84c;color:#1a2744;font-weight:700;font-size:14px;cursor:pointer">Entrer</button>'
+    +'<div id="gate-err" style="color:#ef4444;font-size:12px;margin-top:10px;min-height:16px"></div>'
+    +'<a href="/" style="font-size:12px;color:#64748b">&#8592; Retour au site</a></div>';
+  document.body.appendChild(g);
+  function tryCode(){
+    gateSha(document.getElementById('gate-in').value.trim()).then(function(h){
+      if(h===GATE_HASH){
+        try{sessionStorage.setItem('devis_ok','1');}catch(e){}
+        g.remove();startCreator();
+      }else{document.getElementById('gate-err').textContent='Code incorrect.';}
+    });
+  }
+  document.getElementById('gate-btn').onclick=tryCode;
+  document.getElementById('gate-in').addEventListener('keydown',function(e){if(e.key==='Enter')tryCode();});
+  document.getElementById('gate-in').focus();
+}
+
+function startCreator(){
   document.getElementById('creator').style.display='flex';
   var stored=parseInt(localStorage.getItem('prop_cnt')||'0')+1;
   localStorage.setItem('prop_cnt',stored);
@@ -550,7 +586,7 @@ function collect(){
     ref:ref,
     date:new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}),
     client:{name:gv('fc-name')||'Client',co:gv('fc-co'),email:gv('fc-email'),phone:gv('fc-phone')},
-    company:{name:gv('cfg-name')||'SM Consulting RH',tag:gv('cfg-tag'),email:gv('cfg-email'),web:gv('cfg-web'),sig:gv('cfg-sig')||'Mohamed Tahiri'},
+    company:{name:gv('cfg-name')||'RH-Prospects',tag:gv('cfg-tag'),email:gv('cfg-email'),web:gv('cfg-web'),sig:gv('cfg-sig')||'Mohamed Tahiri'},
     title:gv('fm-title')||'Proposition Commerciale',
     problem:gv('fm-problem'),
     solution:gv('fm-solution'),
@@ -631,7 +667,7 @@ function render(d,el){
   '<div class="p-footer">'+
     '<p>Proposition confidentielle — <strong>'+esc(d.company.name)+'</strong> · <strong>'+esc(d.company.email)+'</strong></p>'+
     '<p style="margin-top:3px">Valable '+d.validity+' jours a compter du '+esc(d.date)+'</p>'+
-    '<p style="margin-top:5px;font-size:10px;color:rgba(255,255,255,.3)">SM Consulting RH — SIRET 93372459700016 — rh-prospects.fr</p>'+
+    '<p style="margin-top:5px;font-size:10px;color:rgba(255,255,255,.3)">RH-Prospects (SM Consulting) — SIRET 93372459700016 — rh-prospects.fr</p>'+
   '</div>';
 }
 
@@ -745,7 +781,7 @@ function doPay(){
     body:JSON.stringify({
       amount:d.ttc,
       ref:d.ref||'Proposition',
-      title:d.title||'Prestation SM Consulting RH',
+      title:d.title||'Prestation RH-Prospects',
       clientEmail:d.client&&d.client.email?d.client.email:'',
       successUrl:currentUrl,
       cancelUrl:cancelUrl
