@@ -36,6 +36,7 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    section[id] { scroll-margin-top: calc(var(--nav-h) + 8px); }
 
     body {
       font-family: 'Instrument Sans', sans-serif;
@@ -1755,9 +1756,19 @@
       const s2 = document.getElementById('stat-offres-inline');
       if (s1) s1.textContent = count;
       if (s2) s2.textContent = count;
+      // La liste des offres change la hauteur de la page apres le chargement :
+      // on recale la vue sur l'ancre demandee (ex. #contact), sauf si le visiteur a deja fait defiler la page.
+      if (location.hash && !userScrolled) {
+        const target = document.getElementById(location.hash.slice(1));
+        if (target) target.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }
     }
   }
 
+  let userScrolled = false;
+  ['wheel', 'touchstart', 'keydown'].forEach(ev =>
+    window.addEventListener(ev, () => { userScrolled = true; }, { once: true, passive: true })
+  );
   loadOffres();
 
   // Contact form submit — champs alignés avec api/contact.js et table Airtable Contacts
