@@ -35,6 +35,15 @@
         }
       },
       {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {"@type": "Question", "name": "Combien coûte le Diag Data IA ?", "acceptedAnswer": {"@type": "Answer", "text": "La prestation est facturée 10 000 € HT maximum. Bpifrance prend en charge 40 % du coût (plan Osez l'IA, France 2030) pour les entreprises éligibles, soit jusqu'à 4 000 €. Le reste à charge s'élève donc à 6 000 € HT."}},
+          {"@type": "Question", "name": "Quelle est la durée du diagnostic ?", "acceptedAnswer": {"@type": "Answer", "text": "Le diagnostic représente 8 jours d'intervention d'un expert en data science et IA agréé Bpifrance, répartis sur 3 mois maximum, avec état des lieux, cas d'usage priorisés et feuille de route."}},
+          {"@type": "Question", "name": "Mon entreprise est-elle éligible au Diag Data IA ?", "acceptedAnswer": {"@type": "Answer", "text": "Le dispositif s'adresse aux PME et ETI indépendantes de 10 à 2 000 salariés, avec au moins 1 M€ de chiffre d'affaires sur 12 mois, plus d'un an d'existence, implantées en France (DROM-COM inclus), tous secteurs confondus. Les entreprises en difficulté au sens européen ne sont pas éligibles. Être client de Bpifrance n'est pas nécessaire."}},
+          {"@type": "Question", "name": "Comment choisir l'expert qui réalise le diagnostic ?", "acceptedAnswer": {"@type": "Answer", "text": "La demande se fait sur diag.bpifrance.fr. Bpifrance vérifie l'éligibilité puis affecte un expert agréé selon ses compétences sectorielles, ses références et sa proximité géographique. Vous pouvez indiquer un expert lors de la souscription, sans garantie d'attribution."}}
+        ]
+      },
+      {
         "@type": "BreadcrumbList",
         "itemListElement": [
           {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.rh-prospects.fr/"},
@@ -279,6 +288,21 @@
       .nav-links { display: none; }
       .stats-grid { grid-template-columns: repeat(2,1fr); }
     }
+    /* ── FAQ ── */
+    .faq-section { padding: 5rem 5%; background: var(--bg); }
+    .faq-list { max-width: 760px; margin: 2.5rem auto 0; display: grid; gap: .75rem; }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 0 1.25rem;
+    }
+    .faq-item summary {
+      cursor: pointer; list-style: none; padding: 1.1rem 0;
+      font-weight: 600; font-size: .98rem; color: var(--text);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "+"; float: right; color: var(--accent); font-weight: 700; }
+    .faq-item[open] summary::after { content: "−"; }
+    .faq-item p { color: var(--muted); font-size: .92rem; line-height: 1.7; padding-bottom: 1.1rem; }
   </style>
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"59dd1fea4e3b3a8559ffcf1bc59ef81"})});</script>
 </head>
@@ -388,16 +412,45 @@
     <h2 class="s-title reveal">Diag IA Bpifrance : pour quelles entreprises ?</h2>
     <p class="steps-sub reveal">Le dispositif est ouvert à la majorité des PME et ETI françaises.</p>
     <div class="elig-grid">
-      <div class="elig-item reveal"><span class="elig-check">✓</span> PME ou ETI implantée en France</div>
+      <div class="elig-item reveal"><span class="elig-check">✓</span> PME ou ETI indépendante implantée en France</div>
       <div class="elig-item reveal reveal-delay-1"><span class="elig-check">✓</span> Entre 10 et 2 000 salariés</div>
-      <div class="elig-item reveal reveal-delay-2"><span class="elig-check">✓</span> Tout secteur d'activité</div>
-      <div class="elig-item reveal reveal-delay-3"><span class="elig-check">✓</span> Pas de précédent Diag Data IA BPI</div>
+      <div class="elig-item reveal reveal-delay-2"><span class="elig-check">✓</span> Au moins 1 M€ de chiffre d'affaires sur 12 mois</div>
+      <div class="elig-item reveal reveal-delay-3"><span class="elig-check">✓</span> Plus d'un an d'existence</div>
+      <div class="elig-item reveal"><span class="elig-check">✓</span> Tout secteur d'activité</div>
+      <div class="elig-item reveal reveal-delay-1"><span class="elig-check">✓</span> Pas de précédent Diag Data IA BPI</div>
     </div>
     <p class="elig-note">
       Un doute sur votre éligibilité ?
       <a href="index.html#contact">Contactez-nous</a> — on vérifie ensemble en 24h.
     </p>
   </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="faq-section">
+  <div style="max-width:760px;margin:0 auto;text-align:center;">
+    <span class="section-tag">FAQ</span>
+    <h2 class="s-title reveal">Diag Data IA Bpifrance : vos questions</h2>
+  </div>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>Combien coûte le Diag Data IA ?</summary>
+      <p>La prestation est facturée 10 000 € HT maximum. Bpifrance prend en charge 40 % du coût (plan Osez l'IA, France 2030) pour les entreprises éligibles, soit jusqu'à 4 000 €. Votre reste à charge s'élève donc à 6 000 € HT.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Quelle est la durée du diagnostic ?</summary>
+      <p>Le diagnostic représente 8 jours d'intervention d'un expert en data science et IA agréé Bpifrance, répartis sur 3 mois maximum. Il comprend un état des lieux technique et opérationnel, l'identification de cas d'usage concrets, leur priorisation selon la valeur ajoutée et une feuille de route.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Mon entreprise est-elle éligible au Diag Data IA ?</summary>
+      <p>Le dispositif s'adresse aux PME et ETI indépendantes de 10 à 2 000 salariés, réalisant au moins 1 M€ de chiffre d'affaires sur 12 mois, existant depuis plus d'un an et implantées en France (DROM-COM inclus), tous secteurs confondus. Les entreprises en difficulté au sens de la réglementation européenne ne sont pas éligibles. Être client de Bpifrance n'est pas nécessaire.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Comment choisir l'expert qui réalise le diagnostic ?</summary>
+      <p>La demande se fait sur diag.bpifrance.fr. Bpifrance vérifie votre éligibilité, puis affecte un expert agréé selon ses compétences sectorielles, ses références et sa proximité géographique. Vous pouvez indiquer un expert de votre choix lors de la souscription, sans garantie que Bpifrance l'attribue.</p>
+    </details>
+  </div>
+  <p class="elig-note">Sources : plan Osez l'IA (France 2030) et fiche du dispositif Diag Data IA de Bpifrance. Les conditions peuvent évoluer : vérifiez-les sur <a href="https://diag.bpifrance.fr" target="_blank" rel="noopener">diag.bpifrance.fr</a>.</p>
 </section>
 
 <!-- ── CTA FINAL ── -->
