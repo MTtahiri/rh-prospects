@@ -1675,31 +1675,32 @@
     return (titre || 'XX').split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
   }
 
+  const esc = v => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   function renderCard(offre) {
     const tc       = offre.type_contrat || '';
-    const badge    = BADGE_MAP[tc]  || `<span class="badge badge-cdi">${tc}</span>`;
+    const badge    = BADGE_MAP[tc]  || `<span class="badge badge-cdi">${esc(tc)}</span>`;
     const gradient = GRADIENT_MAP[tc] || 'linear-gradient(135deg,#1d4ed8,#4f7eff)';
     const skills   = (offre.competences_requises || '')
       .split(/[,\n]+/).map(s => s.trim()).filter(Boolean).slice(0,5)
-      .map(s => `<span class="skill-tag">${s}</span>`).join('');
-    const desc = (offre.description || '').slice(0,140) + ((offre.description||'').length > 140 ? '…' : '');
+      .map(s => `<span class="skill-tag">${esc(s)}</span>`).join('');
+    const desc = esc((offre.description || '').slice(0,140) + ((offre.description||'').length > 140 ? '…' : ''));
 
     return `
-    <a class="job-card" href="candidature-spontanee.html?offre=${encodeURIComponent(offre.titre)}" data-type="${tc.toLowerCase()}">
+    <a class="job-card" href="candidature-spontanee.html?offre=${encodeURIComponent(offre.titre)}" data-type="${esc(tc.toLowerCase())}">
       <div class="job-card-top">
-        <div class="job-company-logo" style="background:${gradient}">${getInitials(offre.titre)}</div>
+        <div class="job-company-logo" style="background:${gradient}">${esc(getInitials(offre.titre))}</div>
         <div class="job-badges">${badge}</div>
       </div>
-      <div class="job-title">${offre.titre || 'Poste non renseigné'}</div>
+      <div class="job-title">${esc(offre.titre) || 'Poste non renseigné'}</div>
       <div class="job-meta-row">
-        ${offre.localisation ? `<span>📍 ${offre.localisation}</span>` : ''}
-        ${offre.entreprise   ? `<span>🏢 ${offre.entreprise}</span>`   : ''}
+        ${offre.localisation ? `<span>📍 ${esc(offre.localisation)}</span>` : ''}
+        ${offre.entreprise   ? `<span>🏢 ${esc(offre.entreprise)}</span>`   : ''}
         ${offre.date_publication ? `<span>📅 ${new Date(offre.date_publication).toLocaleDateString('fr-FR',{day:'2-digit',month:'short'})}</span>` : ''}
       </div>
       ${desc ? `<p class="job-desc">${desc}</p>` : ''}
       ${skills ? `<div class="job-skills">${skills}</div>` : ''}
       <div class="job-footer">
-        <span class="job-salary">${offre.salaire || 'Salaire à définir'}</span>
+        <span class="job-salary">${esc(offre.salaire) || 'Salaire à définir'}</span>
         <span class="job-apply-btn">Postuler →</span>
       </div>
     </a>`;

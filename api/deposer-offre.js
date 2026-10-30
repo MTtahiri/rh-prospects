@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     salaire:              req.body.salaire       || undefined,
     description:          req.body.description  || undefined,
     competences_requises: req.body.competences_requises || undefined,
-    statut:               'Ouverte',   // ✅ valeur réelle dans Airtable (pas "En attente")
+    statut:               'En attente', // modération : l'offre n'est publiée qu'après validation dans Airtable (passer à "Ouverte")
     date_publication:     today,
     'E-mail':             req.body.email      || undefined,
     Partenaire:           req.body.entreprise || undefined,

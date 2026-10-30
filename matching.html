@@ -607,14 +607,20 @@ async function runMatch() {
   document.getElementById('empty-state').style.display  = 'none';
   document.getElementById('results-zone').style.display = 'none';
 
+  function getMatchKey() {
+    let k = sessionStorage.getItem('match_key');
+    if (!k) { k = prompt('Clé d\'accès au matching :') || ''; sessionStorage.setItem('match_key', k); }
+    return k;
+  }
   try {
     const res  = await fetch('/api/match', {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': getMatchKey() },
       body:    JSON.stringify({ offreText: text, topN }),
     });
     const data = await res.json();
 
+    if (res.status === 401) sessionStorage.removeItem('match_key');
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
 
     lastResults = data.results || [];

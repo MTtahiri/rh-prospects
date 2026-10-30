@@ -55,6 +55,7 @@
 </div>
 <footer>© 2025 RH-Prospects — Recrutement éthique & transparent</footer>
 <script>
+  const esc = v => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   const urlParams = new URLSearchParams(window.location.search);
   const offreId = urlParams.get('id');
 
@@ -66,15 +67,15 @@
       .then(offre => {
         if (!offre || !offre.titre) throw new Error();
         document.getElementById('offreDetail').innerHTML = `
-          <h1>${offre.titre}</h1>
+          <h1>${esc(offre.titre)}</h1>
           <div class="meta">
-            <span class="badge contrat">${offre.type_contrat || 'CDI'}</span>
-            <span class="badge">📍 ${offre.localisation || 'France'}</span>
-            ${offre.salaire ? `<span class="badge">💰 ${offre.salaire}</span>` : ''}
+            <span class="badge contrat">${esc(offre.type_contrat || 'CDI')}</span>
+            <span class="badge">📍 ${esc(offre.localisation || 'France')}</span>
+            ${offre.salaire ? `<span class="badge">💰 ${esc(offre.salaire)}</span>` : ''}
           </div>
-          <div class="description">${(offre.description || '').replace(/\n/g,'<br>')}</div>
+          <div class="description">${esc(offre.description || '').replace(/\n/g,'<br>')}</div>
           <div class="skills">
-            ${(offre.competences_requises || '').split(',').map(s => `<span class="skill">${s.trim()}</span>`).join('')}
+            ${(offre.competences_requises || '').split(',').map(s => `<span class="skill">${esc(s.trim())}</span>`).join('')}
           </div>
           <div class="form-candidature">
             <h3>Postuler à cette offre</h3>

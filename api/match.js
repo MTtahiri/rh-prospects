@@ -3,11 +3,19 @@
 // Prend un texte d'offre, retourne le top N candidats scorés depuis Airtable.
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || 'https://www.rh-prospects.fr');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-api-key');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée' });
+
+  // Sécurité : cette route renvoie des données personnelles de candidats.
+  // Elle exige une clé secrète (variable Vercel MATCH_API_KEY), jamais publique.
+  const expectedKey = process.env.MATCH_API_KEY;
+  if (!expectedKey) return res.status(500).json({ error: 'MATCH_API_KEY manquante en env' });
+  if (req.headers['x-api-key'] !== expectedKey) {
+    return res.status(401).json({ error: 'Non autorisé' });
+  }
 
   // Accepte JSON ({"offreText":"..."}) ET text/plain (corps brut = le texte de l'offre)
   let offreText, topN = 10;
