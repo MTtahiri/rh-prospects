@@ -1,3 +1,4 @@
+const esc = v => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const NOTIFY_TO = 'contact@rh-prospects.fr';
 const NOTIFY_FROM = process.env.RESEND_FROM || 'RH-Prospects <onboarding@resend.dev>';
 
@@ -10,7 +11,7 @@ export async function sendNotificationEmail({ subject, lines }) {
   }
   const html = lines
     .filter(([, value]) => value)
-    .map(([label, value]) => `<p><strong>${label}</strong> : ${value}</p>`)
+    .map(([label, value]) => `<p><strong>${esc(label)}</strong> : ${esc(value)}</p>`)
     .join('\n');
 
   try {

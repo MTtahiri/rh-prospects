@@ -1,7 +1,7 @@
 import { sendNotificationEmail } from './_lib/notify.js';
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || 'https://www.rh-prospects.fr');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -17,17 +17,9 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Configuration serveur incomplète' });
   }
 
-  // Statut normalisé — valeurs valides : En attente | Validé | Refusé
-  const statutRaw = (req.body.statut || '').toLowerCase();
-  const statutMap = {
-    'en attente': 'En attente',
-    'attente':    'En attente',
-    'valide':     'Validé',
-    'validé':     'Validé',
-    'refuse':     'Refusé',
-    'refusé':     'Refusé',
-  };
-  const statut = statutMap[statutRaw] || 'En attente';
+  // Sécurité : le statut est toujours "En attente" à l'inscription.
+  // Seul toi peux le passer à "Validé" dans Airtable (jamais le visiteur).
+  const statut = 'En attente';
 
   const fields = {
     entreprise:        req.body.entreprise         || undefined,

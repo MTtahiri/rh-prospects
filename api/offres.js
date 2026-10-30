@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   // ✅ Cache CDN 10 min + stale 30 min → max ~6 appels Airtable/heure
   res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=1800');
 
-  const filter = encodeURIComponent('NOT({statut}="Refusé")');
+  const filter = encodeURIComponent('OR({statut}="Ouverte",{statut}="Actif")');
   const fields = ['titre','entreprise','localisation','type_contrat','salaire',
                   'description','competences_requises','statut','date_publication']
                  .map(f => `fields[]=${encodeURIComponent(f)}`).join('&');
