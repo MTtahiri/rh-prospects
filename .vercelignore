@@ -1,0 +1,3 @@
+# Ne jamais déployer les fichiers de travail ni la config Claude
+cabinet/
+.claude/
