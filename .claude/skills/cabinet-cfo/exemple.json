@@ -1,0 +1,117 @@
+{
+  "cabinet": "EXEMPLE FICTIF : cabinet de recrutement IT à Paris (tous les chiffres sont à remplacer par les vôtres)",
+  "_note": "Le prix de l'audit (10 000 € HT, 8 jours) vient de audit-ia-subventionne.html. Tous les autres chiffres sont des hypothèses d'illustration, pas des données de marché vérifiées.",
+  "delai_paiement_client_jours": 45,
+  "flux": {
+    "placement": {
+      "salaire_annuel_moyen": 55000,
+      "taux_honoraires": 0.2,
+      "couts_variables": [
+        {
+          "label": "Jobboards / sourcing (part par placement)",
+          "cost": 600
+        },
+        {
+          "label": "Commission recruteur",
+          "cost": 1100
+        }
+      ],
+      "taux_remplacement_garantie": 0.1,
+      "cout_remplacement": 3000,
+      "placements_par_mois": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    "regie": {
+      "tjm_vente": 650,
+      "tjm_achat": 560,
+      "jours_factures_par_mois": 18,
+      "couts_variables_par_jour": [
+        {
+          "label": "Assurance RC / frais de gestion",
+          "cost": 5
+        }
+      ],
+      "delai_paiement_freelance_jours": 30,
+      "consultants_actifs": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3
+      ]
+    },
+    "forfaits": [
+      {
+        "label": "Audit IA (Diag Data IA)",
+        "prix": 10000,
+        "couts_variables": [
+          {
+            "label": "Expert data/IA, 8 jours (hypothèse)",
+            "cost": 5600
+          }
+        ],
+        "ventes_par_mois": [
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  "fixes_mensuels": [
+    {
+      "label": "Rémunération dirigeant",
+      "cost": 4000
+    },
+    {
+      "label": "Logiciels (ATS, LinkedIn Recruiter, CRM)",
+      "cost": 900
+    },
+    {
+      "label": "Comptable, assurance, banque",
+      "cost": 450
+    },
+    {
+      "label": "Hébergement, site, divers",
+      "cost": 150
+    }
+  ],
+  "demarrage": [
+    {
+      "label": "Création société, juridique",
+      "cost": 1500
+    },
+    {
+      "label": "Site, identité, matériel",
+      "cost": 2500
+    }
+  ]
+}
