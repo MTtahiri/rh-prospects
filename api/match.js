@@ -18,13 +18,18 @@ export default async function handler(req, res) {
   }
 
   // Accepte JSON ({"offreText":"..."}) ET text/plain (corps brut = le texte de l'offre)
-  let offreText, topN = 10;
+  let offreText, topN = 10, batch = null;
   if (typeof req.body === 'string') {
     offreText = req.body;           // text/plain → corps brut
   } else {
-    ({ offreText, topN = 10 } = req.body || {});  // application/json
+    ({ offreText, topN = 10, batch = null } = req.body || {});  // application/json
   }
-  if (!offreText || typeof offreText !== 'string' || offreText.trim().length < 10) {
+  // Mode lot : batch = ["texte CV 1", "texte CV 2", ...] (max 50), un seul chargement Airtable
+  if (Array.isArray(batch)) {
+    batch = batch.slice(0, 50).map(t => (typeof t === 'string' ? t : ''));
+    if (!batch.some(t => t.trim().length >= 10)) return res.status(400).json({ error: 'batch vide' });
+    offreText = batch.find(t => t.trim().length >= 10);
+  } else if (!offreText || typeof offreText !== 'string' || offreText.trim().length < 10) {
     return res.status(400).json({ error: 'offreText requis (min 10 caractères)' });
   }
 
@@ -66,6 +71,7 @@ export default async function handler(req, res) {
   }
 
   // ── 2. Algorithme de scoring ─────────────────────────────────────────────
+  const scoreOne = (offreText, topN) => {
   const offreNorm  = normalize(offreText);
   const offreTokens = tokens(offreNorm);
 
@@ -144,6 +150,7 @@ export default async function handler(req, res) {
       email:        f['Courriel']    || '',
       tjm:          f['TJM']         || '',
       contexte:     (f['🧠 Contexte_Réel'] || '').slice(0, 200),
+      typeContrat:  Array.isArray(f['TypeContrat']) ? f['TypeContrat'].join(' / ') : (f['TypeContrat'] || ''),
       matchedSkills: [...matched].slice(0, 8),
       score,
     };
@@ -152,7 +159,22 @@ export default async function handler(req, res) {
   const results = scored
     .filter(c => c.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, Math.min(topN, 20));
+    .slice(0, Math.min(parseInt(topN) || 10, 1000));
+    return { results, offreTokensCount: offreTokens.length };
+  };
+
+  if (batch) {
+    const items = batch.map((t, i) => t.trim().length < 10
+      ? { index: i, error: 'texte trop court', results: [] }
+      : (() => { const r = scoreOne(t, topN); r.results = r.results.filter(c => c.matchedSkills.length > 0); const low = t.toLowerCase();
+        const existing = allRecords.filter(rc => { const m = (rc.fields['Courriel'] || '').toLowerCase().trim(); return m && low.includes(m); })
+          .map(rc => ({ id: rc.id, nom: rc.fields['Nom'] || '', email: rc.fields['Courriel'] || '' })).slice(0, 3);
+        return { index: i, existing, ...r }; })());
+    return res.status(200).json({ batch: items, totalCandidates: allRecords.length });
+  }
+
+  const { results, offreTokensCount } = scoreOne(offreText, topN);
+  const offreTokens = { length: offreTokensCount };
 
   // ── 3. Pré-formater le texte Slack ──────────────────────────────────────────
   const lines = results.map(c => {

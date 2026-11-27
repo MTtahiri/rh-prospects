@@ -407,7 +407,7 @@
     <div class="row">
       <div class="field">
         <label for="top-n">Nombre de résultats</label>
-        <input type="number" id="top-n" value="10" min="3" max="20" />
+        <input type="number" id="top-n" value="10" min="3" max="1000" />
       </div>
     </div>
 
@@ -415,6 +415,16 @@
       <span id="btn-icon">🔍</span>
       <span id="btn-label">Analyser le vivier</span>
     </button>
+
+
+    <div>
+      <label for="cv-lines">📄 CV / profils (un par ligne, ou séparés par une ligne <code>---</code>)</label>
+      <textarea id="cv-lines" style="min-height:110px" placeholder="Colle le texte d'un CV ou d'un profil par ligne (ou plusieurs lignes séparées par ---).&#10;Les liens LinkedIn sont listés mais non lisibles automatiquement : copie le texte du profil à la place."></textarea>
+      <input type="file" id="cv-files" multiple accept=".pdf,.docx,.txt" style="margin-top:8px;font-size:12px;color:var(--muted)" />
+      <button class="btn-analyze" id="btn-cv" onclick="runCvBatch()" style="margin-top:8px">
+        <span>📄</span><span id="btn-cv-label">Analyser les CV</span>
+      </button>
+    </div>
 
     <div class="status-bar" id="status-bar">
       <span><span class="dot" id="status-dot"></span><span id="status-text">Prêt</span></span>
@@ -588,6 +598,19 @@ function renderCard(c, i) {
   </div>`;
 }
 
+/* ── Export CSV de tous les résultats ──────────────────── */
+function exportCSV() {
+  const cols = [['nom','Nom'],['role','Rôle'],['stack','Stack'],['localisation','Localisation'],['disponibilite','Disponibilité'],['experience','Expérience'],['niveau','Niveau'],['tjm','TJM'],['typeContrat','Contrat'],['email','Email'],['telephone','Téléphone'],['score','Score'],['matchedSkills','Compétences matchées'],['contexte','Contexte']];
+  const q = v => '"' + String(Array.isArray(v) ? v.join(', ') : (v ?? '')).replace(/"/g,'""').replace(/\r?\n/g,' ') + '"';
+  const rows = [cols.map(c => q(c[1])).join(';')].concat(lastResults.map(r => cols.map(c => q(r[c[0]])).join(';')));
+  const blob = new Blob(['\ufeff' + rows.join('\r\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'matching-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
 /* ── Main matching call ────────────────────────────────── */
 async function runMatch() {
   const text = document.getElementById('offre-text').value.trim();
@@ -608,8 +631,8 @@ async function runMatch() {
   document.getElementById('results-zone').style.display = 'none';
 
   function getMatchKey() {
-    let k = sessionStorage.getItem('match_key');
-    if (!k) { k = prompt('Clé d\'accès au matching :') || ''; sessionStorage.setItem('match_key', k); }
+    let k = localStorage.getItem('match_key');
+    if (!k) { k = prompt('Clé d\'accès au matching (demandée une seule fois sur cet appareil) :') || ''; if (k) localStorage.setItem('match_key', k); }
     return k;
   }
   try {
@@ -620,7 +643,7 @@ async function runMatch() {
     });
     const data = await res.json();
 
-    if (res.status === 401) sessionStorage.removeItem('match_key');
+    if (res.status === 401) localStorage.removeItem('match_key');
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
 
     lastResults = data.results || [];
@@ -646,6 +669,7 @@ async function runMatch() {
       <div class="results-header">
         <h2>🎯 Top ${lastResults.length} profils</h2>
         <span class="meta">${data.totalCandidates} candidats · ${data.offreTokensCount} mots-clés extraits</span>
+        <button class="contact-btn" onclick="exportCSV()">⬇️ Exporter CSV (${lastResults.length})</button>
       </div>
       <div class="cards-grid">
         ${lastResults.map((c, i) => renderCard(c, i)).join('')}
@@ -669,6 +693,87 @@ async function runMatch() {
   }
 }
 
+
+/* ── CV / profils en lot (lignes, PDF, Word, TXT) ─────── */
+function loadScript(src) {
+  return new Promise((ok, ko) => { const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = () => ko(new Error('Chargement ' + src)); document.head.appendChild(el); });
+}
+async function readFileText(file) {
+  const n = file.name.toLowerCase();
+  if (n.endsWith('.txt')) return await file.text();
+  const buf = await file.arrayBuffer();
+  if (n.endsWith('.docx')) {
+    if (!window.mammoth) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
+    return (await window.mammoth.extractRawText({ arrayBuffer: buf })).value;
+  }
+  if (n.endsWith('.pdf')) {
+    if (!window.pdfjsLib) {
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+    const pdf = await window.pdfjsLib.getDocument({ data: buf }).promise;
+    let out = '';
+    for (let p = 1; p <= pdf.numPages; p++) {
+      const pg = await pdf.getPage(p);
+      out += (await pg.getTextContent()).items.map(i => i.str).join(' ') + '\n';
+    }
+    return out;
+  }
+  throw new Error('Format non géré : ' + file.name);
+}
+function esc(t) { return String(t ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+
+async function runCvBatch() {
+  const raw = document.getElementById('cv-lines').value;
+  const files = [...document.getElementById('cv-files').files];
+  const items = []; // {label, text, url?}
+  const blocks = /^\s*-{3,}\s*$/m.test(raw) ? raw.split(/^\s*-{3,}\s*$/m) : raw.split('\n');
+  blocks.map(b => b.trim()).filter(Boolean).forEach(b => {
+    if (/^https?:\/\/(www\.)?linkedin\.com\//i.test(b)) items.push({ label: b, url: b });
+    else items.push({ label: b.replace(/\s+/g, ' ').slice(0, 70), text: b });
+  });
+  setStatus('Lecture des fichiers…', 'loading');
+  for (const f of files) {
+    try { items.push({ label: '📎 ' + f.name, text: await readFileText(f) }); }
+    catch (e) { items.push({ label: '📎 ' + f.name, error: 'Lecture impossible : ' + e.message }); }
+  }
+  if (!items.length) { showToast('Rien à analyser', '#f87171'); setStatus('Prêt'); return; }
+
+  const toSend = items.filter(i => i.text && i.text.trim().length >= 10);
+  const btn = document.getElementById('btn-cv'); btn.disabled = true;
+  setStatus('Analyse de ' + toSend.length + ' CV…', 'loading');
+  let byIdx = new Map(), total = 0;
+  try {
+    if (toSend.length) {
+      const k = localStorage.getItem('match_key') || prompt('Clé d\'accès au matching (demandée une seule fois sur cet appareil) :') || '';
+      if (k) localStorage.setItem('match_key', k);
+      const res = await fetch('/api/match', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-api-key': k },
+        body: JSON.stringify({ batch: toSend.map(i => i.text.slice(0, 20000)), topN: 3 }) });
+      const data = await res.json();
+      if (res.status === 401) localStorage.removeItem('match_key');
+      if (!res.ok) throw new Error(data.error || 'HTTP ' + res.status);
+      total = data.totalCandidates;
+      data.batch.forEach(b => byIdx.set(toSend[b.index], b));
+    }
+    const zone = document.getElementById('results-zone');
+    zone.innerHTML = '<div class="results-header"><h2>📄 ' + items.length + ' CV / profils</h2><span class="meta">' + total + ' candidats du vivier comparés</span></div><div class="cards-grid">' +
+      items.map(it => {
+        if (it.url) return '<div class="card"><b>🔗 LinkedIn</b> — lecture automatique impossible (connexion requise). <a href="' + esc(it.url) + '" target="_blank" rel="noopener">Ouvrir le profil</a>, copie son texte puis colle-le ici.</div>';
+        if (it.error) return '<div class="card"><b>' + esc(it.label) + '</b><br>⚠️ ' + esc(it.error) + '</div>';
+        const b = byIdx.get(it);
+        const known = (b && b.existing || []).map(x => '<div style="margin-top:6px">✅ <b>Déjà dans le vivier</b> : ' + esc(x.nom) + ' (' + esc(x.email) + ')</div>').join('');
+        const rows = (b && b.results || []).map(c => {
+          return '<li><b>' + esc(c.nom) + '</b> · ' + esc(c.role) + ' · ' + c.score + ' pts · ' + esc((c.matchedSkills || []).join(', ')) + (c.email ? ' · ' + esc(c.email) : '') + '</li>';
+        }).join('');
+        return '<div class="card"><b>' + esc(it.label) + '</b>' + known + '<ul style="margin:8px 0 0 18px;font-size:13px;line-height:1.7">' + (rows || '<li>Aucun profil proche dans le vivier</li>') + '</ul></div>';
+      }).join('') + '</div>';
+    zone.style.display = 'block';
+    document.getElementById('empty-state').style.display = 'none';
+    setStatus('✅ ' + items.length + ' CV traités', 'idle');
+  } catch (e) { setStatus('Erreur : ' + e.message, 'error'); showToast('Erreur : ' + e.message, '#f87171'); }
+  finally { btn.disabled = false; }
+}
+
 /* ── Keyboard shortcut: Cmd/Ctrl+Enter ─────────────────── */
 document.addEventListener('keydown', e => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runMatch();
@@ -676,7 +781,7 @@ document.addEventListener('keydown', e => {
 
 /* ── Initial vivier count (optional warm call) ─────────── */
 // We don't pre-load to avoid unnecessary Airtable calls.
-document.getElementById('vivier-count').textContent = '👥 ~202 candidats';
+document.getElementById('vivier-count').textContent = '👥 ~1000 candidats';
 </script>
 
 </body>
