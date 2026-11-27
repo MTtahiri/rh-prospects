@@ -416,6 +416,16 @@
       <span id="btn-label">Analyser le vivier</span>
     </button>
 
+
+    <div>
+      <label for="cv-lines">📄 CV / profils (un par ligne, ou séparés par une ligne <code>---</code>)</label>
+      <textarea id="cv-lines" style="min-height:110px" placeholder="Colle le texte d'un CV ou d'un profil par ligne (ou plusieurs lignes séparées par ---).&#10;Les liens LinkedIn sont listés mais non lisibles automatiquement : copie le texte du profil à la place."></textarea>
+      <input type="file" id="cv-files" multiple accept=".pdf,.docx,.txt" style="margin-top:8px;font-size:12px;color:var(--muted)" />
+      <button class="btn-analyze" id="btn-cv" onclick="runCvBatch()" style="margin-top:8px">
+        <span>📄</span><span id="btn-cv-label">Analyser les CV</span>
+      </button>
+    </div>
+
     <div class="status-bar" id="status-bar">
       <span><span class="dot" id="status-dot"></span><span id="status-text">Prêt</span></span>
     </div>
@@ -681,6 +691,87 @@ async function runMatch() {
     document.getElementById('btn-icon').textContent = '🔍';
     document.getElementById('btn-label').textContent = 'Analyser le vivier';
   }
+}
+
+
+/* ── CV / profils en lot (lignes, PDF, Word, TXT) ─────── */
+function loadScript(src) {
+  return new Promise((ok, ko) => { const el = document.createElement('script'); el.src = src; el.onload = ok; el.onerror = () => ko(new Error('Chargement ' + src)); document.head.appendChild(el); });
+}
+async function readFileText(file) {
+  const n = file.name.toLowerCase();
+  if (n.endsWith('.txt')) return await file.text();
+  const buf = await file.arrayBuffer();
+  if (n.endsWith('.docx')) {
+    if (!window.mammoth) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
+    return (await window.mammoth.extractRawText({ arrayBuffer: buf })).value;
+  }
+  if (n.endsWith('.pdf')) {
+    if (!window.pdfjsLib) {
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+    const pdf = await window.pdfjsLib.getDocument({ data: buf }).promise;
+    let out = '';
+    for (let p = 1; p <= pdf.numPages; p++) {
+      const pg = await pdf.getPage(p);
+      out += (await pg.getTextContent()).items.map(i => i.str).join(' ') + '\n';
+    }
+    return out;
+  }
+  throw new Error('Format non géré : ' + file.name);
+}
+function esc(t) { return String(t ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+
+async function runCvBatch() {
+  const raw = document.getElementById('cv-lines').value;
+  const files = [...document.getElementById('cv-files').files];
+  const items = []; // {label, text, url?}
+  const blocks = /^\s*-{3,}\s*$/m.test(raw) ? raw.split(/^\s*-{3,}\s*$/m) : raw.split('\n');
+  blocks.map(b => b.trim()).filter(Boolean).forEach(b => {
+    if (/^https?:\/\/(www\.)?linkedin\.com\//i.test(b)) items.push({ label: b, url: b });
+    else items.push({ label: b.replace(/\s+/g, ' ').slice(0, 70), text: b });
+  });
+  setStatus('Lecture des fichiers…', 'loading');
+  for (const f of files) {
+    try { items.push({ label: '📎 ' + f.name, text: await readFileText(f) }); }
+    catch (e) { items.push({ label: '📎 ' + f.name, error: 'Lecture impossible : ' + e.message }); }
+  }
+  if (!items.length) { showToast('Rien à analyser', '#f87171'); setStatus('Prêt'); return; }
+
+  const toSend = items.filter(i => i.text && i.text.trim().length >= 10);
+  const btn = document.getElementById('btn-cv'); btn.disabled = true;
+  setStatus('Analyse de ' + toSend.length + ' CV…', 'loading');
+  let byIdx = new Map(), total = 0;
+  try {
+    if (toSend.length) {
+      const k = localStorage.getItem('match_key') || prompt('Clé d\'accès au matching (demandée une seule fois sur cet appareil) :') || '';
+      if (k) localStorage.setItem('match_key', k);
+      const res = await fetch('/api/match', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-api-key': k },
+        body: JSON.stringify({ batch: toSend.map(i => i.text.slice(0, 20000)), topN: 3 }) });
+      const data = await res.json();
+      if (res.status === 401) localStorage.removeItem('match_key');
+      if (!res.ok) throw new Error(data.error || 'HTTP ' + res.status);
+      total = data.totalCandidates;
+      data.batch.forEach(b => byIdx.set(toSend[b.index], b));
+    }
+    const zone = document.getElementById('results-zone');
+    zone.innerHTML = '<div class="results-header"><h2>📄 ' + items.length + ' CV / profils</h2><span class="meta">' + total + ' candidats du vivier comparés</span></div><div class="cards-grid">' +
+      items.map(it => {
+        if (it.url) return '<div class="card"><b>🔗 LinkedIn</b> — lecture automatique impossible (connexion requise). <a href="' + esc(it.url) + '" target="_blank" rel="noopener">Ouvrir le profil</a>, copie son texte puis colle-le ici.</div>';
+        if (it.error) return '<div class="card"><b>' + esc(it.label) + '</b><br>⚠️ ' + esc(it.error) + '</div>';
+        const b = byIdx.get(it); const low = (it.text || '').toLowerCase();
+        const rows = (b && b.results || []).map(c => {
+          const dup = (c.email && low.includes(c.email.toLowerCase())) || (c.nom && c.nom.length > 5 && low.includes(c.nom.toLowerCase()));
+          return '<li>' + (dup ? '✅ <b>déjà dans le vivier</b> — ' : '') + '<b>' + esc(c.nom) + '</b> · ' + esc(c.role) + ' · ' + c.score + ' pts · ' + esc((c.matchedSkills || []).join(', ')) + (c.email ? ' · ' + esc(c.email) : '') + '</li>';
+        }).join('');
+        return '<div class="card"><b>' + esc(it.label) + '</b><ul style="margin:8px 0 0 18px;font-size:13px;line-height:1.7">' + (rows || '<li>Aucun profil proche dans le vivier</li>') + '</ul></div>';
+      }).join('') + '</div>';
+    zone.style.display = 'block';
+    document.getElementById('empty-state').style.display = 'none';
+    setStatus('✅ ' + items.length + ' CV traités', 'idle');
+  } catch (e) { setStatus('Erreur : ' + e.message, 'error'); showToast('Erreur : ' + e.message, '#f87171'); }
+  finally { btn.disabled = false; }
 }
 
 /* ── Keyboard shortcut: Cmd/Ctrl+Enter ─────────────────── */
