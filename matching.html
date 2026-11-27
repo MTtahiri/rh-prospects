@@ -407,7 +407,7 @@
     <div class="row">
       <div class="field">
         <label for="top-n">Nombre de résultats</label>
-        <input type="number" id="top-n" value="10" min="3" max="20" />
+        <input type="number" id="top-n" value="10" min="3" max="1000" />
       </div>
     </div>
 
@@ -588,6 +588,19 @@ function renderCard(c, i) {
   </div>`;
 }
 
+/* ── Export CSV de tous les résultats ──────────────────── */
+function exportCSV() {
+  const cols = [['nom','Nom'],['role','Rôle'],['stack','Stack'],['localisation','Localisation'],['disponibilite','Disponibilité'],['experience','Expérience'],['niveau','Niveau'],['tjm','TJM'],['typeContrat','Contrat'],['email','Email'],['telephone','Téléphone'],['score','Score'],['matchedSkills','Compétences matchées'],['contexte','Contexte']];
+  const q = v => '"' + String(Array.isArray(v) ? v.join(', ') : (v ?? '')).replace(/"/g,'""').replace(/\r?\n/g,' ') + '"';
+  const rows = [cols.map(c => q(c[1])).join(';')].concat(lastResults.map(r => cols.map(c => q(r[c[0]])).join(';')));
+  const blob = new Blob(['\ufeff' + rows.join('\r\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'matching-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
 /* ── Main matching call ────────────────────────────────── */
 async function runMatch() {
   const text = document.getElementById('offre-text').value.trim();
@@ -608,8 +621,8 @@ async function runMatch() {
   document.getElementById('results-zone').style.display = 'none';
 
   function getMatchKey() {
-    let k = sessionStorage.getItem('match_key');
-    if (!k) { k = prompt('Clé d\'accès au matching :') || ''; sessionStorage.setItem('match_key', k); }
+    let k = localStorage.getItem('match_key');
+    if (!k) { k = prompt('Clé d\'accès au matching (demandée une seule fois sur cet appareil) :') || ''; if (k) localStorage.setItem('match_key', k); }
     return k;
   }
   try {
@@ -620,7 +633,7 @@ async function runMatch() {
     });
     const data = await res.json();
 
-    if (res.status === 401) sessionStorage.removeItem('match_key');
+    if (res.status === 401) localStorage.removeItem('match_key');
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
 
     lastResults = data.results || [];
@@ -646,6 +659,7 @@ async function runMatch() {
       <div class="results-header">
         <h2>🎯 Top ${lastResults.length} profils</h2>
         <span class="meta">${data.totalCandidates} candidats · ${data.offreTokensCount} mots-clés extraits</span>
+        <button class="contact-btn" onclick="exportCSV()">⬇️ Exporter CSV (${lastResults.length})</button>
       </div>
       <div class="cards-grid">
         ${lastResults.map((c, i) => renderCard(c, i)).join('')}
@@ -676,7 +690,7 @@ document.addEventListener('keydown', e => {
 
 /* ── Initial vivier count (optional warm call) ─────────── */
 // We don't pre-load to avoid unnecessary Airtable calls.
-document.getElementById('vivier-count').textContent = '👥 ~202 candidats';
+document.getElementById('vivier-count').textContent = '👥 ~1000 candidats';
 </script>
 
 </body>

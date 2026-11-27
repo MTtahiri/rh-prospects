@@ -144,6 +144,7 @@ export default async function handler(req, res) {
       email:        f['Courriel']    || '',
       tjm:          f['TJM']         || '',
       contexte:     (f['🧠 Contexte_Réel'] || '').slice(0, 200),
+      typeContrat:  Array.isArray(f['TypeContrat']) ? f['TypeContrat'].join(' / ') : (f['TypeContrat'] || ''),
       matchedSkills: [...matched].slice(0, 8),
       score,
     };
@@ -152,7 +153,7 @@ export default async function handler(req, res) {
   const results = scored
     .filter(c => c.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, Math.min(topN, 20));
+    .slice(0, Math.min(parseInt(topN) || 10, 1000));
 
   // ── 3. Pré-formater le texte Slack ──────────────────────────────────────────
   const lines = results.map(c => {
