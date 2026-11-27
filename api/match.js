@@ -166,7 +166,10 @@ export default async function handler(req, res) {
   if (batch) {
     const items = batch.map((t, i) => t.trim().length < 10
       ? { index: i, error: 'texte trop court', results: [] }
-      : (() => { const r = scoreOne(t, topN); r.results = r.results.filter(c => c.matchedSkills.length > 0); return { index: i, ...r }; })());
+      : (() => { const r = scoreOne(t, topN); r.results = r.results.filter(c => c.matchedSkills.length > 0); const low = t.toLowerCase();
+        const existing = allRecords.filter(rc => { const m = (rc.fields['Courriel'] || '').toLowerCase().trim(); return m && low.includes(m); })
+          .map(rc => ({ id: rc.id, nom: rc.fields['Nom'] || '', email: rc.fields['Courriel'] || '' })).slice(0, 3);
+        return { index: i, existing, ...r }; })());
     return res.status(200).json({ batch: items, totalCandidates: allRecords.length });
   }
 

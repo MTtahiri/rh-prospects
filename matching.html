@@ -760,12 +760,12 @@ async function runCvBatch() {
       items.map(it => {
         if (it.url) return '<div class="card"><b>🔗 LinkedIn</b> — lecture automatique impossible (connexion requise). <a href="' + esc(it.url) + '" target="_blank" rel="noopener">Ouvrir le profil</a>, copie son texte puis colle-le ici.</div>';
         if (it.error) return '<div class="card"><b>' + esc(it.label) + '</b><br>⚠️ ' + esc(it.error) + '</div>';
-        const b = byIdx.get(it); const low = (it.text || '').toLowerCase();
+        const b = byIdx.get(it);
+        const known = (b && b.existing || []).map(x => '<div style="margin-top:6px">✅ <b>Déjà dans le vivier</b> : ' + esc(x.nom) + ' (' + esc(x.email) + ')</div>').join('');
         const rows = (b && b.results || []).map(c => {
-          const dup = (c.email && low.includes(c.email.toLowerCase())) || (c.nom && c.nom.length > 5 && low.includes(c.nom.toLowerCase()));
-          return '<li>' + (dup ? '✅ <b>déjà dans le vivier</b> — ' : '') + '<b>' + esc(c.nom) + '</b> · ' + esc(c.role) + ' · ' + c.score + ' pts · ' + esc((c.matchedSkills || []).join(', ')) + (c.email ? ' · ' + esc(c.email) : '') + '</li>';
+          return '<li><b>' + esc(c.nom) + '</b> · ' + esc(c.role) + ' · ' + c.score + ' pts · ' + esc((c.matchedSkills || []).join(', ')) + (c.email ? ' · ' + esc(c.email) : '') + '</li>';
         }).join('');
-        return '<div class="card"><b>' + esc(it.label) + '</b><ul style="margin:8px 0 0 18px;font-size:13px;line-height:1.7">' + (rows || '<li>Aucun profil proche dans le vivier</li>') + '</ul></div>';
+        return '<div class="card"><b>' + esc(it.label) + '</b>' + known + '<ul style="margin:8px 0 0 18px;font-size:13px;line-height:1.7">' + (rows || '<li>Aucun profil proche dans le vivier</li>') + '</ul></div>';
       }).join('') + '</div>';
     zone.style.display = 'block';
     document.getElementById('empty-state').style.display = 'none';
